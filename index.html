@@ -152,6 +152,7 @@ body.light .prio.alta{background:#fdeaea;color:#c0392b;}
 /* ===== Início redesign ===== */
 .ihero{display:grid;grid-template-columns:1.35fr .85fr;gap:16px;margin-top:22px;} @media(max-width:820px){.ihero{grid-template-columns:1fr;}}
 .herocard{background:#16181C;color:#fff;border-radius:var(--r);padding:30px 32px;position:relative;overflow:hidden;}
+.herocard .pbg{position:absolute;right:-10px;top:-20px;bottom:-20px;width:46%;background-size:cover;background-position:center;opacity:.12;-webkit-mask-image:linear-gradient(90deg,transparent,#000 55%);mask-image:linear-gradient(90deg,transparent,#000 55%);pointer-events:none;}
 .herocard .blob{position:absolute;right:-50px;top:-50px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(232,169,39,.5),rgba(232,169,39,0) 70%);pointer-events:none;}
 .herocard h1{font-size:32px;margin:0;position:relative;color:#fff;}
 .herocard .hd{color:#b9beb7;margin-top:8px;font-size:14px;position:relative;max-width:440px;}
@@ -779,7 +780,7 @@ function renderInicio(){
   const topTasks=emCurso.slice().sort((a,b)=>{const o={urgente:0,importante:1,normal:2,lembrete:3};return (o[a.grau]-o[b.grau])||((a.prazo||'zzz').localeCompare(b.prazo||'zzz'));}).slice(0,6);
   $("#s-inicio").innerHTML=`
    <div class="ihero">
-     <div class="herocard"><div class="blob"></div>
+     <div class="herocard"><div class="blob"></div>${DB.profile.photo?`<div class="pbg" style="background-image:url('${DB.profile.photo}')"></div>`:''}
        <h1>Olá, ${esc(nome)} 👋</h1>
        <div class="hd">${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})} — organize, cronometre e acompanhe a produção do dia.</div>
        <button class="hcta" onclick="newProjectModal()">+ Novo projeto</button>
