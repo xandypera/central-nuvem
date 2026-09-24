@@ -233,6 +233,23 @@ body.light .prio.alta{background:#fdeaea;color:#c0392b;}
 .melcard{border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:10px;background:var(--surface2);}
 .mel-t{font-weight:700;font-size:14.5px;} .mel-meta{color:var(--mut);font-size:12.5px;margin-top:2px;} .mel-desc{margin-top:8px;font-size:13.5px;color:var(--ink);} .mel-link{display:inline-block;margin-top:8px;font-size:12.5px;color:var(--gold-ink);font-weight:700;}
 .mstatus{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;vertical-align:middle;margin-left:4px;} .mstatus.testado{background:#e8effb;color:#2f6fd0;} .mstatus.aprovado{background:var(--green-dim);color:var(--green);} .mstatus.descartado{background:var(--surface3);color:var(--mut);} body.light .mstatus.aprovado{background:#e7f4ec;color:#1c6b3f;}
+.greel{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 8px;scroll-snap-type:x mandatory;scrollbar-width:none;} .greel::-webkit-scrollbar{display:none;}
+.gcard{flex:none;width:230px;scroll-snap-align:start;cursor:pointer;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);transition:.15s;}
+.gcard:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.10);}
+.gcover{position:relative;aspect-ratio:16/9;display:flex;align-items:flex-end;padding:10px;}
+.gtype{background:rgba(0,0,0,.35);color:#fff;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:20px;}
+.gbody{padding:12px 14px 14px;} .gt{font-weight:700;font-size:14px;line-height:1.3;} .gd{color:var(--mut);font-size:12px;margin-top:5px;line-height:1.4;}
+.declare{text-align:center;padding:6px 4px;}
+.declare-ic{width:60px;height:60px;border-radius:50%;background:#fdeaea;color:#c0392b;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+body:not(.light) .declare-ic{background:rgba(240,101,90,.15);}
+.declare-nome{font-weight:700;color:var(--gold-ink);margin-bottom:12px;}
+.declare-txt{font-size:13.5px;color:var(--mut);line-height:1.5;max-width:360px;margin:0 auto;}
+.declare-check{display:flex;gap:9px;align-items:flex-start;text-align:left;margin:16px auto 0;max-width:360px;font-size:13px;background:#fdeaea;border:1px solid #f3b8b3;border-radius:var(--r-sm);padding:11px 13px;cursor:pointer;color:#8a2b22;}
+body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba(240,101,90,.4);color:#f0a49c;}
+.declare-check input{margin-top:2px;flex:none;}
+.btn.danger{background:#c0392b;color:#fff;border:none;} .btn.danger:hover{filter:brightness(1.05);} .btn.danger:disabled{opacity:.45;cursor:not-allowed;filter:none;}
+.sure-photo{width:150px;height:150px;border-radius:14px;overflow:hidden;margin:0 auto 12px;background:var(--surface3);display:flex;align-items:center;justify-content:center;color:var(--mut);border:2px solid var(--line);}
+.sure-photo img{width:100%;height:100%;object-fit:cover;display:block;}
 /* fab */
 .fab{position:fixed;left:20px;bottom:20px;z-index:60;background:var(--surface);border:1px solid #1c5a34;border-radius:14px;padding:12px 14px;box-shadow:0 12px 40px rgba(0,0,0,.5);display:none;align-items:center;gap:12px;min-width:230px;} .fab.show{display:flex;} .fab .fi{width:34px;height:34px;border-radius:9px;background:var(--green-dim);display:flex;align-items:center;justify-content:center;color:var(--green);flex:none;} .fab .fn{font-size:12px;color:var(--mut);} .fab .ft{font-weight:800;font-size:16px;} .fab .fx{margin-left:auto;display:flex;gap:6px;} .fab .mini2{width:32px;height:32px;border-radius:8px;border:1px solid var(--line2);background:var(--surface2);cursor:pointer;} .fab .mini2:hover{border-color:var(--gold);} .fab .mini2.on{background:var(--gold);color:#1a1400;border-color:var(--gold);}
 #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);font-weight:700;padding:11px 20px;border-radius:24px;opacity:0;pointer-events:none;transition:.22s;z-index:95;box-shadow:0 12px 40px rgba(0,0,0,.4);} #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -249,6 +266,7 @@ body.light .prio.alta{background:#fdeaea;color:#c0392b;}
     <button data-s="dashboard">Dashboard</button>
     <button data-s="pomodoro">Pomodoro</button>
     <button data-s="relatorio">Relatório</button>
+    <button data-s="guias">Guias</button>
     <button data-s="canais">Canais AUVP</button>
   </div>
   <div class="avatar-wrap">
@@ -271,6 +289,7 @@ body.light .prio.alta{background:#fdeaea;color:#c0392b;}
   <div class="screen" id="s-dashboard"></div>
   <div class="screen" id="s-pomodoro"></div>
   <div class="screen" id="s-relatorio"></div>
+  <div class="screen" id="s-guias"></div>
   <div class="screen" id="s-canais"></div>
   <div class="screen" id="s-config"></div>
 </div>
@@ -300,8 +319,9 @@ body.light .prio.alta{background:#fdeaea;color:#c0392b;}
 <div id="toast"></div>
 
 <div id="authGate" style="display:none">
+  <div class="ag-bg"></div>
   <div class="ag-card">
-    <div class="ag-brand">Central do Editor <span>nuvem</span></div>
+    <div class="ag-brand">Central do Editor <span>alpha</span></div>
     <div class="ag-sub" id="agSub">Entre para acessar seus projetos na nuvem.</div>
     <input class="ag-inp" id="agEmail" type="email" placeholder="seu@email.com" autocomplete="email">
     <input class="ag-inp" id="agPass" type="password" placeholder="senha (mín. 6 caracteres)" autocomplete="current-password">
@@ -312,8 +332,10 @@ body.light .prio.alta{background:#fdeaea;color:#c0392b;}
   </div>
 </div>
 <style>
-#authGate{position:fixed;inset:0;z-index:200;background:linear-gradient(150deg,#0e3b2e,#12503c);display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,-apple-system,sans-serif}
-.ag-card{background:#fff;border-radius:16px;padding:30px 28px;width:min(380px,90vw);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+#authGate{position:fixed;inset:0;z-index:200;background:linear-gradient(150deg,#0e3b2e,#12503c);display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,-apple-system,sans-serif;overflow:hidden}
+.ag-bg{position:absolute;inset:0;background:url('empresa.png') center/cover no-repeat;opacity:.15;filter:saturate(.9)}
+#authGate::after{content:"";position:absolute;inset:0;background:linear-gradient(150deg,rgba(14,59,46,.55),rgba(18,80,60,.55))}
+.ag-card{position:relative;z-index:2;background:#fff;border-radius:16px;padding:30px 28px;width:min(380px,90vw);box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .ag-brand{font-weight:800;font-size:20px;color:#201F1B}.ag-brand span{font-family:Georgia,serif;font-style:italic;color:#E8A927;font-weight:600;font-size:15px}
 .ag-sub{color:#6B7269;font-size:13.5px;margin:6px 0 16px}
 .ag-inp{width:100%;padding:11px 13px;border:1px solid #D9D5CC;border-radius:9px;font-size:14px;margin-bottom:10px;box-sizing:border-box}
@@ -454,6 +476,7 @@ function go(s){
   if(s==='tarefas')renderTarefas();
   if(s==='dashboard')renderDashboard();
   if(s==='relatorio')renderRelatorio();
+  if(s==='guias')renderGuias();
   if(s==='canais')renderCanais();
   if(s==='config')renderConfig();
   if(s==='pomodoro')renderPomodoro();
@@ -475,7 +498,32 @@ function fmtDT(ts){return ts?new Date(ts).toLocaleString('pt-BR',{day:'2-digit',
 function toggleDone(id){const p=getProject(id);if(!p)return;
   if(!p.done && checklistPct(p)<100){toast('Termine o checklist (100%) antes de concluir.');if(current==='projeto')openChecklist(id);return;}
   const finish=()=>{p.done=!p.done;if(p.done){p.status='publicado';p.doneAt=Date.now();}save();if(current==='projeto')openProject(id);else drawProjects();toast(p.done?'Marcada como concluída.':'Reaberta (em andamento).');};
-  if(!p.done)confirmAction('Concluir o projeto "'+p.nome+'"? Ele passa para Concluída (dá pra reabrir depois).',finish);else finish();}
+  if(!p.done)confirmDeclare(p.nome,finish);else finish();}
+function confirmDeclare(nome,onYes){_confirmCb=onYes;
+  $("#modalBody").innerHTML=`<div class="declare">
+    <div class="declare-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="30" height="30"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+    <h3 style="margin:0 0 4px">Concluir e publicar?</h3>
+    <div class="declare-nome">"${esc(nome)}"</div>
+    <div class="declare-txt">Ao concluir, você <b>assume a responsabilidade pela entrega</b>. Confira dados, áudio, telas essenciais, sigilo e o export antes de continuar.</div>
+    <label class="declare-check"><input type="checkbox" id="declChk" onchange="document.getElementById('declBtn').disabled=!this.checked"> Declaro que todas as informações estão corretas e conferidas.</label>
+    <div class="row" style="gap:8px;margin-top:18px;justify-content:center">
+      <button class="btn ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn danger" id="declBtn" disabled onclick="sureStep()">Concluir projeto</button>
+    </div>
+  </div>`;
+  openModal();}
+let SURE_IMG="ricardo.png";
+function sureStep(){
+  $("#modalBody").innerHTML=`<div class="declare sure">
+    <div class="sure-photo">${SURE_IMG?`<img src="${SURE_IMG}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="46" height="46"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>`}</div>
+    <h3 style="margin:6px 0 4px">Você tem certeza, meu caro?</h3>
+    <div class="declare-txt">Depois de concluir, o projeto vai para <b>Concluída</b> (dá para reabrir se precisar).</div>
+    <div class="row" style="gap:8px;margin-top:18px;justify-content:center">
+      <button class="btn ghost" onclick="closeModal()">Voltar</button>
+      <button class="btn danger" onclick="confirmYes()">Confirmar</button>
+    </div>
+  </div>`;
+  openModal();}
 function renderProjetos(){
   const el=$("#s-projetos");
   el.innerHTML=`
@@ -1294,8 +1342,45 @@ function exportXLS(){
 }
 
 /* ============================ CANAIS ============================ */
+const GUIAS=[
+  {cat:"Treinamentos",itens:[
+    {t:"Treinamento Investidor Sardinha",tipo:"Documento",cor:"#E8A927",u:"https://drive.google.com/drive/folders/1x4Q8paFfvU1M9DWJ3MOjZ1cVohW0qkT1?usp=drive_link",d:"Manual prático de edição no padrão AUVP."},
+    {t:"Treinamento de Revisão",tipo:"Documento",cor:"#3E7BF2",u:"https://drive.google.com/drive/folders/1x4Q8paFfvU1M9DWJ3MOjZ1cVohW0qkT1?usp=drive_link",d:"Como revisar por camadas e decidir a publicação."},
+    {t:"Treinamento de Revisão — vídeo (Frame.io)",tipo:"Vídeo",cor:"#8B5CF6",u:"https://f.io/6vftsuYw",d:"Aula gravada para revisores."},
+    {t:"Treinamento de Revisão — vídeo (Drive)",tipo:"Vídeo",cor:"#8B5CF6",u:"https://f.io/Xve6AkZg",d:"Aula gravada para revisores."}
+  ]},
+  {cat:"Playbooks e processos",itens:[
+    {t:"Fluxo Padrão e Urgente",tipo:"Documento",cor:"#3FB27F",u:"https://drive.google.com/drive/folders/1x4Q8paFfvU1M9DWJ3MOjZ1cVohW0qkT1?usp=drive_link",d:"Como organizar prioridade, revisão e timing."},
+    {t:"Relatório de Revisão (base)",tipo:"Documento",cor:"#EF6B4E",u:"https://drive.google.com/drive/folders/1x4Q8paFfvU1M9DWJ3MOjZ1cVohW0qkT1?usp=drive_link",d:"Onde a revisão concentra esforço e riscos."}
+  ]},
+  {cat:"Ferramentas",itens:[
+    {t:"Ferramentas - IS",tipo:"Pasta",cor:"#E8A927",u:"https://drive.google.com/drive/folders/1x4Q8paFfvU1M9DWJ3MOjZ1cVohW0qkT1?usp=drive_link",d:"Saque Rápido, telas, prints e acervo de IA."},
+    {t:"Todos os documentos",tipo:"Pasta",cor:"#6f6a5e",u:"https://drive.google.com/drive/folders/1x4Q8paFfvU1M9DWJ3MOjZ1cVohW0qkT1?usp=drive_link",d:"Pasta com todos os materiais de produção."}
+  ]},
+  {cat:"Estudos externos",itens:[
+    {t:"Universidade AUVP",tipo:"Site",cor:"#0E3B2E",u:"https://universidade.auvp.com.br/home",d:"Plataforma de estudos da empresa."}
+  ]}
+];
+function guiaCard(g){
+  return `<div class="gcard" onclick="openLink('${encodeURI(g.u)}')">
+    <div class="gcover" style="background:linear-gradient(135deg,${g.cor},${g.cor}cc)"><span class="gtype">${esc(g.tipo)}</span></div>
+    <div class="gbody"><div class="gt">${esc(g.t)}</div><div class="gd">${esc(g.d||'')}</div></div>
+  </div>`;
+}
+function renderGuias(){
+  $("#s-guias").innerHTML=`
+   <div><h1>Guias</h1><div class="sub">Treinamentos, playbooks e ferramentas para dominar a produção. Ponto de partida para quem está começando.</div></div>
+   ${GUIAS.map((row,ri)=>`
+     <div class="guia-row">
+       <div class="big" style="margin:22px 0 10px">${esc(row.cat)}</div>
+       <div class="reelwrap"><button class="reel-arrow l" onclick="guiaScroll(${ri},-1)">‹</button><button class="reel-arrow r" onclick="guiaScroll(${ri},1)">›</button>
+         <div class="greel" id="greel-${ri}">${row.itens.map(guiaCard).join("")}</div>
+       </div>
+     </div>`).join("")}`;
+}
+function guiaScroll(ri,d){const r=$("#greel-"+ri);if(r)r.scrollBy({left:d*300,behavior:'smooth'});}
 function renderCanais(){
-  $("#s-canais").innerHTML=`<div><h1>Canais AUVP</h1><div class="sub">Hub de acesso rápido — abra qualquer canal com um clique.</div></div><div class="grid g4" style="margin-top:20px">${DB.channels.map(c=>`<div class="card hoverable" onclick="openLink('${encodeURI(c.u)}')"><div class="row" style="gap:12px"><div class="ch-ic">▶</div><div><div class="big">${esc(c.n)}</div><div class="muted">Abrir canal</div></div></div></div>`).join("")}</div>`;
+  $("#s-canais").innerHTML=`<div><h1>Canais AUVP</h1><div class="sub">Hub de acesso rápido. Abra qualquer canal com um clique.</div></div><div class="grid g4" style="margin-top:20px">${DB.channels.map(c=>`<div class="card hoverable" onclick="openLink('${encodeURI(c.u)}')"><div class="row" style="gap:12px"><div class="ch-ic">▶</div><div><div class="big">${esc(c.n)}</div><div class="muted">Abrir canal</div></div></div></div>`).join("")}</div>`;
 }
 
 /* ============================ POMODORO ============================ */
