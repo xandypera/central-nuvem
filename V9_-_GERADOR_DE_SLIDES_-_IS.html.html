@@ -1,0 +1,1035 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playbook v9 · Gerador de slides SARDINHA DATA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#8E2929;--red-lit:#C94A4A;--bg:#0B0A0A;--ink:#17151A;--muted:#55505A;--dim:#7C7575;--line:#E7DEDA;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Poppins',system-ui,sans-serif;color:var(--ink);background:#F6F1EF;line-height:1.55;}
+.wrap{max-width:860px;margin:0 auto;padding:48px 28px 90px;}
+.tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--red-lit);}
+h1{font-size:34px;font-weight:800;letter-spacing:-.015em;line-height:1.05;margin:10px 0 12px;}
+h1 em{font-style:normal;color:var(--red);}
+.sub{font-size:16px;color:var(--muted);max-width:620px;}
+.ver{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--dim);letter-spacing:.08em;margin:8px 0 0;}
+.rule{height:3px;background:var(--red);border:0;margin:22px 0 34px;width:70px;border-radius:2px;}
+h2{font-size:19px;font-weight:700;color:var(--red);margin:38px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;}
+ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 46px;border-bottom:1px solid #EFE7E4;}
+ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:12px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px;color:var(--red-lit);}
+ol.steps b{display:block;font-size:15.5px;margin-bottom:2px;}
+ol.steps span b{display:inline;font-weight:700;color:var(--ink);}
+ol.steps span{color:var(--muted);font-size:14px;}
+.note{background:#FBF3F1;border-left:4px solid var(--red-lit);padding:14px 18px;margin:14px 0;border-radius:4px;font-size:14px;}
+.note b{color:var(--red);}
+.promptcard{background:var(--bg);border-radius:12px;margin-top:14px;overflow:hidden;border:1px solid #2A2323;box-shadow:0 12px 40px rgba(142,41,41,.14);}
+.promptcard__bar{display:flex;align-items:center;gap:14px;padding:14px 18px;background:#141011;border-bottom:1px solid #241d1d;}
+.promptcard__bar .lbl{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--red-lit);}
+.copybtn{margin-left:auto;border:0;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
+  letter-spacing:.04em;padding:10px 20px;border-radius:8px;background:var(--red);color:#fff;transition:.15s;}
+.copybtn:hover{background:#a33232;}
+.copybtn.ok{background:#4CA97C;}
+pre.prompt{margin:0;padding:22px;white-space:pre-wrap;word-break:break-word;font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;line-height:1.5;color:#EDE7E4;max-height:520px;overflow:auto;}
+.floatcopy{position:fixed;right:24px;bottom:24px;border:0;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:15px;padding:14px 24px;border-radius:999px;background:var(--red);color:#fff;box-shadow:0 8px 24px rgba(142,41,41,.35);transition:.15s;}
+.floatcopy:hover{background:#a33232;} .floatcopy.ok{background:#4CA97C;}
+</style></head><body>
+<div class="wrap">
+  <div class="tag">Playbook de Edição · Investidor Sardinha</div>
+  <h1>Gerador de <em>slides animados</em><br>SARDINHA DATA</h1>
+  <p class="sub">Prompt padrão para o editor. Envie o slide e a transcrição, cole o prompt, e o Claude
+  devolve o HTML animado — com timer de sincronização, modo edição e exportação numerada.</p>
+  <p class="ver">Versão 9 · revisada em 30 de setembro de 2026</p>
+  <hr class="rule">
+
+  <h2>Como usar — passo a passo</h2>
+  <ol class="steps">
+    <li><b>Abra uma conversa nova com o Claude</b><span>Uma conversa por vídeo mantém o contexto limpo e evita mistura de dados entre slides diferentes.</span></li>
+    <li><b>Anexe o slide em PPT</b><span>Prefira sempre o arquivo do PowerPoint (.ppt/.pptx) — ele carrega a estrutura real: textos, números, tabelas e gráficos, e guarda por dentro os nomes das categorias do gráfico mesmo quando a figura sai numerada. Se você tiver o PDF ou a planilha de onde os números saíram, anexe junto: o Claude confere valor por valor contra eles. Se só houver PDF, use um PDF exportado (não um print escaneado).</span></li>
+    <li><b>Anexe a transcrição da gravação de tela</b><span>É a transcrição do vídeo com o áudio do apresentador, com marcação de tempo. Dela sai a estimativa de quando cada slide e cada passo entram — o timer de sincronização, já com a antecipação aplicada (página 2s antes da fala do tema, informação 0,5s antes de ser citada).</span></li>
+    <li><b>Cole o prompt padrão</b><span>Use o botão "Copiar prompt" abaixo e cole na mesma mensagem dos anexos. Não altere o texto do prompt.</span></li>
+    <li><b>Receba o HTML e confira</b><span>O Claude devolve um arquivo .html. Abra no navegador em tela cheia e confira cores, área do apresentador vazia, o contador "2/13", os nomes nos eixos dos gráficos, a moeda e o % em cada número, a ordem em que cada informação entra e os tempos antes de gravar. Dá uma olhada também com a janela pequena, para simular o celular. Para cravar a sincronia, carregue a gravação no painel de baixo e rode em <b>modo relógio</b>, ajustando os passos com "cravar aqui".</span></li>
+    <li><b>Atenda os pedidos do revisor</b><span>Ligue o "modo edição" no painel de baixo: arraste para reposicionar, clique num texto para corrigir e <b>selecione um elemento para apagar</b> (Delete ou o × que aparece nele). Ctrl+Z desfaz; "restaurar original" devolve o slide como foi gerado. Não mexe nas animações nem nos tempos.</span></li>
+    <li><b>Exporte no formato que precisar</b><span>Escolha "Vídeo" (arquivo único por slide, leve) ou "Sequência PNG" (qualidade frame a frame). No PNG, "baixar todas as páginas" entrega <b>um arquivo por página</b>, salvo assim que fica pronto — é o que impede o travamento do deck inteiro. Você escolhe se os frames reiniciam a numeração em cada slide ou seguem contínuos (aí o deck vira uma sequência só no Premiere). Mantenha a aba em primeiro plano durante a exportação.</span></li>
+    <li><b>Leve os marcadores para o Premiere Pro</b><span>"Exportar marcadores" gera o XML com <b>um marcador por troca de informação na tela</b>, além do início de cada página. Cada um é nomeado com as primeiras palavras do que entra ("S02 · 03 — Dívida bruta 78,4%") e traz no comentário o trecho da fala correspondente.</span></li>
+  </ol>
+
+  <div class="note"><b>Versão 9 — nada aparece antes de ser falado:</b> entrou a regra 12, <b>ordem de entrada</b>, depois de um deck sair com duas
+  informações trocadas de tempo entre si. O erro não estava na transcrição nem na lista de tempos: estava no número do passo escrito em cada elemento,
+  que foi numerado pela <b>ordem visual da tela</b> em vez da <b>ordem da fala</b>. Agora o método é explícito: monta a lista de tempos, numera a lista,
+  e só então escreve o passo de cada elemento lendo o número dessa lista. A ordem visual nunca manda, e a grade ficar "fora de ordem" é o certo.
+  Elemento que o apresentador nunca cita passa a entrar no <b>último</b> passo da página, nunca junto do título.
+  E entrou uma <b>conferência obrigatória no HTML pronto</b> — não no papel: ler elemento por elemento o que está de verdade na tela em cada passo e
+  comparar com a lista de tempos, porque esse erro é invisível quando você confere só a sua própria nota. Essa tabela agora vai junto na entrega.</div>
+
+  <div class="note"><b>Versão 8 — todo número se explica sozinho:</b> entrou a regra 11, <b>unidade em todo número</b>. No vídeo o espectador olha
+  a barra, não o subtítulo, então a unidade agora vai colada no valor: <b>dinheiro sempre com o símbolo da moeda</b> (R$, US$, €, £, ¥, ou o código
+  de três letras para as demais) e <b>porcentagem sempre com %</b>, mesmo quando o slide só diz "em % ao ano" no subtítulo. Quando o número é a
+  diferença entre duas taxas, a unidade é <b>p.p.</b> e não % — escrever "a Selic caiu 0,25%" seria erro de conteúdo. O período ("ao ano") fica no
+  subtítulo para não poluir as barras, e todas as barras de um gráfico usam a mesma unidade e escala. A unidade sempre vem do próprio slide; se ele
+  não declara nenhuma, o Claude não chuta e avisa. Na entrega, ele lista onde acrescentou unidade e de onde ela veio.
+  Entrou também um <b>sexto caminho para recuperar nome de categoria</b>: quando o arquivo não tem o nome em lugar nenhum, vale a fala do
+  apresentador — "confirmado" quando ele diz nome e valor juntos, "conferir de ouvido" quando só cita os nomes na ordem. Sempre sinalizado, e
+  nunca para valor.</div>
+
+  <div class="note"><b>Versão 7 — dado real, tela cheia e sem rodapé de fonte:</b> três correções que vieram de erro em tela.
+  <b>1) A linha "Fonte:" saiu do slide.</b> Ela não é mais reproduzida em página nenhuma — polui e fica ilegível no celular. Continua servindo de
+  referência para o Claude, só não vira elemento na tela, e a altura que ela ocupava agora é do conteúdo.
+  <b>2) Acabou o eixo numerado.</b> Quando o gráfico do PPT vira imagem, o eixo costuma sair com "1, 2, 3" no lugar do nome. Agora o Claude é obrigado
+  a ir buscar o nome real dentro do próprio arquivo — o XML do gráfico e a planilha embutida no .pptx, as notas do apresentador, a linha de fonte,
+  o corpo do slide e os PDFs de referência que você anexar — e a conferir valor por valor contra essa origem, registrando qualquer divergência.
+  Categoria genérica virou item proibido.
+  <b>3) O slide virou cartaz.</b> Entrou um piso de tamanho (nenhum texto de conteúdo abaixo de 28px, nem dentro de gráfico), barras mais grossas,
+  gráfico ocupando no mínimo 45% da altura, e a regra de preenchimento: o conteúdo tem que ocupar pelo menos 80% da área útil. Se sobrar tela vazia,
+  o Claude aumenta a escala em vez de deixar a letra pequena. Na entrega ele informa, por página, o menor texto e quanto de altura sobrou.</div>
+
+  <div class="note"><b>Versão 6 — antecipação fixa e contador de slides:</b> os tempos deixaram de ser "no instante da fala" e passaram a ter
+  <b>desconto obrigatório</b>: a página entra <b>2 segundos antes</b> de ele começar a falar do tema, e cada informação entra <b>meio segundo antes</b>
+  de ser citada. Assim a tela nunca chega atrasada e o elemento termina de assentar exatamente quando ele diz o número. Os tempos da lista de conferência,
+  do timer, da régua e dos marcadores já saem descontados — não precisa recuar nada na edição. Entrou também um bloco de regras sobre <b>erro, gagueira e
+  repetição</b> na transcrição: quando ele repete, o passo entra na primeira vez em que a informação sai completa; quando ele erra o número ou o nome, a tela
+  traz o que está no slide e o erro só afeta o tempo, com o caso anotado na entrega. E, na área do apresentador, apareceu o <b>contador "2/13"</b> acima dos
+  tempos, para você saber em que ponto do deck está durante a gravação de tela — ele some no vídeo final junto com o timer, coberto pela câmera.</div>
+
+  <div class="note"><b>Versão 5 — gravar acelerado:</b> a timeline do painel virou uma régua clicável: clique em qualquer ponto e o deck roda
+  em tempo real dali, com as marcas de cada slide e de cada passo desenhadas nela. E entrou o seletor de velocidade <b>1x · 2x · 4x</b>. A ideia é gravar
+  um vídeo de 40 minutos em 20 minutos de tela, a 2x, e aplicar <b>50% de velocidade</b> no clipe na edição — tudo volta ao tempo certo. A velocidade divide
+  também a duração das animações, então nada fica lento ao desacelerar. Atenção ao fps: a 2x, grave a 60fps (vira 30fps a 50%); 4x pediria 120fps para não
+  tremer — na dúvida, 2x. O timer dentro do slide, os marcadores e a exportação PNG continuam sempre no tempo real.</div>
+
+  <div class="note"><b>Versão 4 — modo relógio:</b> o deck agora <b>roda sozinho na base de tempo da gravação</b>. Você dá play, põe a tela
+  para gravar e não encosta em nada: cada passo entra no seu tempo e a página troca sozinha, com t=0 no 00:00:00 do vídeo. Melhor ainda: dá para
+  <b>carregar o arquivo da gravação</b> no próprio HTML (fica só na sua máquina) — o relógio passa a ser o do vídeo, sem deriva, com áudio para
+  conferir de ouvido e um botão <b>"cravar aqui"</b> que corrige o tempo do passo no ponto exato da fala. O tempo corrigido vale também para o timer
+  e para os marcadores. Na exportação PNG há a opção "base de tempo da gravação": a sequência sai com a mesma duração do vídeo e alinha no frame zero.</div>
+
+  <div class="note"><b>Versão 3:</b> o prompt passou a proibir <b>acrescentar qualquer informação</b> que não esteja no slide — a transcrição serve só
+  para o tempo, nunca como fonte de conteúdo; a animação virou casada com a fala, achada por <b>leitura de contexto</b> da transcrição (o elemento entra
+  no início da frase em que aquilo é dito, com precisão de décimo de segundo); e os marcadores viraram <b>um por troca de informação</b>, nomeados com as
+  primeiras palavras do que aparece na tela.</div>
+
+  <div class="note"><b>Versão 2:</b> entrada macia com desfoque como regra inegociável, com o CSS escrito no prompt; PNG de todas as páginas em
+  <b>um arquivo por página</b>, sem acumular o deck na memória; <b>apagar elemento</b> no modo edição, com desfazer; menu de ajustes <b>abaixo do slide</b>,
+  fora da área de gravação; e Roboto reforçada como fonte única, inclusive nos gráficos e na exportação.</div>
+
+  <div class="note"><b>Nada além do slide:</b> o HTML só pode conter o que está no slide enviado — mesmos números, mesmo formato, mesma grafia.
+  Nenhum título, frase de apoio, conclusão ou dado extra, mesmo que o apresentador fale na gravação. Se algo estiver ilegível ou o slide não trouxer a fonte,
+  o Claude avisa no fim como <b>pendência de conferência</b> em vez de completar por conta própria — vale conferir essa lista antes de gravar.</div>
+
+  <div class="note"><b>Animação junto com a fala:</b> cada elemento entra no instante em que o apresentador cita aquilo, achado pela leitura de contexto da
+  transcrição (não pelo timestamp do bloco inteiro). Na entrega, o Claude lista passo a passo: tempo, o que entra e o trecho da fala que justifica o tempo.
+  É por essa lista que você confere a sincronia antes de levar para a timeline.</div>
+
+  <div class="note"><b>Rodar pelo tempo da gravação:</b> no painel de baixo há uma barra de tempo com play, pausa, ir para um tempo e velocidade.
+  Em modo relógio o deck anda sozinho — aperte H, deixe rodando e grave a tela sem tocar em nada. Carregando o mp4 da gravação (arraste para a janela;
+  o arquivo não sai da sua máquina), o relógio passa a ser o do próprio vídeo: os dois andam juntos, e "cravar aqui" acerta o passo no ponto exato da fala.
+  Para a entrega final prefira a exportação PNG — gravação em tempo real pode pular frame.</div>
+
+  <div class="note"><b>Sobre o timer:</b> os tempos na área do apresentador são uma <b>estimativa</b> tirada da
+  transcrição — servem de cola para achar o ponto de entrada, não são o frame exato. Ficam ali de propósito:
+  a câmera do apresentador entra por cima e cobre essa informação, que some no vídeo final. O timer é a única coisa de apoio
+  dentro do slide e <b>continua visível na tecla H</b> — o que some é o painel de ajustes.</div>
+
+  <div class="note"><b>Painel de ajustes fora da gravação:</b> o slide fica em cima (o palco) e todos os controles ficam numa
+  faixa <b>abaixo dele</b> — navegação, modo edição, exportação e marcadores. Nada flutua sobre o slide, então nenhuma interface
+  entra no vídeo, mesmo sem apertar H. Enquadre só o palco na gravação; F coloca o palco em tela cheia.</div>
+  <div class="note"><b>Fundo da exportação:</b> em vídeo ou PNG, a saída é sempre com fundo sólido (o fundo escuro do slide), nunca transparente. O vídeo é leve e rápido; a sequência PNG é mais pesada mas tem qualidade cravada, sem frame pulado — escolha PNG para acabamento máximo.</div>
+  <div class="note"><b>PNG sem travar:</b> antes de rodar o deck todo, use "testar captura" (1 frame) para conferir fonte, cor e desfoque.
+  Se o navegador pedir uma pasta, aceite: gravar direto no disco é o caminho mais seguro. Deixe a aba em primeiro plano e acompanhe o
+  progresso ("slide 2/8 · frame 42/150"). Se algo falhar, a mensagem diz em qual slide e frame parou — nada de zip incompleto em silêncio.</div>
+  <div class="note"><b>Importar os marcadores (XML, 24 fps):</b> no Premiere Pro, <b>Arquivo → Importar</b> e selecione o XML. Ele entra como uma <b>sequência nova</b> com os marcadores; abra-a, selecione os marcadores e copie para a sua sequência de trabalho. Agora vem <b>um marcador por troca de informação</b> (cada passo da animação), mais um no início de cada página — nomeados com as primeiras palavras do que entra na tela, e com o trecho da fala no comentário. Continuam sendo estimativas da transcrição, não cortes exatos: o ponto cai na frase certa, você confirma na timeline.</div>
+  <div class="note"><b>Gravação de ponta a ponta:</b> o deck roda como apresentação única — a barra de espaço avança de um slide para o outro sozinha, sem escolher página no menu. Há também "reproduzir tudo". O timer na área do apresentador <b>continua visível</b> durante a gravação de propósito: a câmera entra por cima e o cobre no vídeo final.</div>
+
+  <h2>Prompt padrão — copiar e colar</h2>
+  <div class="promptcard">
+    <div class="promptcard__bar">
+      <span class="lbl">Prompt do gerador</span>
+      <button class="copybtn" id="btn">Copiar prompt</button>
+    </div>
+    <pre class="prompt" id="prompt">[GERADOR DE SLIDES ANIMADOS · SARDINHA DATA — INVESTIDOR SARDINHA]
+
+Você vai gerar UM arquivo HTML autocontido, animado, a partir do slide e da transcrição que
+eu envio. Siga o padrão visual à risca, não invente variações. Devolva o HTML pronto para
+abrir no navegador em 1920x1080, sem barra de rolagem no slide.
+
+O QUE EU VOU ENVIAR
+- O slide em PPT (preferencial) ou PDF. Leia a estrutura dele: textos, números, tabelas,
+  gráficos e a ordem em que aparecem. Não trate como imagem; recrie cada elemento como
+  elemento editável no HTML. Recrie EXATAMENTE o que está lá — nada a mais (ver FIDELIDADE).
+- A transcrição da gravação de tela (com o áudio do apresentador), com marcação de tempo.
+  Use os tempos para estimar quando cada slide e cada passo entram no vídeo (ver TIMER).
+
+=====================================================================
+AS 12 REGRAS INEGOCIÁVEIS (já deram problema — confira uma a uma no fim)
+=====================================================================
+1. ANIMAÇÃO MACIA COM DESFOQUE: todo elemento entra com opacidade + blur + subida.
+   Nada aparece "seco" (piscando do nada). Isso já falhou várias vezes — ver o bloco
+   MOTOR DE ANIMAÇÃO e copiar o CSS de lá literalmente.
+2. FONTE ROBOTO EM 100% DO ARQUIVO: nenhuma outra família, em lugar nenhum, nem em SVG,
+   nem em fallback de monoespaçado.
+3. PAINEL DE AJUSTES SEMPRE ABAIXO DO SLIDE, FORA DA ÁREA DE GRAVAÇÃO: nenhum botão,
+   menu, seletor ou contador flutua por cima do slide.
+4. EXPORTAÇÃO PNG À PROVA DE ERRO: uma página por vez, arquivo salvo a cada página,
+   nunca acumulando o deck inteiro na memória para zipar no fim.
+5. MODO EDIÇÃO COM MOVER, EDITAR TEXTO E APAGAR ELEMENTO (os três, sempre).
+6. FIDELIDADE TOTAL AO SLIDE: só entra no HTML o que está no slide enviado. Nenhuma
+   informação, número, frase, título, rótulo, comentário ou conclusão a mais.
+7. ANIMAÇÃO CASADA COM A FALA, COM ANTECIPAÇÃO FIXA: o slide entra 2 SEGUNDOS antes de o
+   apresentador começar a falar do tema, e cada informação entra 0,5 SEGUNDO antes de ser
+   citada. Os tempos saem da leitura de contexto da transcrição, já com esse desconto.
+8. MODO RELÓGIO: o deck roda sozinho na base de tempo da gravação, sem ninguém apertar
+   tecla, com timeline clicável para dar play de qualquer ponto e velocidade 1x/2x/4x para
+   gravar a tela em menos tempo. Pode ser regido pelo próprio arquivo da gravação.
+9. LEGÍVEL NO CELULAR, COM A TELA PREENCHIDA: o slide é cartaz, não documento. Piso de
+   tamanho para todo texto de conteúdo, gráfico grande, e o conteúdo ocupando pelo menos 80%
+   da área útil. Nada de meia tela vazia com letra miúda.
+10. DADO REAL, NUNCA EIXO NUMERADO: o gráfico sai com o nome de verdade de cada categoria,
+   recuperado do XML do arquivo, das notas, da linha de fonte, das referências anexadas ou,
+   em último caso e sempre sinalizado, da fala do apresentador. E o rodapé de fonte não entra
+   na tela.
+11. UNIDADE EM TODO NÚMERO: cada número na tela se explica sozinho. Dinheiro sai com o símbolo
+   da moeda (R$, US$, €...), porcentagem sai com %, diferença entre porcentagens sai com p.p.
+   Quem olha só a barra e o rótulo dela, sem ler o subtítulo, tem que entender o que é.
+12. NADA APARECE ANTES DE SER FALADO: o número do passo de um elemento é a POSIÇÃO DELE NA
+   LISTA DE TEMPOS, nunca a posição dele na tela. Revelar uma informação antes da hora quebra
+   a edição e obriga o editor a fazer gambiarra. Ver ORDEM DE ENTRADA e a conferência
+   obrigatória no arquivo pronto.
+
+=====================================================================
+FIDELIDADE AO CONTEÚDO (regra 6) — NÃO ACRESCENTE NADA
+=====================================================================
+O slide enviado é a única fonte do conteúdo. Você está REPRODUZINDO um slide que já existe,
+não escrevendo um slide novo. Se a informação não está no slide, ela não entra no HTML.
+
+- Só entram no HTML os textos, números, títulos, subtítulos, rótulos, categorias, legendas,
+  tabelas e gráficos que estão no slide enviado. Nada além disso.
+- NÃO invente nem complete: nenhum dado que você "sabe", nenhuma atualização de valor,
+  nenhum número arredondado ou corrigido, nenhuma série extra, nenhuma categoria a mais,
+  nenhuma linha de tabela que não esteja lá.
+- NÃO crie textos de apoio: nada de título quando o slide não tem título, subtítulo
+  explicativo, frase de contexto, conclusão, recado final, "insight", chamada, pergunta
+  retórica, resumo do que o apresentador disse, rótulo de eixo inventado ou unidade
+  presumida. Se o slide não escreve, o HTML não escreve.
+  (Levar para junto do número a unidade que o PRÓPRIO SLIDE declara no título, subtítulo, eixo
+  ou legenda NÃO é unidade presumida — é obrigatório. Ver UNIDADE EM TODO NÚMERO.)
+- A TRANSCRIÇÃO NÃO É FONTE DE CONTEÚDO. Ela serve só para o tempo (ver SINCRONIA) e para a
+  ordem dos passos. O que o apresentador fala e não está no slide NÃO vira elemento na tela.
+- Números, unidades, símbolos (%, R$, US$), datas e grafias saem idênticos ao slide, na mesma
+  precisão e no mesmo formato. Não converta moeda, não mude escala, não normalize casas
+  decimais, não "arrume" o texto do slide. A ÚNICA mudança permitida no número é acrescentar a
+  unidade que o slide declara em outro lugar (regra 11).
+- RODAPÉ DE FONTE NÃO ENTRA. A linha "Fonte: ..." que aparece embaixo do slide NÃO é
+  reproduzida no HTML, em página nenhuma, mesmo estando escrita no slide. Ela polui a tela e
+  fica ilegível no celular. Isto é uma exceção deliberada à fidelidade: o texto da fonte é a
+  ÚNICA coisa do slide que você tira. Ela continua servindo de referência para você recuperar
+  rótulo de gráfico (ver RÓTULOS E DADOS DO GRÁFICO) — só não vira elemento na tela.
+- Se algo do slide estiver ilegível ou ambíguo (valor cortado, cor duvidosa), NÃO chute:
+  reproduza o que dá para ler, marque o ponto e liste no fim da resposta como "pendência de
+  conferência". É melhor faltar do que sair um dado errado.
+- Valores estimados a partir da altura de barra de um gráfico só são aceitáveis se NENHUMA das
+  fontes do arquivo trouxer o número; nesse caso, diga no fim quais valores foram lidos do
+  desenho.
+
+RÓTULOS E DADOS DO GRÁFICO — VÁ BUSCAR O NOME REAL, NUNCA ENTREGUE EIXO NUMERADO
+Quando o gráfico do slide foi achatado em imagem, o eixo costuma vir com "1", "2", "3" no lugar
+do nome da categoria. ISSO É DEFEITO DA EXPORTAÇÃO, NÃO É O CONTEÚDO DO SLIDE. Entregar a tela
+com o eixo numerado é erro grave: o espectador não entende nada e o slide vira bagunça.
+
+- NUNCA entregue um gráfico com categoria genérica: "1", "2", "3", "Série 1", "Categoria A",
+  "Coluna B". Se você está prestes a escrever isso, PARE e vá procurar o nome real.
+- ONDE PROCURAR, nesta ordem, até achar:
+  1. O XML do próprio arquivo: dentro do .pptx, abra ppt/charts/chart*.xml e
+     ppt/embeddings/*.xlsx. As categorias e os valores originais costumam estar lá inteiros,
+     mesmo quando o slide mostra só a figura. Essa é a fonte mais confiável de todas.
+  2. As NOTAS DO APRESENTADOR do slide (ppt/notesSlides/*.xml). Elas quase sempre narram o
+     gráfico com nome e valor ("Reino Unido colocou quase 10 bilhões de libras...").
+  3. A LINHA DE FONTE e a legenda do próprio slide. Ela costuma listar exatamente as
+     categorias, na ordem ("Eurostat; INE Portugal; ONS (Reino Unido); estimativa para a
+     Itália"). A linha de fonte não entra na tela, mas serve para isso.
+  4. O corpo de texto do slide, o título e os slides vizinhos.
+  5. Os DOCUMENTOS DE REFERÊNCIA que eu anexar junto (PDF, .docx, planilha). Se vier
+     referência, ela é fonte legítima: confira TODOS os números do gráfico contra ela.
+  6. ÚLTIMO CAMINHO — A FALA DO APRESENTADOR, e só para o NOME da categoria. Vale apenas quando
+     os cinco caminhos acima não trouxeram nome nenhum. Duas situações:
+     · CONFIRMADO: ele diz o nome e o valor juntos, e o valor bate com o do gráfico ("a Turquia
+       oferece 37%" e a barra mede 37). Pode usar.
+     · CONFERIR DE OUVIDO: ele cita os nomes em sequência, sem os valores, e você associa pela
+       ordem do gráfico. Só use se a ordem se confirmar em pelo menos um ponto (um nome que ele
+       diz com valor, ou o nome que já veio do arquivo caindo na posição certa).
+     Em qualquer das duas, SINALIZE na entrega: qual rótulo veio da fala, em que tempo ele diz,
+     e se é "confirmado" ou "conferir de ouvido". A grafia na tela é a correta do nome (país,
+     empresa, índice), não a da transcrição automática.
+     A fala NUNCA serve para valor: número vem sempre do arquivo. E o seu conhecimento próprio
+     continua proibido para rótulo e para valor.
+- Isso NÃO é acrescentar informação. O nome da categoria pertence ao gráfico e se perdeu na
+  exportação; recuperá-lo é reconstruir o slide, não escrever um slide novo.
+- CONFIRA VALOR POR VALOR contra a referência. Se o número desenhado na figura discordar do
+  número da planilha, do XML ou do PDF, use o da origem mais confiável (XML/planilha primeiro,
+  depois o PDF de referência, por último o desenho) e REGISTRE a divergência na entrega.
+- Confira também a ORDEM e a quantidade de categorias: figura achatada às vezes corta a última
+  barra ou inverte a ordem. A ordem que vale é a do XML/planilha.
+- Só depois de esgotar os seis caminhos acima é que o rótulo vira pendência. E, mesmo assim,
+  escreva o rótulo mais específico que você conseguir deduzir do próprio arquivo — nunca "1".
+- Na entrega, diga de onde veio cada rótulo recuperado ("nomes dos países vieram da linha de
+  fonte do slide 5"), para eu conferir.
+- O que você PODE decidir sozinho, porque é forma e não informação: layout, posição,
+  hierarquia visual, cor dentro da paleta, tipo de gráfico equivalente ao do slide,
+  e o fatiamento em passos de animação.
+
+=====================================================================
+UNIDADE EM TODO NÚMERO (regra 11) — O NÚMERO SE EXPLICA SOZINHO
+=====================================================================
+Muito slide traz a unidade só no subtítulo ("em % ao ano", "em R$ bilhões") e deixa o gráfico
+com o número nu ("8,45", "37"). No vídeo, o espectador olha a barra, não o subtítulo — e fica
+sem saber se é porcentagem, real, dólar ou ponto. Por isso a unidade vai COLADA NO NÚMERO,
+sempre, em todo lugar onde um valor aparece.
+
+ONDE VALE: rótulo de barra, ponto de linha, fatia de rosca, número-herói, KPI, valor de card,
+célula de tabela e número de contagem (data-count). Nos números que sobem por contagem, a
+unidade vai em data-pre / data-suf, para aparecer desde o primeiro quadro da contagem.
+
+DINHEIRO — SEMPRE COM O SÍMBOLO DA MOEDA
+- Símbolo ANTES do número, com um espaço: R$ 1.000 · US$ 84,5 bilhões · € 10 bi.
+- Símbolos: R$ real · US$ dólar americano · € euro · £ libra esterlina · ¥ iene.
+  Para outras moedas, o código de três letras antes do número: ARS 1.000 (peso argentino),
+  INR 1.290 (rúpia indiana), CNY 500 (yuan).
+- A moeda é a que o slide indica. NUNCA converta e NUNCA troque uma moeda pela outra.
+- Escala (mil, mi, bi, tri ou milhões, bilhões, trilhões): siga a forma que o slide original
+  usa e mantenha IGUAL no deck inteiro. Não misture "R$ 37 bi" num slide e "R$ 12 bilhões" no
+  outro.
+
+PORCENTAGEM — SEMPRE COM %
+- % colado no número, sem espaço, no padrão brasileiro: 8,45% · 13,75% · 0,3%.
+- Se o slide diz que o gráfico está "em %", "em % ao ano", "em % do PIB", CADA valor do gráfico
+  leva o %. Não basta o subtítulo dizer.
+
+DIFERENÇA ENTRE PORCENTAGENS — PONTOS PERCENTUAIS (p.p.), NÃO %
+- Quando o número é a DIFERENÇA ou a VARIAÇÃO entre duas taxas (Selic menos Fed funds, a
+  dívida/PIB que "subiu 13 pontos", o corte de 0,25 da Selic), a unidade é p.p., com espaço:
+  11,25 p.p. · +13 p.p. · 0,25 p.p.
+- Escrever % nesses casos é ERRO DE CONTEÚDO: "a Selic caiu 0,25%" significa outra coisa.
+  Se o slide diz "em pontos percentuais" ou "em pontos", use p.p.
+- Pontos de ÍNDICE (Ibovespa em 180 mil pontos) não são p.p.: mantenha "pontos" ou "pts" como
+  está no slide.
+
+O PERÍODO FICA NO SUBTÍTULO, NÃO EM CADA BARRA
+- O rótulo mostra "8,45%"; o "ao ano", "ao mês", "em 12 meses" continua no subtítulo. Repetir
+  "% a.a." em sete barras polui a tela e fica ilegível no celular.
+- Exceção: se o slide escreve o período colado no próprio número ("10% a.a."), reproduza.
+
+UM PADRÃO POR GRÁFICO
+- Todas as barras de um mesmo gráfico com a mesma unidade, a mesma escala e o mesmo número de
+  casas decimais que o slide usa. Nada de "R$ 15.000" numa barra e "15 mil" na outra.
+
+DE ONDE VEM A UNIDADE (e o que fazer quando não vem)
+- A unidade sai do PRÓPRIO SLIDE: título, subtítulo, eixo, legenda, rótulo do card, texto ao
+  lado do número, notas do apresentador ou a linha de fonte (que não entra na tela, mas serve
+  de referência). Isso NÃO é unidade presumida — é a unidade que o slide já declarou, levada
+  para junto do número.
+- Se o slide não declara a unidade em lugar nenhum, NÃO CHUTE. Principalmente moeda: trocar
+  R$ por US$ num canal de investimento é erro grave. Reproduza o número como está e liste como
+  pendência de conferência ("slide 7: valor 37 sem unidade declarada").
+
+=====================================================================
+PADRÃO VISUAL "SARDINHA DATA" — siga à risca.
+=====================================================================
+
+CANVAS E ÁREA ÚTIL
+- Slide 16:9, 1920x1080. Tudo em unidades relativas à largura (1cqw = 1% da largura).
+- Todo o conteúdo vive nos 62% da esquerda. De 62% a 70% é folga de segurança.
+- De 70% a 100% da largura é a ÁREA DO APRESENTADOR (Raul): fica sempre vazia de conteúdo
+  de slide — sem texto, sem gráfico, sem card. É onde entra o vídeo do apresentador na edição.
+- Padding do slide: 6.4cqw no topo, 6.2cqw embaixo, 5.2cqw à esquerda, 38cqw à direita.
+
+FUNDO E MARCA
+- Fundo #0B0A0A com dois brilhos radiais vermelhos discretos (canto superior direito a
+  rgba(142,41,41,.30) e canto inferior esquerdo a rgba(142,41,41,.15)).
+- Faixa vertical vermelha #8E2929 de 0.75cqw colada na borda esquerda, altura inteira.
+
+CORES
+- Vermelho marca #8E2929 · vermelho claro #C94A4A · vermelho quente #E1615F
+- Texto #FFFFFF · apoio #C9C4C4 · secundário #7C7575 · osso (séries neutras) #EDE7E4
+- Alta #4CA97C (rótulo #6FCBA0) · Queda #C94A4A
+- Verde e vermelho SÓ aparecem em dado direcional. Nada de azul, roxo ou laranja.
+
+=====================================================================
+TIPOGRAFIA — ROBOTO E SÓ ROBOTO (regra 2)
+=====================================================================
+- FONTE ÚNICA: Roboto, em TODO o arquivo, sem exceção. Títulos, textos, números, etiquetas,
+  eixos de gráfico, rótulos de barra, rodapé, timer, menu, botões, painel de ajustes,
+  mensagens de progresso da exportação — tudo Roboto.
+- NÃO existe elemento monoespaçado neste padrão. Onde o kit antigo pedia "mono"
+  (etiqueta de topo, tickers, eixos, rodapé, datas, timers), use Roboto com
+  font-variant-numeric: tabular-nums e letter-spacing para os números alinharem.
+  NÃO use JetBrains Mono, Gilroy, Poppins, Inter, Arial, Helvetica, ui-monospace,
+  monospace, system-ui nem qualquer outra família. Se a palavra "mono" aparecer no CSS
+  final como family, está errado.
+- Carregue a Roboto do Google Fonts com os pesos que o slide usa, no mínimo 300;400;500;700;900:
+  &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+  &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+  &lt;link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"&gt;
+- Aplique de forma que nada escape:
+  :root{ --font: 'Roboto', Arial, sans-serif; }
+  *, *::before, *::after { font-family: var(--font) !important; }
+  svg text, svg tspan { font-family: var(--font); }   /* SVG não herda fonte com confiança */
+- ANTES DE QUALQUER CAPTURA (vídeo ou PNG) espere a fonte carregar: await document.fonts.ready.
+  Sem isso a exportação sai com a fonte de fallback e o slide fica com outra cara.
+- IDEAL (evita depender da internet na hora de gravar/exportar): embuta a Roboto no próprio
+  HTML como @font-face com woff2 em base64. Se não embutir, mantenha o link do Google Fonts
+  e avise no fim da resposta que o arquivo precisa de internet no primeiro carregamento.
+- Escala em cqw: etiqueta 1.2 · título 3.5 · título curto 2.9 · título longo 2.6 (mínimo)
+  · subtítulo 2.3 · lead 1.65 · corpo 1.45 · número-herói 7.4 · KPI 3.4.
+  Não existe mais tamanho de rodapé: o rodapé de fonte saiu do padrão.
+- PISO ABSOLUTO DE TAMANHO: nenhum texto de CONTEÚDO do slide fica abaixo de 1.45cqw
+  (28px em 1920). Vale para corpo, rótulo de card, categoria e valor de gráfico, item de lista,
+  célula de tabela e legenda. As duas únicas exceções são o timer e o contador "2/13" na área
+  do apresentador, que a câmera cobre no vídeo final.
+- Etiqueta de topo: Roboto 500, CAIXA ALTA, tracking .34em, cor #C94A4A, separador "·".
+- Título: Roboto 900 (ou 800), line-height 1.04, tracking -.015em. Uma palavra em #C94A4A
+  quando ajudar.
+- Números em pt-BR: vírgula decimal, ponto de milhar, tabular-nums.
+
+BLOCOS
+- Card padrão: fundo rgba(142,41,41,.10), borda 1px rgba(201,74,74,.34), raio .7cqw,
+  padding 1.35cqw 1.5cqw. Rótulo do card em Roboto 500, caixa alta, tracking .2em, #C94A4A.
+- Card neutro: fundo rgba(255,255,255,.045), borda rgba(255,255,255,.10).
+- NÃO EXISTE rodapé de fonte neste padrão. O canto inferior esquerdo fica livre — use a altura
+  que sobra para o conteúdo respirar ou para o bloco principal crescer.
+
+GRÁFICOS
+- SVG inline escrito à mão, sem biblioteca, sem imagem. viewBox próprio, width 100%.
+- Série neutra em #EDE7E4; o dado que está sendo discutido em #C94A4A; alta em #4CA97C;
+  queda em #C94A4A. Grade rgba(255,255,255,.10), eixo rgba(255,255,255,.28).
+- Sem legenda quando há uma série só. Valor rotulado na ponta de cada barra, em Roboto
+  tabular-nums, SEMPRE com a unidade (R$, US$, %, p.p.) — ver regra 11.
+- Linha de média/referência tracejada em #C94A4A com o valor na ponta direita.
+
+PROIBIDO
+- Emoji, ícone genérico, sombra, gradiente colorido, borda arredondada acima de 1cqw,
+  texto sobre a área do apresentador, mais de um assunto por slide, RODAPÉ DE FONTE,
+  categoria genérica em gráfico ("1", "2", "Série 1"), texto de conteúdo abaixo do piso de
+  tamanho, valor em dinheiro sem símbolo de moeda, porcentagem sem %, diferença de taxas
+  escrita em % em vez de p.p., ELEMENTO QUE APARECE ANTES DE O APRESENTADOR FALAR DELE,
+  qualquer fonte que não seja Roboto, qualquer botão por cima do slide.
+
+=====================================================================
+LEGIBILIDADE NO CELULAR E OCUPAÇÃO DO ESPAÇO (regra 9)
+=====================================================================
+Boa parte de quem assiste está no celular, com o vídeo ocupando uns 390px de largura. O slide
+de 1920px aparece reduzido a cerca de 20% do tamanho — um texto de 23px vira 4,7px na mão da
+pessoa e some. Por isso o slide não pode ser um documento diagramado: ele tem que ser um
+cartaz. Texto grande, pouca coisa por tela, e o conteúdo PREENCHENDO a área útil.
+
+- ÁREA ÚTIL REAL: 1090 x 838px (os 62% da esquerda, já descontado o padding). É nela que tudo
+  tem que caber e é ela que tem que ser preenchida.
+- REGRA DE PREENCHIMENTO: o bloco de conteúdo tem que ocupar pelo menos 80% da altura útil.
+  Se sobrar mais que isso vazio embaixo, AUMENTE a escala do slide (tipo, altura de gráfico,
+  espaçamento) em passos de 5% até chegar lá. Slide com meia tela vazia e letra pequena é o
+  erro mais comum — e agora que o rodapé de fonte saiu, sobra ainda mais espaço para usar.
+- SE NÃO COUBER: reduza espaçamento e entrelinha ANTES de reduzir o tipo. O piso de tamanho
+  não se negocia. Se ainda assim não couber respeitando o piso, diga isso na entrega como
+  pendência ("o slide 7 tem 11 linhas de texto; no tamanho mínimo legível cabem 8") em vez de
+  espremer tudo.
+- MEDIÇÃO OBRIGATÓRIA ANTES DE ENTREGAR: para cada página, confira (a) qual é o menor texto de
+  conteúdo e se ele respeita o piso de 1.45cqw; (b) quanta altura útil sobrou vazia. Ajuste e
+  só então entregue.
+- TEXTO DENTRO DE SVG: o piso vale igual, mas a conta muda porque o SVG tem escala própria.
+  Calcule: tamanho_mínimo_em_unidades = 28 × (largura_do_viewBox / largura_do_SVG_em_px).
+  Com viewBox de 1000 unidades ocupando 1090px, o mínimo é 26 unidades — então nada de
+  font-size 15 ou 19 no eixo. Categoria e valor de barra ficam em 26 a 34 unidades.
+- BARRAS: grossas. Altura mínima de barra 3.2cqw para até 4 barras, 2.6cqw de 5 a 7 barras.
+  Barra fina com rótulo pequeno é ilegível no celular.
+- GRÁFICO QUE É O ASSUNTO DO SLIDE ocupa no mínimo 45% da altura útil. Não desenhe um gráfico
+  pequeno no meio de uma tela vazia.
+- QUANTIDADE POR TELA: se o slide tem mais de 7 itens de lista ou mais de 8 barras, o texto vai
+  encolher abaixo do piso. Mantenha o piso, aperte o espaçamento e avise na entrega.
+- CONTRASTE: texto de apoio no mínimo #C9C4C4 sobre o fundo escuro. #7C7575 só para o timer e
+  o contador, que não precisam ser lidos no vídeo final.
+- TESTE DO CELULAR, na hora de conferir: imagine a tela a 20% do tamanho. Se você precisa
+  apertar os olhos para ler o menor número do slide, ele está pequeno demais.
+
+=====================================================================
+MOTOR DE ANIMAÇÃO (regra 1 — ENTRADA MACIA COM DESFOQUE, OBRIGATÓRIA)
+=====================================================================
+ESTA É A PARTE QUE MAIS FALHA. Leia inteira antes de escrever CSS.
+
+O QUE TEM QUE ACONTECER, SEM EXCEÇÃO: todo elemento revelável entra com os TRÊS efeitos ao
+mesmo tempo — opacidade 0 -&gt; 1, desfoque blur(.55cqw) -&gt; blur(0) e subida translateY(1.5cqw)
+-&gt; 0 — em 850ms na curva cubic-bezier(.16,.68,.32,1). O elemento chega desfocado e "assenta"
+em foco. Sem repique, sem quique, sem salto, sem aparecer seco.
+
+USE ESTE CSS COMO BASE, LITERALMENTE (adapte só o seletor, não os efeitos):
+
+  .slide.anim [data-step]{
+    opacity:0;
+    filter:blur(.55cqw);
+    transform:translateY(1.5cqw);
+    transition:opacity .85s cubic-bezier(.16,.68,.32,1),
+               filter  .85s cubic-bezier(.16,.68,.32,1),
+               transform .85s cubic-bezier(.16,.68,.32,1);
+    will-change:opacity, filter, transform;
+  }
+  .slide.anim [data-step].on{
+    opacity:1;
+    filter:blur(0);
+    transform:translateY(0);
+  }
+
+ERROS QUE JÁ MATARAM O DESFOQUE — NÃO COMETA NENHUM:
+- Esconder com display:none / visibility:hidden / hidden e depois mostrar. Isso não transita:
+  o elemento pisca do nada. Esconder é SÓ com opacity + filter + transform, como acima.
+- Esquecer "filter" na lista do transition (transitar só opacity e transform). Aí o blur
+  aparece e some de estalo, ou nem aparece.
+- Declarar o blur apenas no estado final, ou usar filter:none em vez de filter:blur(0):
+  a transição de/para "none" não interpola. Sempre blur(.55cqw) -&gt; blur(0).
+- Usar transition:all (pega layout junto e engasga) — liste as três propriedades.
+- Aplicar a classe .on no mesmo frame em que o elemento entra no DOM. Se o elemento for
+  criado/desocultado na hora, force um reflow (void el.offsetWidth) ou espere um
+  requestAnimationFrame antes de adicionar .on, senão o navegador pula a transição.
+- Animar o container e também o filho com blur (o desfoque dobra e fica sujo). Anime só o
+  elemento marcado com data-step.
+- Deixar @keyframes ou outra regra concorrente sobrescrevendo opacity/transform do mesmo
+  elemento. Um só motor de entrada.
+- Depender de prefers-reduced-motion. NÃO ZERE AS DURAÇÕES POR CAUSA DISSO. Este arquivo
+  existe para virar vídeo; se a máquina do editor estiver com "reduzir movimento" ligado no
+  sistema, a animação SUMIRIA inteira — foi uma das causas de o efeito não aparecer.
+  Ignore prefers-reduced-motion, ou, se quiser tratar, deixe um interruptor no painel
+  ("forçar animação") LIGADO por padrão.
+- Dentro do SVG, blur em cqw pode não resolver (unidade de usuário). Nos rótulos de texto do
+  gráfico use um valor absoluto pequeno (ex.: filter:blur(6px) -&gt; blur(0)) ou envolva o rótulo
+  num elemento HTML posicionado por cima do SVG.
+
+DEMAIS REGRAS DO MOTOR
+- Cada elemento revelável recebe data-step="N", começando em 1. Um passo = uma ideia falada.
+  Nunca revele duas informações no mesmo passo.
+- Fora da classe .anim tudo aparece pronto; dentro de .anim os elementos entram ao ganhar .on.
+- Barras crescem com scaleY/scaleX (transform-box:fill-box, transform-origin na base ou no
+  zero do eixo) em 1,15s na curva cubic-bezier(.18,.76,.30,1). Barras da mesma série entram
+  no mesmo passo, escalonadas de 0,075s uma para a outra.
+- Elementos SVG não levam desfoque no traço — só os rótulos de texto do gráfico, entrando
+  0,4s depois da barra correspondente.
+- Linhas desenham com pathLength="1" e stroke-dashoffset 1 -&gt; 0 em 2s; a área sob a linha
+  entra 1,1s depois. Arcos da rosca desenham em 1,25s.
+- Números com data-count sobem por contagem em 1,5s, com desaceleração de quarta ordem.
+- Controles do player: espaço ou seta direita avança, seta esquerda volta, R reinicia,
+  H esconde a interface, F tela cheia.
+- NAVEGAÇÃO CONTÍNUA ENTRE SLIDES (importante): o deck se comporta como uma apresentação única.
+  Ao avançar no ÚLTIMO passo de um slide, o próximo avanço passa AUTOMATICAMENTE para o primeiro
+  passo do slide seguinte — sem precisar selecionar a página no menu. O mesmo para voltar: no
+  primeiro passo de um slide, a seta esquerda volta ao último passo do slide anterior.
+  Assim o editor grava a tela do começo ao fim de uma vez só, sem interrupção.
+- Ofereça também um botão "reproduzir tudo": roda o deck inteiro sozinho, do primeiro passo do
+  primeiro slide ao último do último, respeitando os tempos, sem nenhum clique.
+- O menu de páginas continua existindo, mas só como atalho para pular a um slide específico —
+  nunca como passo obrigatório para avançar.
+- TESTE DE ANIMAÇÃO: inclua no painel um botão "testar entrada" que reproduz o primeiro passo
+  de novo, para o editor conferir na hora se o desfoque está aparecendo.
+
+=====================================================================
+LAYOUT DA PÁGINA — PAINEL DE AJUSTES EMBAIXO, FORA DA GRAVAÇÃO (regra 3)
+=====================================================================
+- A página tem DUAS FAIXAS, empilhadas verticalmente e sem sobreposição nenhuma:
+  (1) O PALCO, em cima: o slide 16:9 (1920x1080, escalado para caber), com fundo #0B0A0A.
+      É a única coisa que a gravação de tela pega. Dentro dele só existe conteúdo de slide
+      e o timer na área do apresentador.
+  (2) O PAINEL DE AJUSTES, EMBAIXO do palco, fora do retângulo do slide, ocupando a largura
+      cheia da janela, com fundo próprio (mais escuro/neutro) para o editor ver onde termina
+      a área de gravação.
+- NADA de controle flutuando por cima do slide: nem botão canto, nem barra que aparece no
+  hover, nem menu sobreposto, nem contador de passos dentro do slide, nem toast/aviso por
+  cima. Se hoje algo fica no canto inferior direito do slide (ex.: contador de passos),
+  MUDE para o painel de baixo.
+- O painel reúne TUDO: menu de páginas, contador de passos ("passo 3/9 · slide 2/8"),
+  botão de modo edição e suas ações, seletor Vídeo/PNG, opções de organização do PNG,
+  botões de baixar, exportar marcadores, reproduzir tudo, restaurar original, barra de
+  progresso da exportação e mensagens de erro.
+- Organize o painel em grupos rotulados, na ordem: NAVEGAÇÃO · EDIÇÃO · EXPORTAÇÃO ·
+  MARCADORES. Discreto, sem emoji, em Roboto.
+- Tecla H esconde o painel inteiro (para gravar em tela cheia); o palco continua igual.
+  Tecla F coloca só o PALCO em tela cheia — o painel não entra na tela cheia.
+- Ao gravar, o editor enquadra apenas o palco. Como o painel está fora dele, nada de
+  interface entra no vídeo mesmo se o editor esquecer de apertar H.
+
+=====================================================================
+SINCRONIA COM A FALA (regra 7) — o passo entra no instante em que ele fala
+=====================================================================
+Não basta olhar os timestamps: LEIA A TRANSCRIÇÃO PELO CONTEÚDO e entenda o que está sendo
+dito em cada trecho. A animação existe para acompanhar a fala — o elemento tem que entrar
+exatamente quando o apresentador diz aquilo, nem antes nem depois.
+
+- Para CADA passo, ache na transcrição a frase exata em que aquela informação é introduzida:
+  a palavra, o número ou a expressão que corresponde ao elemento (o valor, o nome da série,
+  o rótulo do card, o item da tabela). É essa frase que define o tempo do passo.
+- ANTECIPAÇÃO OBRIGATÓRIA (é a regra que define todos os tempos do arquivo):
+  · SLIDE: o início da página é o momento em que ele começa a falar do tema MENOS 2 SEGUNDOS.
+    A tela precisa já estar no ar quando a primeira palavra do assunto sai. Título, etiqueta,
+    rodapé de fonte e a moldura do gráfico entram nesse mesmo instante.
+  · INFORMAÇÃO: cada passo entra no início da frase em que aquilo é dito MENOS 0,5 SEGUNDO.
+    Como a entrada dura 850ms, o elemento termina de assentar exatamente enquanto ele diz o
+    número ou o nome — é esse o efeito certo.
+  · Ache primeiro o instante da FALA, com precisão de décimo de segundo, e só depois aplique
+    o desconto. Na lista de conferência da entrega, escreva o tempo JÁ DESCONTADO, que é o
+    mesmo que vai para o timer, para a régua e para os marcadores.
+  · Se o desconto de 2s jogar o início de uma página para antes do último passo da página
+    anterior, encurte: o início da nova página é o tempo do último passo da anterior mais
+    0,3s. Nunca deixe uma página entrar por cima de um passo que ainda não apareceu.
+  · Se o desconto jogar algum tempo para antes de 00:00, use 00:00.0.
+- PRECISÃO DENTRO DO BLOCO: se o bloco da transcrição for longo (ex.: um trecho de 20s), não
+  use o tempo do bloco inteiro. Estime dentro dele pela posição da palavra no texto
+  (fala em português corrido ≈ 2,5 a 3 palavras por segundo) e ajuste. Trabalhe com décimo
+  de segundo (mm:ss.d), não com o minuto redondo.
+- A ORDEM DOS PASSOS SEGUE A FALA, não a ordem visual do slide. Se ele comenta primeiro o
+  dado que está embaixo, esse é o passo 1.
+
+ERROS, GAGUEIRAS E REPETIÇÕES NA TRANSCRIÇÃO — LEIA ANTES DE CRAVAR QUALQUER TEMPO
+A transcrição é automática e o apresentador fala ao vivo. Ela vem com engano, troco de nome,
+número dito errado, frase cortada no meio e a mesma informação repetida duas ou três vezes.
+Isso muda o tempo do passo, então trate cada caso assim:
+
+- REPETIÇÃO: quando ele fala a mesma informação mais de uma vez, o passo entra na PRIMEIRA vez
+  em que ela sai COMPLETA e compreensível. Se a primeira tentativa foi cortada ("a gente tem a
+  Selic, ela está em... ela está em 14%"), o tempo é o da versão completa. Repetição posterior
+  NÃO cria passo novo: o elemento já está na tela.
+- FRASE INTERROMPIDA ou retomada logo depois ("o Lula com 38, Flávio com 30... não, Flávio com
+  32"): use o instante da versão corrigida, não o da errada.
+- NÚMERO OU NOME DITO ERRADO: o que vai para a TELA é sempre o do slide, sem exceção. O erro da
+  fala só afeta o TEMPO. Anote o erro na lista de conferência da entrega ("ele diz 2006, o slide
+  traz 2026") para o editor conferir de ouvido.
+- TRANSCRIÇÃO AUTOMÁTICA QUE ERRA PALAVRA (nome de empresa, sigla, instituto, marca): reconheça
+  pelo contexto e use o tempo certo, mas não leve a grafia errada para a tela. Escreva o nome
+  como está no slide e registre a correspondência no comentário do marcador.
+- DIGRESSÃO, PIADA, CONVERSA PARALELA, ELE PROCURANDO O MATERIAL ("deixa eu ver", "cadê o
+  gráfico"): não vira passo. O passo espera a retomada do assunto.
+- ELE COMENTA ANTES DE LER: se ele critica ou explica o dado antes de dizer o número que está
+  na tela, o passo continua preso ao número, não ao comentário.
+- ELE PULA UM ELEMENTO E VOLTA MINUTOS DEPOIS: o passo vai para onde ele volta, mesmo que isso
+  deixe a página parada um tempo. Não adiante o elemento só para preencher a tela.
+- BLOCO LONGO SEM PAUSA: estime dentro dele pela posição da palavra (2,5 a 3 palavras por
+  segundo) e confira se o resultado cai na frase certa, não no parágrafo certo.
+- NÃO CRIE PASSO SEM FALA: se um elemento nunca é citado, ele não ganha passo próprio —
+  entra junto do assunto mais próximo, ou já no início do slide se for moldura (etiqueta,
+  título, rodapé de fonte, eixos do gráfico).
+- Se ele volta a falar de algo já revelado, não crie passo novo: o elemento já está na tela.
+- O início do slide é o momento em que ele começa a tratar do assunto do slide (a virada de
+  assunto na transcrição), não o fim da frase anterior.
+
+=====================================================================
+ORDEM DE ENTRADA (regra 12) — O PASSO É A POSIÇÃO NA LISTA DE TEMPOS
+=====================================================================
+Este é o erro mais caro do arquivo, porque ele não aparece na leitura: os tempos saem certos
+da transcrição e a informação mesmo assim entra na hora errada. Acontece quando o número do
+passo de um elemento é escrito pela ordem em que ele está DESENHADO na tela, e não pela ordem
+em que ele é FALADO. Aí dois elementos trocam de tempo entre si e o vídeo revela o dado antes
+de o apresentador chegar nele.
+
+O MÉTODO, NESTA ORDEM. Não pule etapa e não escreva número de passo de cabeça:
+1. Monte primeiro a LISTA DE TEMPOS do slide, em ordem crescente, uma linha por informação:
+   tempo já descontado + as primeiras palavras do elemento que entra.
+2. NUMERE essa lista: 1, 2, 3... O passo 1 é sempre o início da página (título, etiqueta,
+   moldura e eixos do gráfico).
+3. Só então escreva o data-step de cada elemento, LENDO O NÚMERO DA LISTA. O data-step de um
+   elemento é o número da linha em que ele aparece na lista de tempos. Nada mais.
+4. Confira no arquivo pronto (ver CONFERÊNCIA, abaixo) antes de entregar.
+
+- A ORDEM VISUAL NÃO MANDA. Se ele fala o terceiro card antes do primeiro, o terceiro card é o
+  passo 2 e o primeiro é o passo 4. A grade fica "fora de ordem" em relação à numeração — isso
+  está CERTO, não é defeito. O que não pode é a informação entrar antes da fala.
+- NUNCA reordene os elementos na tela para "arrumar" a numeração. O layout é o do slide; quem
+  se adapta é o número do passo.
+- UM ELEMENTO, UM PASSO. Dois elementos só dividem o mesmo passo quando são barras da mesma
+  série de um gráfico (entram escalonadas) ou quando um deles nunca é citado (ver abaixo).
+- ELEMENTO QUE ELE NUNCA CITA: entra no ÚLTIMO passo do slide, nunca junto do título. Se ele
+  entra com a moldura, o espectador vê um dado que o apresentador não está discutindo — que é
+  exatamente o efeito que a regra 12 existe para evitar. Liste esse elemento na entrega, com a
+  frase "não é citado nesta página".
+- REPETIÇÃO E CORREÇÃO continuam mandando no tempo (ver o bloco de erros e gagueiras), mas o
+  número do passo continua saindo da lista de tempos, nunca da tela.
+
+CONFERÊNCIA OBRIGATÓRIA NO ARQUIVO PRONTO — não confira no papel
+Ler a própria lista de tempos não pega esse erro, porque a lista está certa: o que erra é o
+data-step escrito no elemento. Então a conferência tem que ser feita no HTML gerado, elemento
+por elemento:
+- Para CADA página, percorra os elementos com data-step e monte esta tabela, em ordem
+  crescente de passo:
+     passo · tempo · O TEXTO QUE ESTÁ DE VERDADE NO ELEMENTO (leia do HTML, não da sua nota)
+- Compare cada linha com a lista de tempos. Se a linha 3 diz "R$ 5,77" e a lista de tempos diz
+  que o passo 3 é o prejuízo, os dois estão trocados: corrija o data-step, não o tempo.
+- Confira também: nenhum passo sem elemento na tela, nenhum elemento com data-step maior que o
+  número de passos do slide, e os tempos em ordem crescente.
+- ENTREGUE ESSA TABELA junto com a lista de passos. É por ela que o editor confere se alguma
+  informação está aparecendo adiantada.
+
+TIMER NA ÁREA DO APRESENTADOR (a cola de tempo do editor)
+- CONTADOR DE PROGRESSO DO DECK, no topo da área do apresentador, ACIMA dos tempos: a página
+  atual e o total, no formato "2/13", em destaque discreto (Roboto 500, tabular-nums, cor
+  #C9C4C4, com a palavra "SLIDE" em cima em caixa alta, tracking .28em, #7C7575). Serve para o
+  editor saber, durante a gravação de tela, em que ponto do deck ele está sem contar página no
+  painel. Ele acompanha a troca de página no teclado, no modo relógio e na exportação, e some
+  no vídeo final junto com o timer, coberto pela câmera do apresentador.
+- Logo abaixo dele, os tempos, empilhados: primeiro o início do slide, depois um por passo, no
+  formato "01 · 02:14.3", "02 · 02:20.8"...
+  Ao lado de cada tempo, as primeiras palavras do que entra naquele passo (as mesmas do nome
+  do marcador), em texto curto, para o editor saber a que se refere sem contar passo.
+- Os tempos mostrados são os JÁ ANTECIPADOS (slide -2s, informação -0,5s), os mesmos da régua
+  e dos marcadores.
+- Rotule como aproximado ("início aprox."). É estimativa vinda da transcrição; o editor
+  confirma na timeline.
+- Estilo discreto, Roboto, cor #7C7575, para não competir com o slide.
+- O TIMER E O CONTADOR "2/13" SÃO A ÚNICA INFORMAÇÃO DE APOIO QUE FICA DENTRO DO SLIDE, e
+  permanecem SEMPRE VISÍVEIS,
+  inclusive no modo H e durante a gravação e a exportação (vídeo e PNG). Ele é a cola de tempo
+  do editor: como a câmera do apresentador entra por cima daquela área na edição, o timer é
+  coberto e some no vídeo final de qualquer forma.
+  (O modo H esconde só o painel de ajustes de baixo.)
+- INDICADOR DE PASSO ATUAL: conforme a animação avança, o timer do passo que está entrando
+  ACENDE em vermelho #C94A4A (em destaque); os passos já passados voltam ao cinza apagado
+  #7C7575; os que ainda não chegaram ficam mais apagados ainda. Acompanha o avanço pelo
+  teclado e pela reprodução automática.
+
+=====================================================================
+EDIÇÃO DE SLIDES (regra 5 — mover, editar texto E APAGAR)
+=====================================================================
+- Inclua um "modo edição" acionável por botão no painel de baixo. Ligado, libera as ações
+  abaixo; desligado, volta ao normal para gravar. Enquanto ligado, mostre no painel qual
+  elemento está selecionado.
+- MOVER: arrastar cada elemento do slide com o mouse para reposicionar. A nova posição é
+  mantida ao trocar de página e ao exportar.
+- EDITAR TEXTO: clicar num texto e digitar para corrigir o conteúdo ali mesmo (edição no
+  lugar, tipo contenteditable). Mantém a tipografia, o tamanho e a cor — só o conteúdo muda.
+- APAGAR ELEMENTO (obrigatório, tem que funcionar de verdade):
+  · Clicar num elemento o SELECIONA, com contorno visível (1px tracejado #C94A4A) e um
+    botão "apagar" (×) ancorado ao elemento selecionado.
+  · Delete ou Backspace apaga o elemento selecionado. Há também um botão "apagar selecionado"
+    no painel de baixo.
+  · Funciona para QUALQUER elemento do slide: título, linha de texto, card inteiro, KPI,
+    rodapé, barra do gráfico, rótulo, grupo de SVG. Se o alvo for parte de um grupo,
+    permita subir a seleção (tecla Esc sobe para o pai) para apagar o bloco inteiro.
+  · Apagar remove de verdade da tela e também da EXPORTAÇÃO (vídeo, PNG e captura de frame)
+    — o elemento apagado não pode reaparecer no arquivo exportado.
+  · Ctrl+Z desfaz a última ação (apagar, mover ou editar texto), pelo menos 20 níveis.
+- VOLTAR AO ORIGINAL: botão "restaurar original" que desfaz TODAS as alterações da sessão
+  (posições, textos editados e elementos apagados) e devolve o slide exatamente como foi gerado.
+  Guarde o estado original (clone do DOM) de cada slide ao carregar, para essa restauração ser
+  sempre possível. Ofereça restaurar só o slide atual e restaurar o deck inteiro.
+- Nada disso altera as animações nem os tempos já definidos — mexe só em posição, conteúdo de
+  texto e presença dos elementos. Se um elemento apagado tinha um passo, os passos seguintes
+  continuam na mesma ordem (o passo vazio simplesmente não mostra nada e mantém a numeração).
+
+=====================================================================
+MODO RELÓGIO (regra 8) — o deck roda sozinho na base de tempo da gravação
+=====================================================================
+Além do avanço por tecla, o deck tem um MODO RELÓGIO: o editor dá play, põe a tela para
+gravar e não toca em mais nada — cada passo entra sozinho no seu tempo, e a troca de página
+acontece sozinha. A base de tempo é a MESMA da gravação original (t=0 é o 00:00:00 do vídeo),
+então a saída alinha no frame zero da timeline.
+
+- RELÓGIO MESTRE ÚNICO: um cronômetro em tempo absoluto lido dentro de um requestAnimationFrame
+  (performance.now() - t0), comparado com a lista de tempos dos passos. NUNCA encadeie
+  setTimeout/setInterval por passo: o desvio acumula e no fim do vídeo o deck está segundos
+  atrasado.
+- A CADA FRAME: calcule t; aplique o estado de TODOS os passos cujo tempo &lt;= t e desfaça os
+  que ficaram para frente; troque de página quando t alcançar o início do próximo slide.
+  Assim, se a máquina engasgar e pular tempo, o estado se corrige sozinho — nenhum passo some.
+- INÍCIO DO RELÓGIO, escolhido no painel: (a) do zero do vídeo — t=0 é o 00:00:00 da gravação,
+  para exportar uma sequência que alinha no frame zero; (b) a partir de um tempo qualquer
+  ("começar em 02:10"), para ensaiar um trecho sem esperar.
+- BARRA DE TEMPO (TIMELINE) no painel de baixo, fora da gravação: uma régua do deck inteiro,
+  do t=0 ao fim do último slide, com as marcas de cada slide e de cada passo desenhadas em
+  cima dela. Ao lado: tempo corrente em mm:ss.d, play/pause, voltar ao zero, campo para pular
+  para um tempo digitado e o seletor de velocidade. Nada disso aparece no palco.
+- DAR PLAY DE ONDE QUISER: clicar em qualquer ponto da régua (ou arrastar o cursor dela) leva
+  o deck para aquele tempo e roda em tempo real dali em diante. Clicar numa marca de passo ou
+  no tempo do passo dentro do timer também pula direto para ele. Não precisa começar do zero.
+  · Ao pular para um tempo t, o estado é aplicado NA HORA e sem animação: tudo que já tinha
+    entrado até t aparece pronto, e o passo seguinte é que vai animar. Nada de reproduzir de
+    novo, acelerado, todos os passos anteriores para "alcançar" o tempo.
+  · Se o vídeo de referência estiver carregado, o clique na régua move os dois juntos
+    (deck e vídeo) para o mesmo ponto.
+- Atalhos no modo relógio: espaço dá play/pause (em vez de avançar passo), setas movem 5s,
+  Shift+setas movem 1 frame, e as teclas 1, 2 e 4 trocam a velocidade.
+- CLAQUETE DE ALINHAMENTO (opcional, ligada por padrão): contagem 3·2·1 no painel antes do t=0
+  — nunca no palco — e um flash branco de 1 frame no palco exatamente no t=0, para o editor
+  casar a gravação no Premiere. Botão para desligar.
+- DESLOCAR TUDO: campo de ajuste global em ± segundos, para corrigir de uma vez quando a
+  gravação começa antes ou depois do zero.
+- Em modo relógio, H esconde o painel e o palco continua rodando sozinho: o editor não
+  encosta em nada durante a gravação de tela.
+
+VELOCIDADE 1x / 2x / 4x — PARA GRAVAR A TELA EM MENOS TEMPO
+Vídeos de 30, 40, 60 minutos são comuns. Gravar a tela em tempo real nesse tamanho é caro.
+Por isso o modo relógio tem VELOCIDADE: o editor grava a 2x (metade do tempo de gravação) e
+na edição aplica 50% de velocidade no clipe, voltando tudo ao tempo real. A 4x, aplica 25%.
+
+- Seletor de velocidade no painel: 0,5x · 1x · 2x · 4x (0,5x só para conferir com calma).
+- A VELOCIDADE MULTIPLICA TUDO, NÃO SÓ A ESPERA ENTRE OS PASSOS. Este é o ponto que costuma
+  sair errado: se só os tempos dos passos aceleram e a animação de entrada continua em 850ms,
+  ao desacelerar 50% na edição a entrada vira 1,7s — lenta e fora do padrão. As DURAÇÕES DAS
+  ANIMAÇÕES têm que ser divididas pela mesma taxa.
+- Implemente as durações como variáveis CSS e divida todas pela taxa r:
+    :root{ --r:1;                       /* 1, 2 ou 4 */
+           --dur-in:  calc(.85s / var(--r));    /* entrada macia */
+           --dur-bar: calc(1.15s / var(--r));   /* crescimento de barra */
+           --dur-stag:calc(.075s / var(--r));   /* escalonamento entre barras */
+           --dur-lbl: calc(.4s  / var(--r));    /* atraso do rótulo */
+           --dur-line:calc(2s   / var(--r));    /* desenho de linha */
+           --dur-area:calc(1.1s / var(--r));    /* área sob a linha */
+           --dur-ring:calc(1.25s/ var(--r));    /* arco da rosca */
+           --dur-num: calc(1.5s / var(--r)); }  /* contagem de número */
+  Todo transition/animation/atraso usa essas variáveis — nenhum valor de tempo escrito solto
+  no CSS ou no JS. Trocar a velocidade só muda --r; a contagem de números (feita em JS) usa
+  a mesma divisão.
+- A CURVA NÃO MUDA: só a duração. Assim, ao desacelerar o clipe na edição, o movimento volta
+  a ser exatamente o de 1x.
+- O TIMER DENTRO DO SLIDE CONTINUA MOSTRANDO O TEMPO REAL (base 1x) da gravação, nunca o
+  tempo acelerado — é ele que tem que bater com a timeline depois que o clipe for desacelerado.
+  O tempo acelerado (o relógio de parede da gravação) aparece só no painel de baixo, ao lado
+  de um aviso do tipo "gravando a 2x — aplicar 50% de velocidade na edição".
+- Com o vídeo de referência carregado, a velocidade também vale para ele
+  (video.playbackRate = r; deixe mudo ou com preservesPitch, porque a 4x o áudio não serve
+  para conferência).
+- Os marcadores do Premiere e a exportação PNG SEMPRE saem na base de tempo REAL (1x),
+  independente da velocidade escolhida na tela. Velocidade é recurso de gravação ao vivo,
+  não muda o material entregue.
+- TAXA DE QUADROS — leia antes de escolher 4x: desacelerar corta o fps na mesma proporção.
+  Gravando a 2x em 60fps, o clipe a 50% vira 30fps — perfeito. A 4x em 60fps, a 25% vira
+  15fps e treme. Para 4x é preciso capturar a 120fps (ou aceitar interpolação de quadro no
+  Premiere). Deixe isso escrito no painel, ao lado do seletor: "2x: grave a 60fps · 4x: grave
+  a 120fps". Na dúvida, 2x é a escolha segura.
+- Se o navegador não der conta da taxa escolhida, o relógio absoluto corrige o estado (nenhum
+  passo é perdido), mas a gravação pode ficar trêmula. Mostre no painel a taxa de quadros real
+  que a página está conseguindo e, se cair muito, sugira baixar a velocidade ou usar a
+  exportação PNG, que é quadro a quadro e não depende disso.
+
+SINCRONIA PELO PRÓPRIO VÍDEO (o caminho mais exato — implemente também)
+- Deixe o editor CARREGAR O ARQUIVO DA GRAVAÇÃO (mp4/mov) no HTML, por seletor de arquivo ou
+  arrastando para a janela. O arquivo fica só na máquina (URL.createObjectURL), não sobe nada
+  para lugar nenhum.
+- Com o vídeo carregado, o relógio mestre passa a ser video.currentTime, lido a cada
+  requestAnimationFrame. O deck anda exatamente com a gravação, sem deriva. Play, pause e
+  scrub controlam os dois juntos.
+- Mostre o vídeo de referência em miniatura NO PAINEL DE BAIXO (com áudio, para o editor
+  conferir de ouvido), com botão para ocultar. Ele NUNCA entra no palco nem na exportação.
+- AJUSTE OUVINDO: com o vídeo tocando, botão "cravar aqui" grava o tempo atual do vídeo como
+  o tempo do passo selecionado (e "cravar início do slide" para a página). Botão "exportar
+  tempos" devolve a lista corrigida em texto, para o editor guardar ou me mandar de volta.
+- Os tempos são SEMPRE os mesmos três lugares: modo relógio, timer na área do apresentador e
+  marcadores do Premiere. Se um for corrigido por "cravar aqui", os outros dois acompanham na
+  hora, e a exportação de marcadores já sai com o valor novo.
+
+EXPORTAÇÃO NA BASE DE TEMPO DA GRAVAÇÃO
+- Ofereça, no modo PNG, a opção "exportar na base de tempo da gravação": renderiza do t=0 até
+  o fim do último slide INCLUINDO os trechos parados (os frames em que a tela não muda porque
+  o apresentador está falando). A sequência sai com a mesma duração da gravação e alinha no
+  frame zero — o editor joga na trilha de cima e não precisa posicionar nada.
+- Como isso gera muito frame (fps × duração), ofereça junto: escolha de 24 ou 30 fps e recorte
+  de intervalo ("exportar de 02:00 a 05:30"). Vale o mesmo cuidado de memória do bloco de
+  exportação: um arquivo por trecho/página, salvo assim que fica pronto.
+- AVISO no painel: gravação de tela em tempo real pode pular frame. Para entrega final,
+  prefira a exportação PNG, que usa estes mesmos tempos com o relógio virtual quadro a quadro
+  e sai com a duração exata.
+
+=====================================================================
+EXPORTAÇÃO (regra 4 — o PNG do deck inteiro NÃO PODE FALHAR)
+=====================================================================
+Em TODA exportação o fundo é SÓLIDO (o fundo #0B0A0A do slide), nunca transparente, e o
+enquadramento é o PALCO em 1920x1080 — nunca o painel de ajustes.
+
+Ofereça DOIS formatos de saída, escolhíveis no painel (seletor "Vídeo / PNG"):
+
+1) VÍDEO — grava a animação em tempo real e entrega um arquivo de vídeo por página.
+   Prático e leve; pode pular frame se a máquina engasgar.
+
+2) SEQUÊNCIA PNG — em vez de gravar em tempo real, avance a animação quadro a quadro
+   (30fps), capturando um PNG perfeito por frame. Qualidade exata, sem engasgo.
+   O editor importa no Premiere como "sequência de imagens".
+
+   COMO CAPTURAR CADA FRAME:
+   - NÃO deixe a animação correr sozinha tentando fotografar por cima — isso pula frames.
+   - Controle o tempo manualmente: desligue a animação automática e dirija o progresso por um
+     relógio próprio (variável de tempo virtual incrementada 1/30s por frame), aplicando o
+     estado exato de cada elemento naquele instante.
+   - Para cada frame, nesta ordem: (1) posicione a animação no tempo t; (2) ESPERE o navegador
+     desenhar (await de requestAnimationFrame); (3) gere o PNG como BLOB (canvas.toBlob,
+     nunca dataURL/base64 em string); (4) grave/enfileire o blob e só então avance.
+     Uma captura por vez, cada uma esperando a anterior concluir.
+   - Espere await document.fonts.ready antes do primeiro frame (senão sai fonte errada).
+   - Capture em resolução cheia 1920x1080, não do tamanho reduzido na tela.
+   - Preserve o desfoque na captura: se usar uma biblioteca, use uma que respeite CSS filter
+     (html-to-image / foreignObject). html2canvas ignora filter:blur — se for inevitável usar,
+     desenhe o blur no canvas ou avise no fim da resposta.
+
+   POR QUE O DECK INTEIRO ESTAVA DANDO ERRO — E COMO EVITAR (siga tudo):
+   - NÃO acumule os frames de todas as páginas para zipar no fim. Centenas de PNGs de
+     1920x1080 na memória estouram a aba (o zip sai vazio, corrompido, ou o navegador trava).
+   - SALVE PÁGINA POR PÁGINA: termine a página 1, gere o .zip dela, DISPARE O DOWNLOAD, libere
+     tudo da memória (blobs anulados, URL.revokeObjectURL, zip descartado) e só então comece a
+     página 2. O "baixar todas as páginas" entrega uma sequência de arquivos, um por página —
+     é o comportamento padrão e o mais seguro.
+   - Zip SEM COMPRESSÃO: compression "STORE" (PNG já é comprimido; comprimir de novo é o que
+     mais consome memória e tempo) e streamFiles:true ao gerar.
+   - PREFIRA ESCREVER DIRETO NO DISCO: se o navegador suportar a File System Access API
+     (showDirectoryPicker), peça uma pasta ao editor e escreva cada PNG direto nela, sem zip
+     nenhum. É o caminho mais confiável para deck grande. Deixe o zip como alternativa quando
+     a API não existir.
+   - LIMITE DE SEGURANÇA POR ARQUIVO: se um zip passar de ~600 frames ou ~1 GB, quebre em
+     partes ("parte-01.zip", "parte-02.zip"...) mantendo a numeração dos frames contínua entre
+     as partes. Nunca tente gerar um único arquivo gigante.
+   - Não trave a interface: entre um frame e outro devolva o controle ao navegador
+     (await de rAF ou setTimeout 0), para a aba não ser morta por "página sem resposta".
+   - Trate erro por frame: try/catch com até 3 tentativas. Se o frame falhar nas três,
+     PARE e diga exatamente onde parou ("falhou no slide 3, frame 87 de 150") em vez de
+     entregar um zip incompleto em silêncio.
+   - Só finalize/baixe o arquivo de uma página depois que TODOS os frames dela tiverem sido
+     efetivamente gerados; confira a contagem antes de fechar o zip.
+   - Progresso visível no painel: "slide 2/8 · frame 42/150 · 38 MB", com botão CANCELAR que
+     interrompe de verdade e libera a memória.
+   - Avise no painel, em texto pequeno: manter a aba em primeiro plano durante a exportação
+     (aba em segundo plano é estrangulada pelo navegador e a captura fica lenta ou falha).
+   - Ofereça um botão "testar captura": gera 1 frame só e baixa, para o editor conferir
+     fonte, cor e desfoque antes de rodar o deck inteiro.
+
+BOTÕES (todos no painel de baixo):
+- "Baixar esta página": exporta só a página atual, no formato escolhido (vídeo único, ou o
+  zip/pasta de PNGs dessa página). Numerada conforme a ordem: 001, 002, 003...
+- "Baixar todas as páginas": percorre as páginas em sequência, entregando UM ARQUIVO POR
+  PÁGINA (001, 002, 003...), salvando cada um assim que fica pronto. No modo PNG, o editor
+  escolhe como os frames são numerados:
+  (a) POR SLIDE — os frames reiniciam a numeração em cada página (001/frame_0001.png...).
+      Preserva a divisão por slide.
+  (b) SEQUÊNCIA ÚNICA CONTÍNUA — a numeração dos frames continua de uma página para a outra
+      (o slide 2 começa em frame_0121 se o slide 1 terminou em 0120), mesmo os arquivos
+      vindo em zips separados. O editor extrai tudo numa pasta só e importa no Premiere como
+      uma única sequência de imagens — o deck inteiro vira um clipe só, sem pausa entre slides.
+      É só numeração: continue sendo um arquivo por página, para não estourar a memória.
+- Renderiza uma página por vez em qualquer caso; a diferença é só como os arquivos são
+  nomeados e agrupados.
+
+=====================================================================
+MARCADORES PARA O PREMIERE (a partir dos mesmos tempos do timer)
+=====================================================================
+- Botão "exportar marcadores para o Premiere" (no painel de baixo): gera um arquivo de
+  marcadores com os MESMOS tempos que o timer usa (os estimados da transcrição pela leitura
+  de contexto), para o editor importar na timeline e encontrar cada ponto sem procurar.
+- UM MARCADOR PARA CADA TROCA DE INFORMAÇÃO NA TELA (isto mudou: antes era um por slide).
+  Marque o instante exato em que cada passo entra — a mudança do que está escrito no slide —
+  e também o início de cada página. Um marcador por passo, mais um por página.
+- NOME DO MARCADOR = AS PRIMEIRAS PALAVRAS DA INFORMAÇÃO QUE ENTRA, copiadas do slide, com o
+  prefixo de slide e passo para localizar. Até ~40 caracteres, sem reticências desnecessárias:
+  · início de página: "S02 · 00 — &lt;título do slide&gt;"
+  · passo:            "S02 · 03 — Dívida bruta 78,4%"
+                      "S02 · 04 — Receita líquida cresce"
+  Se o elemento for um número sem texto, use o número e o rótulo dele ("S03 · 02 — 12,7 mi").
+  As palavras vêm do SLIDE (o que aparece na tela), não da fala.
+- COMENTÁRIO DO MARCADOR: o trecho curto da transcrição que corresponde àquele passo, para o
+  editor conferir de ouvido se o ponto bate. Sem inventar: copie da transcrição.
+- O tempo do marcador é o mesmo do timer: o início da frase em que aquilo é falado, com
+  precisão de décimo de segundo convertida em frames (frame = segundos × 24, arredondado).
+- Formato: gere XML de sequência do ADOBE PREMIERE PRO (Final Cut Pro XML Interchange / "xmeml",
+  o formato que o Premiere Pro importa nativamente por Arquivo &gt; Importar). NÃO use FCPXML do
+  Final Cut X e NÃO use CSV. Estrutura: um &lt;sequence&gt; com &lt;rate&gt; de 24 fps, &lt;media&gt; e os
+  marcadores como elementos &lt;marker&gt; com &lt;name&gt;, &lt;comment&gt; e &lt;in&gt; em NÚMERO DE FRAMES
+  (frame = segundos × 24, arredondado), não em texto de timecode. NTSC false, timebase 24.
+- A sequência do XML deve ser 1920x1080 a 24 fps (base de tempo do time).
+- Ao importar, o Premiere Pro cria uma SEQUÊNCIA nova com esses marcadores; o editor copia os
+  marcadores dela para a sequência de trabalho. Deixe isso anotado para o editor.
+- Deixe claro para o editor que os tempos são ESTIMADOS da transcrição — pontos de partida
+  para posicionar, não cortes exatos. Mesmo assim, mire no ponto certo: a estimativa tem que
+  cair na frase certa, não no parágrafo certo.
+- IMPORTANTE — o que o marcador faz: ele apenas POSICIONA (crava o ponto na timeline). Não corta
+  o vídeo do apresentador nem encaixa a animação sozinho; a montagem continua com o editor,
+  guiado pelos marcadores.
+
+=====================================================================
+ENTREGA
+=====================================================================
+- Um arquivo .html autocontido: uma página por slide, palco em cima e painel de ajustes
+  embaixo (fora da área de gravação), motor de animação com entrada macia e desfoque, timer
+  na área do apresentador, modo relógio com barra de tempo e carga do vídeo de referência,
+  modo edição com mover/editar/apagar e os botões de exportação.
+- No fim, liste os passos da animação numerados, e para cada um: o tempo JÁ ANTECIPADO
+  (mm:ss.d), o elemento do slide que entra (as primeiras palavras dele, como vão no marcador) e
+  o trecho da transcrição que justifica aquele tempo. É por essa lista que eu confiro a
+  sincronia. Deixe explícito no topo da lista que os tempos já estão com o desconto aplicado:
+  slide -2s, informação -0,5s.
+- Entregue também a TABELA DE CONFERÊNCIA DA ORDEM DE ENTRADA (regra 12), lida do HTML pronto:
+  por página, passo · tempo · o texto que está de verdade no elemento. E diga que você rodou
+  essa conferência, com o resultado ("nenhum elemento entra antes da fala"). Liste à parte os
+  elementos que o apresentador nunca cita e em que passo eles entraram.
+- Liste também, se houver, as pendências de conferência (dado ilegível no slide, valor lido da
+  altura da barra, slide sem fonte no rodapé) — sem completar nada por conta própria.
+- E liste os TROPEÇOS DA TRANSCRIÇÃO que mudaram algum tempo: repetição, frase cortada, número
+  ou nome dito errado, trecho em que ele some do assunto. Uma linha por caso, dizendo o que a
+  fala traz, o que o slide traz e qual tempo você usou.
+- Diga DE ONDE VEIO CADA RÓTULO DE GRÁFICO que você teve que recuperar (XML do pptx, notas do
+  apresentador, linha de fonte, referência anexada ou fala) e registre qualquer divergência de
+  valor entre a figura e a referência. Rótulo que veio da fala sai marcado como "confirmado"
+  ou "conferir de ouvido", com o tempo em que ele diz.
+- Liste ONDE VOCÊ ACRESCENTOU UNIDADE e de onde ela veio, uma linha por slide ("slide 4: %
+  nos 7 valores, do subtítulo 'em % ao ano'" · "slide 17: p.p. nos 3 valores, do subtítulo 'em
+  pontos percentuais'"). E liste à parte todo número que ficou sem unidade porque o slide não
+  declara nenhuma.
+- Diga, por página, QUAL É O MENOR TEXTO DE CONTEÚDO em cqw e QUANTA ALTURA ÚTIL SOBROU vazia,
+  para eu conferir de uma olhada se ficou legível no celular.
+- E confirme, item a item, esta CHECAGEM FINAL:
+  [ ] Todo elemento com data-step tem os três efeitos de entrada (opacidade + blur + subida)
+      e "filter" está na lista do transition; nada é escondido com display:none.
+  [ ] Nenhuma família de fonte além de Roboto aparece no CSS (nem monospace, nem fallback
+      de sistema como primeira opção) e o SVG também está em Roboto.
+  [ ] Nenhum botão, menu, contador ou aviso fica por cima do slide; tudo está no painel
+      abaixo do palco.
+  [ ] O modo edição move, edita texto e APAGA elemento, com desfazer e restaurar original.
+  [ ] A exportação PNG salva uma página por vez, libera a memória entre páginas e mostra
+      progresso, com opção de numeração contínua entre páginas.
+  [ ] Nenhuma informação foi acrescentada: cada texto e cada número do HTML existe no slide
+      enviado, no mesmo formato. Nada veio da transcrição nem do meu próprio conhecimento.
+  [ ] Nenhum rodapé de fonte aparece em página nenhuma.
+  [ ] Nenhum gráfico ficou com categoria genérica ("1", "2", "Série 1"): todos têm o nome real,
+      recuperado do arquivo ou das referências, e os valores batem com a origem mais confiável.
+  [ ] Nenhum texto de conteúdo está abaixo de 1.45cqw (28px), inclusive dentro de SVG, e cada
+      página ocupa pelo menos 80% da altura útil.
+  [ ] Nenhum valor em dinheiro está sem o símbolo da moeda (R$, US$, €...), e a moeda é a do
+      slide, sem conversão.
+  [ ] Nenhuma porcentagem está sem %, nenhuma diferença entre taxas está em % em vez de p.p., e
+      todas as barras de um mesmo gráfico usam a mesma unidade e escala.
+  [ ] Cada slide entra 2s antes da fala do tema e cada informação entra 0,5s antes de ser
+      citada, e há um marcador por troca de informação, nomeado com as primeiras palavras do
+      que entra na tela.
+  [ ] NENHUMA INFORMAÇÃO APARECE ANTES DE SER FALADA: conferi no HTML pronto, elemento por
+      elemento, que o data-step de cada um é a posição dele na lista de tempos, e não a
+      posição dele na tela. Nenhum passo ficou sem elemento e nenhum elemento ficou com passo
+      inexistente.
+  [ ] Os elementos que o apresentador nunca cita entraram no último passo da página, nunca
+      junto do título, e estão listados na entrega.
+  [ ] Repetição, frase cortada e erro de fala foram tratados: o passo entra na primeira vez em
+      que a informação sai completa, e a tela traz o que está no slide, não o que ele errou.
+  [ ] O contador "2/13" aparece no topo da área do apresentador, acompanha a troca de página e
+      continua visível no modo H, na gravação e na exportação.
+  [ ] O modo relógio roda o deck inteiro sozinho na base de tempo da gravação, com relógio
+      absoluto (nunca setTimeout encadeado), aceita carregar o vídeo como relógio mestre e
+      permite cravar os tempos ouvindo.
+  [ ] A timeline aceita clique para rodar a partir de qualquer ponto, e a velocidade 2x/4x
+      divide TAMBÉM as durações das animações (variáveis CSS), com timer e marcadores sempre
+      no tempo real 1x.
+</pre>
+  </div>
+</div>
+
+<button class="floatcopy" id="fbtn">Copiar prompt</button>
+
+<script>
+var PROMPT = "[GERADOR DE SLIDES ANIMADOS · SARDINHA DATA — INVESTIDOR SARDINHA]\n\nVocê vai gerar UM arquivo HTML autocontido, animado, a partir do slide e da transcrição que\neu envio. Siga o padrão visual à risca, não invente variações. Devolva o HTML pronto para\nabrir no navegador em 1920x1080, sem barra de rolagem no slide.\n\nO QUE EU VOU ENVIAR\n- O slide em PPT (preferencial) ou PDF. Leia a estrutura dele: textos, números, tabelas,\n  gráficos e a ordem em que aparecem. Não trate como imagem; recrie cada elemento como\n  elemento editável no HTML. Recrie EXATAMENTE o que está lá — nada a mais (ver FIDELIDADE).\n- A transcrição da gravação de tela (com o áudio do apresentador), com marcação de tempo.\n  Use os tempos para estimar quando cada slide e cada passo entram no vídeo (ver TIMER).\n\n=====================================================================\nAS 12 REGRAS INEGOCIÁVEIS (já deram problema — confira uma a uma no fim)\n=====================================================================\n1. ANIMAÇÃO MACIA COM DESFOQUE: todo elemento entra com opacidade + blur + subida.\n   Nada aparece \"seco\" (piscando do nada). Isso já falhou várias vezes — ver o bloco\n   MOTOR DE ANIMAÇÃO e copiar o CSS de lá literalmente.\n2. FONTE ROBOTO EM 100% DO ARQUIVO: nenhuma outra família, em lugar nenhum, nem em SVG,\n   nem em fallback de monoespaçado.\n3. PAINEL DE AJUSTES SEMPRE ABAIXO DO SLIDE, FORA DA ÁREA DE GRAVAÇÃO: nenhum botão,\n   menu, seletor ou contador flutua por cima do slide.\n4. EXPORTAÇÃO PNG À PROVA DE ERRO: uma página por vez, arquivo salvo a cada página,\n   nunca acumulando o deck inteiro na memória para zipar no fim.\n5. MODO EDIÇÃO COM MOVER, EDITAR TEXTO E APAGAR ELEMENTO (os três, sempre).\n6. FIDELIDADE TOTAL AO SLIDE: só entra no HTML o que está no slide enviado. Nenhuma\n   informação, número, frase, título, rótulo, comentário ou conclusão a mais.\n7. ANIMAÇÃO CASADA COM A FALA, COM ANTECIPAÇÃO FIXA: o slide entra 2 SEGUNDOS antes de o\n   apresentador começar a falar do tema, e cada informação entra 0,5 SEGUNDO antes de ser\n   citada. Os tempos saem da leitura de contexto da transcrição, já com esse desconto.\n8. MODO RELÓGIO: o deck roda sozinho na base de tempo da gravação, sem ninguém apertar\n   tecla, com timeline clicável para dar play de qualquer ponto e velocidade 1x/2x/4x para\n   gravar a tela em menos tempo. Pode ser regido pelo próprio arquivo da gravação.\n9. LEGÍVEL NO CELULAR, COM A TELA PREENCHIDA: o slide é cartaz, não documento. Piso de\n   tamanho para todo texto de conteúdo, gráfico grande, e o conteúdo ocupando pelo menos 80%\n   da área útil. Nada de meia tela vazia com letra miúda.\n10. DADO REAL, NUNCA EIXO NUMERADO: o gráfico sai com o nome de verdade de cada categoria,\n   recuperado do XML do arquivo, das notas, da linha de fonte, das referências anexadas ou,\n   em último caso e sempre sinalizado, da fala do apresentador. E o rodapé de fonte não entra\n   na tela.\n11. UNIDADE EM TODO NÚMERO: cada número na tela se explica sozinho. Dinheiro sai com o símbolo\n   da moeda (R$, US$, €...), porcentagem sai com %, diferença entre porcentagens sai com p.p.\n   Quem olha só a barra e o rótulo dela, sem ler o subtítulo, tem que entender o que é.\n12. NADA APARECE ANTES DE SER FALADO: o número do passo de um elemento é a POSIÇÃO DELE NA\n   LISTA DE TEMPOS, nunca a posição dele na tela. Revelar uma informação antes da hora quebra\n   a edição e obriga o editor a fazer gambiarra. Ver ORDEM DE ENTRADA e a conferência\n   obrigatória no arquivo pronto.\n\n=====================================================================\nFIDELIDADE AO CONTEÚDO (regra 6) — NÃO ACRESCENTE NADA\n=====================================================================\nO slide enviado é a única fonte do conteúdo. Você está REPRODUZINDO um slide que já existe,\nnão escrevendo um slide novo. Se a informação não está no slide, ela não entra no HTML.\n\n- Só entram no HTML os textos, números, títulos, subtítulos, rótulos, categorias, legendas,\n  tabelas e gráficos que estão no slide enviado. Nada além disso.\n- NÃO invente nem complete: nenhum dado que você \"sabe\", nenhuma atualização de valor,\n  nenhum número arredondado ou corrigido, nenhuma série extra, nenhuma categoria a mais,\n  nenhuma linha de tabela que não esteja lá.\n- NÃO crie textos de apoio: nada de título quando o slide não tem título, subtítulo\n  explicativo, frase de contexto, conclusão, recado final, \"insight\", chamada, pergunta\n  retórica, resumo do que o apresentador disse, rótulo de eixo inventado ou unidade\n  presumida. Se o slide não escreve, o HTML não escreve.\n  (Levar para junto do número a unidade que o PRÓPRIO SLIDE declara no título, subtítulo, eixo\n  ou legenda NÃO é unidade presumida — é obrigatório. Ver UNIDADE EM TODO NÚMERO.)\n- A TRANSCRIÇÃO NÃO É FONTE DE CONTEÚDO. Ela serve só para o tempo (ver SINCRONIA) e para a\n  ordem dos passos. O que o apresentador fala e não está no slide NÃO vira elemento na tela.\n- Números, unidades, símbolos (%, R$, US$), datas e grafias saem idênticos ao slide, na mesma\n  precisão e no mesmo formato. Não converta moeda, não mude escala, não normalize casas\n  decimais, não \"arrume\" o texto do slide. A ÚNICA mudança permitida no número é acrescentar a\n  unidade que o slide declara em outro lugar (regra 11).\n- RODAPÉ DE FONTE NÃO ENTRA. A linha \"Fonte: ...\" que aparece embaixo do slide NÃO é\n  reproduzida no HTML, em página nenhuma, mesmo estando escrita no slide. Ela polui a tela e\n  fica ilegível no celular. Isto é uma exceção deliberada à fidelidade: o texto da fonte é a\n  ÚNICA coisa do slide que você tira. Ela continua servindo de referência para você recuperar\n  rótulo de gráfico (ver RÓTULOS E DADOS DO GRÁFICO) — só não vira elemento na tela.\n- Se algo do slide estiver ilegível ou ambíguo (valor cortado, cor duvidosa), NÃO chute:\n  reproduza o que dá para ler, marque o ponto e liste no fim da resposta como \"pendência de\n  conferência\". É melhor faltar do que sair um dado errado.\n- Valores estimados a partir da altura de barra de um gráfico só são aceitáveis se NENHUMA das\n  fontes do arquivo trouxer o número; nesse caso, diga no fim quais valores foram lidos do\n  desenho.\n\nRÓTULOS E DADOS DO GRÁFICO — VÁ BUSCAR O NOME REAL, NUNCA ENTREGUE EIXO NUMERADO\nQuando o gráfico do slide foi achatado em imagem, o eixo costuma vir com \"1\", \"2\", \"3\" no lugar\ndo nome da categoria. ISSO É DEFEITO DA EXPORTAÇÃO, NÃO É O CONTEÚDO DO SLIDE. Entregar a tela\ncom o eixo numerado é erro grave: o espectador não entende nada e o slide vira bagunça.\n\n- NUNCA entregue um gráfico com categoria genérica: \"1\", \"2\", \"3\", \"Série 1\", \"Categoria A\",\n  \"Coluna B\". Se você está prestes a escrever isso, PARE e vá procurar o nome real.\n- ONDE PROCURAR, nesta ordem, até achar:\n  1. O XML do próprio arquivo: dentro do .pptx, abra ppt/charts/chart*.xml e\n     ppt/embeddings/*.xlsx. As categorias e os valores originais costumam estar lá inteiros,\n     mesmo quando o slide mostra só a figura. Essa é a fonte mais confiável de todas.\n  2. As NOTAS DO APRESENTADOR do slide (ppt/notesSlides/*.xml). Elas quase sempre narram o\n     gráfico com nome e valor (\"Reino Unido colocou quase 10 bilhões de libras...\").\n  3. A LINHA DE FONTE e a legenda do próprio slide. Ela costuma listar exatamente as\n     categorias, na ordem (\"Eurostat; INE Portugal; ONS (Reino Unido); estimativa para a\n     Itália\"). A linha de fonte não entra na tela, mas serve para isso.\n  4. O corpo de texto do slide, o título e os slides vizinhos.\n  5. Os DOCUMENTOS DE REFERÊNCIA que eu anexar junto (PDF, .docx, planilha). Se vier\n     referência, ela é fonte legítima: confira TODOS os números do gráfico contra ela.\n  6. ÚLTIMO CAMINHO — A FALA DO APRESENTADOR, e só para o NOME da categoria. Vale apenas quando\n     os cinco caminhos acima não trouxeram nome nenhum. Duas situações:\n     · CONFIRMADO: ele diz o nome e o valor juntos, e o valor bate com o do gráfico (\"a Turquia\n       oferece 37%\" e a barra mede 37). Pode usar.\n     · CONFERIR DE OUVIDO: ele cita os nomes em sequência, sem os valores, e você associa pela\n       ordem do gráfico. Só use se a ordem se confirmar em pelo menos um ponto (um nome que ele\n       diz com valor, ou o nome que já veio do arquivo caindo na posição certa).\n     Em qualquer das duas, SINALIZE na entrega: qual rótulo veio da fala, em que tempo ele diz,\n     e se é \"confirmado\" ou \"conferir de ouvido\". A grafia na tela é a correta do nome (país,\n     empresa, índice), não a da transcrição automática.\n     A fala NUNCA serve para valor: número vem sempre do arquivo. E o seu conhecimento próprio\n     continua proibido para rótulo e para valor.\n- Isso NÃO é acrescentar informação. O nome da categoria pertence ao gráfico e se perdeu na\n  exportação; recuperá-lo é reconstruir o slide, não escrever um slide novo.\n- CONFIRA VALOR POR VALOR contra a referência. Se o número desenhado na figura discordar do\n  número da planilha, do XML ou do PDF, use o da origem mais confiável (XML/planilha primeiro,\n  depois o PDF de referência, por último o desenho) e REGISTRE a divergência na entrega.\n- Confira também a ORDEM e a quantidade de categorias: figura achatada às vezes corta a última\n  barra ou inverte a ordem. A ordem que vale é a do XML/planilha.\n- Só depois de esgotar os seis caminhos acima é que o rótulo vira pendência. E, mesmo assim,\n  escreva o rótulo mais específico que você conseguir deduzir do próprio arquivo — nunca \"1\".\n- Na entrega, diga de onde veio cada rótulo recuperado (\"nomes dos países vieram da linha de\n  fonte do slide 5\"), para eu conferir.\n- O que você PODE decidir sozinho, porque é forma e não informação: layout, posição,\n  hierarquia visual, cor dentro da paleta, tipo de gráfico equivalente ao do slide,\n  e o fatiamento em passos de animação.\n\n=====================================================================\nUNIDADE EM TODO NÚMERO (regra 11) — O NÚMERO SE EXPLICA SOZINHO\n=====================================================================\nMuito slide traz a unidade só no subtítulo (\"em % ao ano\", \"em R$ bilhões\") e deixa o gráfico\ncom o número nu (\"8,45\", \"37\"). No vídeo, o espectador olha a barra, não o subtítulo — e fica\nsem saber se é porcentagem, real, dólar ou ponto. Por isso a unidade vai COLADA NO NÚMERO,\nsempre, em todo lugar onde um valor aparece.\n\nONDE VALE: rótulo de barra, ponto de linha, fatia de rosca, número-herói, KPI, valor de card,\ncélula de tabela e número de contagem (data-count). Nos números que sobem por contagem, a\nunidade vai em data-pre / data-suf, para aparecer desde o primeiro quadro da contagem.\n\nDINHEIRO — SEMPRE COM O SÍMBOLO DA MOEDA\n- Símbolo ANTES do número, com um espaço: R$ 1.000 · US$ 84,5 bilhões · € 10 bi.\n- Símbolos: R$ real · US$ dólar americano · € euro · £ libra esterlina · ¥ iene.\n  Para outras moedas, o código de três letras antes do número: ARS 1.000 (peso argentino),\n  INR 1.290 (rúpia indiana), CNY 500 (yuan).\n- A moeda é a que o slide indica. NUNCA converta e NUNCA troque uma moeda pela outra.\n- Escala (mil, mi, bi, tri ou milhões, bilhões, trilhões): siga a forma que o slide original\n  usa e mantenha IGUAL no deck inteiro. Não misture \"R$ 37 bi\" num slide e \"R$ 12 bilhões\" no\n  outro.\n\nPORCENTAGEM — SEMPRE COM %\n- % colado no número, sem espaço, no padrão brasileiro: 8,45% · 13,75% · 0,3%.\n- Se o slide diz que o gráfico está \"em %\", \"em % ao ano\", \"em % do PIB\", CADA valor do gráfico\n  leva o %. Não basta o subtítulo dizer.\n\nDIFERENÇA ENTRE PORCENTAGENS — PONTOS PERCENTUAIS (p.p.), NÃO %\n- Quando o número é a DIFERENÇA ou a VARIAÇÃO entre duas taxas (Selic menos Fed funds, a\n  dívida/PIB que \"subiu 13 pontos\", o corte de 0,25 da Selic), a unidade é p.p., com espaço:\n  11,25 p.p. · +13 p.p. · 0,25 p.p.\n- Escrever % nesses casos é ERRO DE CONTEÚDO: \"a Selic caiu 0,25%\" significa outra coisa.\n  Se o slide diz \"em pontos percentuais\" ou \"em pontos\", use p.p.\n- Pontos de ÍNDICE (Ibovespa em 180 mil pontos) não são p.p.: mantenha \"pontos\" ou \"pts\" como\n  está no slide.\n\nO PERÍODO FICA NO SUBTÍTULO, NÃO EM CADA BARRA\n- O rótulo mostra \"8,45%\"; o \"ao ano\", \"ao mês\", \"em 12 meses\" continua no subtítulo. Repetir\n  \"% a.a.\" em sete barras polui a tela e fica ilegível no celular.\n- Exceção: se o slide escreve o período colado no próprio número (\"10% a.a.\"), reproduza.\n\nUM PADRÃO POR GRÁFICO\n- Todas as barras de um mesmo gráfico com a mesma unidade, a mesma escala e o mesmo número de\n  casas decimais que o slide usa. Nada de \"R$ 15.000\" numa barra e \"15 mil\" na outra.\n\nDE ONDE VEM A UNIDADE (e o que fazer quando não vem)\n- A unidade sai do PRÓPRIO SLIDE: título, subtítulo, eixo, legenda, rótulo do card, texto ao\n  lado do número, notas do apresentador ou a linha de fonte (que não entra na tela, mas serve\n  de referência). Isso NÃO é unidade presumida — é a unidade que o slide já declarou, levada\n  para junto do número.\n- Se o slide não declara a unidade em lugar nenhum, NÃO CHUTE. Principalmente moeda: trocar\n  R$ por US$ num canal de investimento é erro grave. Reproduza o número como está e liste como\n  pendência de conferência (\"slide 7: valor 37 sem unidade declarada\").\n\n=====================================================================\nPADRÃO VISUAL \"SARDINHA DATA\" — siga à risca.\n=====================================================================\n\nCANVAS E ÁREA ÚTIL\n- Slide 16:9, 1920x1080. Tudo em unidades relativas à largura (1cqw = 1% da largura).\n- Todo o conteúdo vive nos 62% da esquerda. De 62% a 70% é folga de segurança.\n- De 70% a 100% da largura é a ÁREA DO APRESENTADOR (Raul): fica sempre vazia de conteúdo\n  de slide — sem texto, sem gráfico, sem card. É onde entra o vídeo do apresentador na edição.\n- Padding do slide: 6.4cqw no topo, 6.2cqw embaixo, 5.2cqw à esquerda, 38cqw à direita.\n\nFUNDO E MARCA\n- Fundo #0B0A0A com dois brilhos radiais vermelhos discretos (canto superior direito a\n  rgba(142,41,41,.30) e canto inferior esquerdo a rgba(142,41,41,.15)).\n- Faixa vertical vermelha #8E2929 de 0.75cqw colada na borda esquerda, altura inteira.\n\nCORES\n- Vermelho marca #8E2929 · vermelho claro #C94A4A · vermelho quente #E1615F\n- Texto #FFFFFF · apoio #C9C4C4 · secundário #7C7575 · osso (séries neutras) #EDE7E4\n- Alta #4CA97C (rótulo #6FCBA0) · Queda #C94A4A\n- Verde e vermelho SÓ aparecem em dado direcional. Nada de azul, roxo ou laranja.\n\n=====================================================================\nTIPOGRAFIA — ROBOTO E SÓ ROBOTO (regra 2)\n=====================================================================\n- FONTE ÚNICA: Roboto, em TODO o arquivo, sem exceção. Títulos, textos, números, etiquetas,\n  eixos de gráfico, rótulos de barra, rodapé, timer, menu, botões, painel de ajustes,\n  mensagens de progresso da exportação — tudo Roboto.\n- NÃO existe elemento monoespaçado neste padrão. Onde o kit antigo pedia \"mono\"\n  (etiqueta de topo, tickers, eixos, rodapé, datas, timers), use Roboto com\n  font-variant-numeric: tabular-nums e letter-spacing para os números alinharem.\n  NÃO use JetBrains Mono, Gilroy, Poppins, Inter, Arial, Helvetica, ui-monospace,\n  monospace, system-ui nem qualquer outra família. Se a palavra \"mono\" aparecer no CSS\n  final como family, está errado.\n- Carregue a Roboto do Google Fonts com os pesos que o slide usa, no mínimo 300;400;500;700;900:\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n  <link href=\"https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap\" rel=\"stylesheet\">\n- Aplique de forma que nada escape:\n  :root{ --font: 'Roboto', Arial, sans-serif; }\n  *, *::before, *::after { font-family: var(--font) !important; }\n  svg text, svg tspan { font-family: var(--font); }   /* SVG não herda fonte com confiança */\n- ANTES DE QUALQUER CAPTURA (vídeo ou PNG) espere a fonte carregar: await document.fonts.ready.\n  Sem isso a exportação sai com a fonte de fallback e o slide fica com outra cara.\n- IDEAL (evita depender da internet na hora de gravar/exportar): embuta a Roboto no próprio\n  HTML como @font-face com woff2 em base64. Se não embutir, mantenha o link do Google Fonts\n  e avise no fim da resposta que o arquivo precisa de internet no primeiro carregamento.\n- Escala em cqw: etiqueta 1.2 · título 3.5 · título curto 2.9 · título longo 2.6 (mínimo)\n  · subtítulo 2.3 · lead 1.65 · corpo 1.45 · número-herói 7.4 · KPI 3.4.\n  Não existe mais tamanho de rodapé: o rodapé de fonte saiu do padrão.\n- PISO ABSOLUTO DE TAMANHO: nenhum texto de CONTEÚDO do slide fica abaixo de 1.45cqw\n  (28px em 1920). Vale para corpo, rótulo de card, categoria e valor de gráfico, item de lista,\n  célula de tabela e legenda. As duas únicas exceções são o timer e o contador \"2/13\" na área\n  do apresentador, que a câmera cobre no vídeo final.\n- Etiqueta de topo: Roboto 500, CAIXA ALTA, tracking .34em, cor #C94A4A, separador \"·\".\n- Título: Roboto 900 (ou 800), line-height 1.04, tracking -.015em. Uma palavra em #C94A4A\n  quando ajudar.\n- Números em pt-BR: vírgula decimal, ponto de milhar, tabular-nums.\n\nBLOCOS\n- Card padrão: fundo rgba(142,41,41,.10), borda 1px rgba(201,74,74,.34), raio .7cqw,\n  padding 1.35cqw 1.5cqw. Rótulo do card em Roboto 500, caixa alta, tracking .2em, #C94A4A.\n- Card neutro: fundo rgba(255,255,255,.045), borda rgba(255,255,255,.10).\n- NÃO EXISTE rodapé de fonte neste padrão. O canto inferior esquerdo fica livre — use a altura\n  que sobra para o conteúdo respirar ou para o bloco principal crescer.\n\nGRÁFICOS\n- SVG inline escrito à mão, sem biblioteca, sem imagem. viewBox próprio, width 100%.\n- Série neutra em #EDE7E4; o dado que está sendo discutido em #C94A4A; alta em #4CA97C;\n  queda em #C94A4A. Grade rgba(255,255,255,.10), eixo rgba(255,255,255,.28).\n- Sem legenda quando há uma série só. Valor rotulado na ponta de cada barra, em Roboto\n  tabular-nums, SEMPRE com a unidade (R$, US$, %, p.p.) — ver regra 11.\n- Linha de média/referência tracejada em #C94A4A com o valor na ponta direita.\n\nPROIBIDO\n- Emoji, ícone genérico, sombra, gradiente colorido, borda arredondada acima de 1cqw,\n  texto sobre a área do apresentador, mais de um assunto por slide, RODAPÉ DE FONTE,\n  categoria genérica em gráfico (\"1\", \"2\", \"Série 1\"), texto de conteúdo abaixo do piso de\n  tamanho, valor em dinheiro sem símbolo de moeda, porcentagem sem %, diferença de taxas\n  escrita em % em vez de p.p., ELEMENTO QUE APARECE ANTES DE O APRESENTADOR FALAR DELE,\n  qualquer fonte que não seja Roboto, qualquer botão por cima do slide.\n\n=====================================================================\nLEGIBILIDADE NO CELULAR E OCUPAÇÃO DO ESPAÇO (regra 9)\n=====================================================================\nBoa parte de quem assiste está no celular, com o vídeo ocupando uns 390px de largura. O slide\nde 1920px aparece reduzido a cerca de 20% do tamanho — um texto de 23px vira 4,7px na mão da\npessoa e some. Por isso o slide não pode ser um documento diagramado: ele tem que ser um\ncartaz. Texto grande, pouca coisa por tela, e o conteúdo PREENCHENDO a área útil.\n\n- ÁREA ÚTIL REAL: 1090 x 838px (os 62% da esquerda, já descontado o padding). É nela que tudo\n  tem que caber e é ela que tem que ser preenchida.\n- REGRA DE PREENCHIMENTO: o bloco de conteúdo tem que ocupar pelo menos 80% da altura útil.\n  Se sobrar mais que isso vazio embaixo, AUMENTE a escala do slide (tipo, altura de gráfico,\n  espaçamento) em passos de 5% até chegar lá. Slide com meia tela vazia e letra pequena é o\n  erro mais comum — e agora que o rodapé de fonte saiu, sobra ainda mais espaço para usar.\n- SE NÃO COUBER: reduza espaçamento e entrelinha ANTES de reduzir o tipo. O piso de tamanho\n  não se negocia. Se ainda assim não couber respeitando o piso, diga isso na entrega como\n  pendência (\"o slide 7 tem 11 linhas de texto; no tamanho mínimo legível cabem 8\") em vez de\n  espremer tudo.\n- MEDIÇÃO OBRIGATÓRIA ANTES DE ENTREGAR: para cada página, confira (a) qual é o menor texto de\n  conteúdo e se ele respeita o piso de 1.45cqw; (b) quanta altura útil sobrou vazia. Ajuste e\n  só então entregue.\n- TEXTO DENTRO DE SVG: o piso vale igual, mas a conta muda porque o SVG tem escala própria.\n  Calcule: tamanho_mínimo_em_unidades = 28 × (largura_do_viewBox / largura_do_SVG_em_px).\n  Com viewBox de 1000 unidades ocupando 1090px, o mínimo é 26 unidades — então nada de\n  font-size 15 ou 19 no eixo. Categoria e valor de barra ficam em 26 a 34 unidades.\n- BARRAS: grossas. Altura mínima de barra 3.2cqw para até 4 barras, 2.6cqw de 5 a 7 barras.\n  Barra fina com rótulo pequeno é ilegível no celular.\n- GRÁFICO QUE É O ASSUNTO DO SLIDE ocupa no mínimo 45% da altura útil. Não desenhe um gráfico\n  pequeno no meio de uma tela vazia.\n- QUANTIDADE POR TELA: se o slide tem mais de 7 itens de lista ou mais de 8 barras, o texto vai\n  encolher abaixo do piso. Mantenha o piso, aperte o espaçamento e avise na entrega.\n- CONTRASTE: texto de apoio no mínimo #C9C4C4 sobre o fundo escuro. #7C7575 só para o timer e\n  o contador, que não precisam ser lidos no vídeo final.\n- TESTE DO CELULAR, na hora de conferir: imagine a tela a 20% do tamanho. Se você precisa\n  apertar os olhos para ler o menor número do slide, ele está pequeno demais.\n\n=====================================================================\nMOTOR DE ANIMAÇÃO (regra 1 — ENTRADA MACIA COM DESFOQUE, OBRIGATÓRIA)\n=====================================================================\nESTA É A PARTE QUE MAIS FALHA. Leia inteira antes de escrever CSS.\n\nO QUE TEM QUE ACONTECER, SEM EXCEÇÃO: todo elemento revelável entra com os TRÊS efeitos ao\nmesmo tempo — opacidade 0 -> 1, desfoque blur(.55cqw) -> blur(0) e subida translateY(1.5cqw)\n-> 0 — em 850ms na curva cubic-bezier(.16,.68,.32,1). O elemento chega desfocado e \"assenta\"\nem foco. Sem repique, sem quique, sem salto, sem aparecer seco.\n\nUSE ESTE CSS COMO BASE, LITERALMENTE (adapte só o seletor, não os efeitos):\n\n  .slide.anim [data-step]{\n    opacity:0;\n    filter:blur(.55cqw);\n    transform:translateY(1.5cqw);\n    transition:opacity .85s cubic-bezier(.16,.68,.32,1),\n               filter  .85s cubic-bezier(.16,.68,.32,1),\n               transform .85s cubic-bezier(.16,.68,.32,1);\n    will-change:opacity, filter, transform;\n  }\n  .slide.anim [data-step].on{\n    opacity:1;\n    filter:blur(0);\n    transform:translateY(0);\n  }\n\nERROS QUE JÁ MATARAM O DESFOQUE — NÃO COMETA NENHUM:\n- Esconder com display:none / visibility:hidden / hidden e depois mostrar. Isso não transita:\n  o elemento pisca do nada. Esconder é SÓ com opacity + filter + transform, como acima.\n- Esquecer \"filter\" na lista do transition (transitar só opacity e transform). Aí o blur\n  aparece e some de estalo, ou nem aparece.\n- Declarar o blur apenas no estado final, ou usar filter:none em vez de filter:blur(0):\n  a transição de/para \"none\" não interpola. Sempre blur(.55cqw) -> blur(0).\n- Usar transition:all (pega layout junto e engasga) — liste as três propriedades.\n- Aplicar a classe .on no mesmo frame em que o elemento entra no DOM. Se o elemento for\n  criado/desocultado na hora, force um reflow (void el.offsetWidth) ou espere um\n  requestAnimationFrame antes de adicionar .on, senão o navegador pula a transição.\n- Animar o container e também o filho com blur (o desfoque dobra e fica sujo). Anime só o\n  elemento marcado com data-step.\n- Deixar @keyframes ou outra regra concorrente sobrescrevendo opacity/transform do mesmo\n  elemento. Um só motor de entrada.\n- Depender de prefers-reduced-motion. NÃO ZERE AS DURAÇÕES POR CAUSA DISSO. Este arquivo\n  existe para virar vídeo; se a máquina do editor estiver com \"reduzir movimento\" ligado no\n  sistema, a animação SUMIRIA inteira — foi uma das causas de o efeito não aparecer.\n  Ignore prefers-reduced-motion, ou, se quiser tratar, deixe um interruptor no painel\n  (\"forçar animação\") LIGADO por padrão.\n- Dentro do SVG, blur em cqw pode não resolver (unidade de usuário). Nos rótulos de texto do\n  gráfico use um valor absoluto pequeno (ex.: filter:blur(6px) -> blur(0)) ou envolva o rótulo\n  num elemento HTML posicionado por cima do SVG.\n\nDEMAIS REGRAS DO MOTOR\n- Cada elemento revelável recebe data-step=\"N\", começando em 1. Um passo = uma ideia falada.\n  Nunca revele duas informações no mesmo passo.\n- Fora da classe .anim tudo aparece pronto; dentro de .anim os elementos entram ao ganhar .on.\n- Barras crescem com scaleY/scaleX (transform-box:fill-box, transform-origin na base ou no\n  zero do eixo) em 1,15s na curva cubic-bezier(.18,.76,.30,1). Barras da mesma série entram\n  no mesmo passo, escalonadas de 0,075s uma para a outra.\n- Elementos SVG não levam desfoque no traço — só os rótulos de texto do gráfico, entrando\n  0,4s depois da barra correspondente.\n- Linhas desenham com pathLength=\"1\" e stroke-dashoffset 1 -> 0 em 2s; a área sob a linha\n  entra 1,1s depois. Arcos da rosca desenham em 1,25s.\n- Números com data-count sobem por contagem em 1,5s, com desaceleração de quarta ordem.\n- Controles do player: espaço ou seta direita avança, seta esquerda volta, R reinicia,\n  H esconde a interface, F tela cheia.\n- NAVEGAÇÃO CONTÍNUA ENTRE SLIDES (importante): o deck se comporta como uma apresentação única.\n  Ao avançar no ÚLTIMO passo de um slide, o próximo avanço passa AUTOMATICAMENTE para o primeiro\n  passo do slide seguinte — sem precisar selecionar a página no menu. O mesmo para voltar: no\n  primeiro passo de um slide, a seta esquerda volta ao último passo do slide anterior.\n  Assim o editor grava a tela do começo ao fim de uma vez só, sem interrupção.\n- Ofereça também um botão \"reproduzir tudo\": roda o deck inteiro sozinho, do primeiro passo do\n  primeiro slide ao último do último, respeitando os tempos, sem nenhum clique.\n- O menu de páginas continua existindo, mas só como atalho para pular a um slide específico —\n  nunca como passo obrigatório para avançar.\n- TESTE DE ANIMAÇÃO: inclua no painel um botão \"testar entrada\" que reproduz o primeiro passo\n  de novo, para o editor conferir na hora se o desfoque está aparecendo.\n\n=====================================================================\nLAYOUT DA PÁGINA — PAINEL DE AJUSTES EMBAIXO, FORA DA GRAVAÇÃO (regra 3)\n=====================================================================\n- A página tem DUAS FAIXAS, empilhadas verticalmente e sem sobreposição nenhuma:\n  (1) O PALCO, em cima: o slide 16:9 (1920x1080, escalado para caber), com fundo #0B0A0A.\n      É a única coisa que a gravação de tela pega. Dentro dele só existe conteúdo de slide\n      e o timer na área do apresentador.\n  (2) O PAINEL DE AJUSTES, EMBAIXO do palco, fora do retângulo do slide, ocupando a largura\n      cheia da janela, com fundo próprio (mais escuro/neutro) para o editor ver onde termina\n      a área de gravação.\n- NADA de controle flutuando por cima do slide: nem botão canto, nem barra que aparece no\n  hover, nem menu sobreposto, nem contador de passos dentro do slide, nem toast/aviso por\n  cima. Se hoje algo fica no canto inferior direito do slide (ex.: contador de passos),\n  MUDE para o painel de baixo.\n- O painel reúne TUDO: menu de páginas, contador de passos (\"passo 3/9 · slide 2/8\"),\n  botão de modo edição e suas ações, seletor Vídeo/PNG, opções de organização do PNG,\n  botões de baixar, exportar marcadores, reproduzir tudo, restaurar original, barra de\n  progresso da exportação e mensagens de erro.\n- Organize o painel em grupos rotulados, na ordem: NAVEGAÇÃO · EDIÇÃO · EXPORTAÇÃO ·\n  MARCADORES. Discreto, sem emoji, em Roboto.\n- Tecla H esconde o painel inteiro (para gravar em tela cheia); o palco continua igual.\n  Tecla F coloca só o PALCO em tela cheia — o painel não entra na tela cheia.\n- Ao gravar, o editor enquadra apenas o palco. Como o painel está fora dele, nada de\n  interface entra no vídeo mesmo se o editor esquecer de apertar H.\n\n=====================================================================\nSINCRONIA COM A FALA (regra 7) — o passo entra no instante em que ele fala\n=====================================================================\nNão basta olhar os timestamps: LEIA A TRANSCRIÇÃO PELO CONTEÚDO e entenda o que está sendo\ndito em cada trecho. A animação existe para acompanhar a fala — o elemento tem que entrar\nexatamente quando o apresentador diz aquilo, nem antes nem depois.\n\n- Para CADA passo, ache na transcrição a frase exata em que aquela informação é introduzida:\n  a palavra, o número ou a expressão que corresponde ao elemento (o valor, o nome da série,\n  o rótulo do card, o item da tabela). É essa frase que define o tempo do passo.\n- ANTECIPAÇÃO OBRIGATÓRIA (é a regra que define todos os tempos do arquivo):\n  · SLIDE: o início da página é o momento em que ele começa a falar do tema MENOS 2 SEGUNDOS.\n    A tela precisa já estar no ar quando a primeira palavra do assunto sai. Título, etiqueta,\n    rodapé de fonte e a moldura do gráfico entram nesse mesmo instante.\n  · INFORMAÇÃO: cada passo entra no início da frase em que aquilo é dito MENOS 0,5 SEGUNDO.\n    Como a entrada dura 850ms, o elemento termina de assentar exatamente enquanto ele diz o\n    número ou o nome — é esse o efeito certo.\n  · Ache primeiro o instante da FALA, com precisão de décimo de segundo, e só depois aplique\n    o desconto. Na lista de conferência da entrega, escreva o tempo JÁ DESCONTADO, que é o\n    mesmo que vai para o timer, para a régua e para os marcadores.\n  · Se o desconto de 2s jogar o início de uma página para antes do último passo da página\n    anterior, encurte: o início da nova página é o tempo do último passo da anterior mais\n    0,3s. Nunca deixe uma página entrar por cima de um passo que ainda não apareceu.\n  · Se o desconto jogar algum tempo para antes de 00:00, use 00:00.0.\n- PRECISÃO DENTRO DO BLOCO: se o bloco da transcrição for longo (ex.: um trecho de 20s), não\n  use o tempo do bloco inteiro. Estime dentro dele pela posição da palavra no texto\n  (fala em português corrido ≈ 2,5 a 3 palavras por segundo) e ajuste. Trabalhe com décimo\n  de segundo (mm:ss.d), não com o minuto redondo.\n- A ORDEM DOS PASSOS SEGUE A FALA, não a ordem visual do slide. Se ele comenta primeiro o\n  dado que está embaixo, esse é o passo 1.\n\nERROS, GAGUEIRAS E REPETIÇÕES NA TRANSCRIÇÃO — LEIA ANTES DE CRAVAR QUALQUER TEMPO\nA transcrição é automática e o apresentador fala ao vivo. Ela vem com engano, troco de nome,\nnúmero dito errado, frase cortada no meio e a mesma informação repetida duas ou três vezes.\nIsso muda o tempo do passo, então trate cada caso assim:\n\n- REPETIÇÃO: quando ele fala a mesma informação mais de uma vez, o passo entra na PRIMEIRA vez\n  em que ela sai COMPLETA e compreensível. Se a primeira tentativa foi cortada (\"a gente tem a\n  Selic, ela está em... ela está em 14%\"), o tempo é o da versão completa. Repetição posterior\n  NÃO cria passo novo: o elemento já está na tela.\n- FRASE INTERROMPIDA ou retomada logo depois (\"o Lula com 38, Flávio com 30... não, Flávio com\n  32\"): use o instante da versão corrigida, não o da errada.\n- NÚMERO OU NOME DITO ERRADO: o que vai para a TELA é sempre o do slide, sem exceção. O erro da\n  fala só afeta o TEMPO. Anote o erro na lista de conferência da entrega (\"ele diz 2006, o slide\n  traz 2026\") para o editor conferir de ouvido.\n- TRANSCRIÇÃO AUTOMÁTICA QUE ERRA PALAVRA (nome de empresa, sigla, instituto, marca): reconheça\n  pelo contexto e use o tempo certo, mas não leve a grafia errada para a tela. Escreva o nome\n  como está no slide e registre a correspondência no comentário do marcador.\n- DIGRESSÃO, PIADA, CONVERSA PARALELA, ELE PROCURANDO O MATERIAL (\"deixa eu ver\", \"cadê o\n  gráfico\"): não vira passo. O passo espera a retomada do assunto.\n- ELE COMENTA ANTES DE LER: se ele critica ou explica o dado antes de dizer o número que está\n  na tela, o passo continua preso ao número, não ao comentário.\n- ELE PULA UM ELEMENTO E VOLTA MINUTOS DEPOIS: o passo vai para onde ele volta, mesmo que isso\n  deixe a página parada um tempo. Não adiante o elemento só para preencher a tela.\n- BLOCO LONGO SEM PAUSA: estime dentro dele pela posição da palavra (2,5 a 3 palavras por\n  segundo) e confira se o resultado cai na frase certa, não no parágrafo certo.\n- NÃO CRIE PASSO SEM FALA: se um elemento nunca é citado, ele não ganha passo próprio —\n  entra junto do assunto mais próximo, ou já no início do slide se for moldura (etiqueta,\n  título, rodapé de fonte, eixos do gráfico).\n- Se ele volta a falar de algo já revelado, não crie passo novo: o elemento já está na tela.\n- O início do slide é o momento em que ele começa a tratar do assunto do slide (a virada de\n  assunto na transcrição), não o fim da frase anterior.\n\n=====================================================================\nORDEM DE ENTRADA (regra 12) — O PASSO É A POSIÇÃO NA LISTA DE TEMPOS\n=====================================================================\nEste é o erro mais caro do arquivo, porque ele não aparece na leitura: os tempos saem certos\nda transcrição e a informação mesmo assim entra na hora errada. Acontece quando o número do\npasso de um elemento é escrito pela ordem em que ele está DESENHADO na tela, e não pela ordem\nem que ele é FALADO. Aí dois elementos trocam de tempo entre si e o vídeo revela o dado antes\nde o apresentador chegar nele.\n\nO MÉTODO, NESTA ORDEM. Não pule etapa e não escreva número de passo de cabeça:\n1. Monte primeiro a LISTA DE TEMPOS do slide, em ordem crescente, uma linha por informação:\n   tempo já descontado + as primeiras palavras do elemento que entra.\n2. NUMERE essa lista: 1, 2, 3... O passo 1 é sempre o início da página (título, etiqueta,\n   moldura e eixos do gráfico).\n3. Só então escreva o data-step de cada elemento, LENDO O NÚMERO DA LISTA. O data-step de um\n   elemento é o número da linha em que ele aparece na lista de tempos. Nada mais.\n4. Confira no arquivo pronto (ver CONFERÊNCIA, abaixo) antes de entregar.\n\n- A ORDEM VISUAL NÃO MANDA. Se ele fala o terceiro card antes do primeiro, o terceiro card é o\n  passo 2 e o primeiro é o passo 4. A grade fica \"fora de ordem\" em relação à numeração — isso\n  está CERTO, não é defeito. O que não pode é a informação entrar antes da fala.\n- NUNCA reordene os elementos na tela para \"arrumar\" a numeração. O layout é o do slide; quem\n  se adapta é o número do passo.\n- UM ELEMENTO, UM PASSO. Dois elementos só dividem o mesmo passo quando são barras da mesma\n  série de um gráfico (entram escalonadas) ou quando um deles nunca é citado (ver abaixo).\n- ELEMENTO QUE ELE NUNCA CITA: entra no ÚLTIMO passo do slide, nunca junto do título. Se ele\n  entra com a moldura, o espectador vê um dado que o apresentador não está discutindo — que é\n  exatamente o efeito que a regra 12 existe para evitar. Liste esse elemento na entrega, com a\n  frase \"não é citado nesta página\".\n- REPETIÇÃO E CORREÇÃO continuam mandando no tempo (ver o bloco de erros e gagueiras), mas o\n  número do passo continua saindo da lista de tempos, nunca da tela.\n\nCONFERÊNCIA OBRIGATÓRIA NO ARQUIVO PRONTO — não confira no papel\nLer a própria lista de tempos não pega esse erro, porque a lista está certa: o que erra é o\ndata-step escrito no elemento. Então a conferência tem que ser feita no HTML gerado, elemento\npor elemento:\n- Para CADA página, percorra os elementos com data-step e monte esta tabela, em ordem\n  crescente de passo:\n     passo · tempo · O TEXTO QUE ESTÁ DE VERDADE NO ELEMENTO (leia do HTML, não da sua nota)\n- Compare cada linha com a lista de tempos. Se a linha 3 diz \"R$ 5,77\" e a lista de tempos diz\n  que o passo 3 é o prejuízo, os dois estão trocados: corrija o data-step, não o tempo.\n- Confira também: nenhum passo sem elemento na tela, nenhum elemento com data-step maior que o\n  número de passos do slide, e os tempos em ordem crescente.\n- ENTREGUE ESSA TABELA junto com a lista de passos. É por ela que o editor confere se alguma\n  informação está aparecendo adiantada.\n\nTIMER NA ÁREA DO APRESENTADOR (a cola de tempo do editor)\n- CONTADOR DE PROGRESSO DO DECK, no topo da área do apresentador, ACIMA dos tempos: a página\n  atual e o total, no formato \"2/13\", em destaque discreto (Roboto 500, tabular-nums, cor\n  #C9C4C4, com a palavra \"SLIDE\" em cima em caixa alta, tracking .28em, #7C7575). Serve para o\n  editor saber, durante a gravação de tela, em que ponto do deck ele está sem contar página no\n  painel. Ele acompanha a troca de página no teclado, no modo relógio e na exportação, e some\n  no vídeo final junto com o timer, coberto pela câmera do apresentador.\n- Logo abaixo dele, os tempos, empilhados: primeiro o início do slide, depois um por passo, no\n  formato \"01 · 02:14.3\", \"02 · 02:20.8\"...\n  Ao lado de cada tempo, as primeiras palavras do que entra naquele passo (as mesmas do nome\n  do marcador), em texto curto, para o editor saber a que se refere sem contar passo.\n- Os tempos mostrados são os JÁ ANTECIPADOS (slide -2s, informação -0,5s), os mesmos da régua\n  e dos marcadores.\n- Rotule como aproximado (\"início aprox.\"). É estimativa vinda da transcrição; o editor\n  confirma na timeline.\n- Estilo discreto, Roboto, cor #7C7575, para não competir com o slide.\n- O TIMER E O CONTADOR \"2/13\" SÃO A ÚNICA INFORMAÇÃO DE APOIO QUE FICA DENTRO DO SLIDE, e\n  permanecem SEMPRE VISÍVEIS,\n  inclusive no modo H e durante a gravação e a exportação (vídeo e PNG). Ele é a cola de tempo\n  do editor: como a câmera do apresentador entra por cima daquela área na edição, o timer é\n  coberto e some no vídeo final de qualquer forma.\n  (O modo H esconde só o painel de ajustes de baixo.)\n- INDICADOR DE PASSO ATUAL: conforme a animação avança, o timer do passo que está entrando\n  ACENDE em vermelho #C94A4A (em destaque); os passos já passados voltam ao cinza apagado\n  #7C7575; os que ainda não chegaram ficam mais apagados ainda. Acompanha o avanço pelo\n  teclado e pela reprodução automática.\n\n=====================================================================\nEDIÇÃO DE SLIDES (regra 5 — mover, editar texto E APAGAR)\n=====================================================================\n- Inclua um \"modo edição\" acionável por botão no painel de baixo. Ligado, libera as ações\n  abaixo; desligado, volta ao normal para gravar. Enquanto ligado, mostre no painel qual\n  elemento está selecionado.\n- MOVER: arrastar cada elemento do slide com o mouse para reposicionar. A nova posição é\n  mantida ao trocar de página e ao exportar.\n- EDITAR TEXTO: clicar num texto e digitar para corrigir o conteúdo ali mesmo (edição no\n  lugar, tipo contenteditable). Mantém a tipografia, o tamanho e a cor — só o conteúdo muda.\n- APAGAR ELEMENTO (obrigatório, tem que funcionar de verdade):\n  · Clicar num elemento o SELECIONA, com contorno visível (1px tracejado #C94A4A) e um\n    botão \"apagar\" (×) ancorado ao elemento selecionado.\n  · Delete ou Backspace apaga o elemento selecionado. Há também um botão \"apagar selecionado\"\n    no painel de baixo.\n  · Funciona para QUALQUER elemento do slide: título, linha de texto, card inteiro, KPI,\n    rodapé, barra do gráfico, rótulo, grupo de SVG. Se o alvo for parte de um grupo,\n    permita subir a seleção (tecla Esc sobe para o pai) para apagar o bloco inteiro.\n  · Apagar remove de verdade da tela e também da EXPORTAÇÃO (vídeo, PNG e captura de frame)\n    — o elemento apagado não pode reaparecer no arquivo exportado.\n  · Ctrl+Z desfaz a última ação (apagar, mover ou editar texto), pelo menos 20 níveis.\n- VOLTAR AO ORIGINAL: botão \"restaurar original\" que desfaz TODAS as alterações da sessão\n  (posições, textos editados e elementos apagados) e devolve o slide exatamente como foi gerado.\n  Guarde o estado original (clone do DOM) de cada slide ao carregar, para essa restauração ser\n  sempre possível. Ofereça restaurar só o slide atual e restaurar o deck inteiro.\n- Nada disso altera as animações nem os tempos já definidos — mexe só em posição, conteúdo de\n  texto e presença dos elementos. Se um elemento apagado tinha um passo, os passos seguintes\n  continuam na mesma ordem (o passo vazio simplesmente não mostra nada e mantém a numeração).\n\n=====================================================================\nMODO RELÓGIO (regra 8) — o deck roda sozinho na base de tempo da gravação\n=====================================================================\nAlém do avanço por tecla, o deck tem um MODO RELÓGIO: o editor dá play, põe a tela para\ngravar e não toca em mais nada — cada passo entra sozinho no seu tempo, e a troca de página\nacontece sozinha. A base de tempo é a MESMA da gravação original (t=0 é o 00:00:00 do vídeo),\nentão a saída alinha no frame zero da timeline.\n\n- RELÓGIO MESTRE ÚNICO: um cronômetro em tempo absoluto lido dentro de um requestAnimationFrame\n  (performance.now() - t0), comparado com a lista de tempos dos passos. NUNCA encadeie\n  setTimeout/setInterval por passo: o desvio acumula e no fim do vídeo o deck está segundos\n  atrasado.\n- A CADA FRAME: calcule t; aplique o estado de TODOS os passos cujo tempo <= t e desfaça os\n  que ficaram para frente; troque de página quando t alcançar o início do próximo slide.\n  Assim, se a máquina engasgar e pular tempo, o estado se corrige sozinho — nenhum passo some.\n- INÍCIO DO RELÓGIO, escolhido no painel: (a) do zero do vídeo — t=0 é o 00:00:00 da gravação,\n  para exportar uma sequência que alinha no frame zero; (b) a partir de um tempo qualquer\n  (\"começar em 02:10\"), para ensaiar um trecho sem esperar.\n- BARRA DE TEMPO (TIMELINE) no painel de baixo, fora da gravação: uma régua do deck inteiro,\n  do t=0 ao fim do último slide, com as marcas de cada slide e de cada passo desenhadas em\n  cima dela. Ao lado: tempo corrente em mm:ss.d, play/pause, voltar ao zero, campo para pular\n  para um tempo digitado e o seletor de velocidade. Nada disso aparece no palco.\n- DAR PLAY DE ONDE QUISER: clicar em qualquer ponto da régua (ou arrastar o cursor dela) leva\n  o deck para aquele tempo e roda em tempo real dali em diante. Clicar numa marca de passo ou\n  no tempo do passo dentro do timer também pula direto para ele. Não precisa começar do zero.\n  · Ao pular para um tempo t, o estado é aplicado NA HORA e sem animação: tudo que já tinha\n    entrado até t aparece pronto, e o passo seguinte é que vai animar. Nada de reproduzir de\n    novo, acelerado, todos os passos anteriores para \"alcançar\" o tempo.\n  · Se o vídeo de referência estiver carregado, o clique na régua move os dois juntos\n    (deck e vídeo) para o mesmo ponto.\n- Atalhos no modo relógio: espaço dá play/pause (em vez de avançar passo), setas movem 5s,\n  Shift+setas movem 1 frame, e as teclas 1, 2 e 4 trocam a velocidade.\n- CLAQUETE DE ALINHAMENTO (opcional, ligada por padrão): contagem 3·2·1 no painel antes do t=0\n  — nunca no palco — e um flash branco de 1 frame no palco exatamente no t=0, para o editor\n  casar a gravação no Premiere. Botão para desligar.\n- DESLOCAR TUDO: campo de ajuste global em ± segundos, para corrigir de uma vez quando a\n  gravação começa antes ou depois do zero.\n- Em modo relógio, H esconde o painel e o palco continua rodando sozinho: o editor não\n  encosta em nada durante a gravação de tela.\n\nVELOCIDADE 1x / 2x / 4x — PARA GRAVAR A TELA EM MENOS TEMPO\nVídeos de 30, 40, 60 minutos são comuns. Gravar a tela em tempo real nesse tamanho é caro.\nPor isso o modo relógio tem VELOCIDADE: o editor grava a 2x (metade do tempo de gravação) e\nna edição aplica 50% de velocidade no clipe, voltando tudo ao tempo real. A 4x, aplica 25%.\n\n- Seletor de velocidade no painel: 0,5x · 1x · 2x · 4x (0,5x só para conferir com calma).\n- A VELOCIDADE MULTIPLICA TUDO, NÃO SÓ A ESPERA ENTRE OS PASSOS. Este é o ponto que costuma\n  sair errado: se só os tempos dos passos aceleram e a animação de entrada continua em 850ms,\n  ao desacelerar 50% na edição a entrada vira 1,7s — lenta e fora do padrão. As DURAÇÕES DAS\n  ANIMAÇÕES têm que ser divididas pela mesma taxa.\n- Implemente as durações como variáveis CSS e divida todas pela taxa r:\n    :root{ --r:1;                       /* 1, 2 ou 4 */\n           --dur-in:  calc(.85s / var(--r));    /* entrada macia */\n           --dur-bar: calc(1.15s / var(--r));   /* crescimento de barra */\n           --dur-stag:calc(.075s / var(--r));   /* escalonamento entre barras */\n           --dur-lbl: calc(.4s  / var(--r));    /* atraso do rótulo */\n           --dur-line:calc(2s   / var(--r));    /* desenho de linha */\n           --dur-area:calc(1.1s / var(--r));    /* área sob a linha */\n           --dur-ring:calc(1.25s/ var(--r));    /* arco da rosca */\n           --dur-num: calc(1.5s / var(--r)); }  /* contagem de número */\n  Todo transition/animation/atraso usa essas variáveis — nenhum valor de tempo escrito solto\n  no CSS ou no JS. Trocar a velocidade só muda --r; a contagem de números (feita em JS) usa\n  a mesma divisão.\n- A CURVA NÃO MUDA: só a duração. Assim, ao desacelerar o clipe na edição, o movimento volta\n  a ser exatamente o de 1x.\n- O TIMER DENTRO DO SLIDE CONTINUA MOSTRANDO O TEMPO REAL (base 1x) da gravação, nunca o\n  tempo acelerado — é ele que tem que bater com a timeline depois que o clipe for desacelerado.\n  O tempo acelerado (o relógio de parede da gravação) aparece só no painel de baixo, ao lado\n  de um aviso do tipo \"gravando a 2x — aplicar 50% de velocidade na edição\".\n- Com o vídeo de referência carregado, a velocidade também vale para ele\n  (video.playbackRate = r; deixe mudo ou com preservesPitch, porque a 4x o áudio não serve\n  para conferência).\n- Os marcadores do Premiere e a exportação PNG SEMPRE saem na base de tempo REAL (1x),\n  independente da velocidade escolhida na tela. Velocidade é recurso de gravação ao vivo,\n  não muda o material entregue.\n- TAXA DE QUADROS — leia antes de escolher 4x: desacelerar corta o fps na mesma proporção.\n  Gravando a 2x em 60fps, o clipe a 50% vira 30fps — perfeito. A 4x em 60fps, a 25% vira\n  15fps e treme. Para 4x é preciso capturar a 120fps (ou aceitar interpolação de quadro no\n  Premiere). Deixe isso escrito no painel, ao lado do seletor: \"2x: grave a 60fps · 4x: grave\n  a 120fps\". Na dúvida, 2x é a escolha segura.\n- Se o navegador não der conta da taxa escolhida, o relógio absoluto corrige o estado (nenhum\n  passo é perdido), mas a gravação pode ficar trêmula. Mostre no painel a taxa de quadros real\n  que a página está conseguindo e, se cair muito, sugira baixar a velocidade ou usar a\n  exportação PNG, que é quadro a quadro e não depende disso.\n\nSINCRONIA PELO PRÓPRIO VÍDEO (o caminho mais exato — implemente também)\n- Deixe o editor CARREGAR O ARQUIVO DA GRAVAÇÃO (mp4/mov) no HTML, por seletor de arquivo ou\n  arrastando para a janela. O arquivo fica só na máquina (URL.createObjectURL), não sobe nada\n  para lugar nenhum.\n- Com o vídeo carregado, o relógio mestre passa a ser video.currentTime, lido a cada\n  requestAnimationFrame. O deck anda exatamente com a gravação, sem deriva. Play, pause e\n  scrub controlam os dois juntos.\n- Mostre o vídeo de referência em miniatura NO PAINEL DE BAIXO (com áudio, para o editor\n  conferir de ouvido), com botão para ocultar. Ele NUNCA entra no palco nem na exportação.\n- AJUSTE OUVINDO: com o vídeo tocando, botão \"cravar aqui\" grava o tempo atual do vídeo como\n  o tempo do passo selecionado (e \"cravar início do slide\" para a página). Botão \"exportar\n  tempos\" devolve a lista corrigida em texto, para o editor guardar ou me mandar de volta.\n- Os tempos são SEMPRE os mesmos três lugares: modo relógio, timer na área do apresentador e\n  marcadores do Premiere. Se um for corrigido por \"cravar aqui\", os outros dois acompanham na\n  hora, e a exportação de marcadores já sai com o valor novo.\n\nEXPORTAÇÃO NA BASE DE TEMPO DA GRAVAÇÃO\n- Ofereça, no modo PNG, a opção \"exportar na base de tempo da gravação\": renderiza do t=0 até\n  o fim do último slide INCLUINDO os trechos parados (os frames em que a tela não muda porque\n  o apresentador está falando). A sequência sai com a mesma duração da gravação e alinha no\n  frame zero — o editor joga na trilha de cima e não precisa posicionar nada.\n- Como isso gera muito frame (fps × duração), ofereça junto: escolha de 24 ou 30 fps e recorte\n  de intervalo (\"exportar de 02:00 a 05:30\"). Vale o mesmo cuidado de memória do bloco de\n  exportação: um arquivo por trecho/página, salvo assim que fica pronto.\n- AVISO no painel: gravação de tela em tempo real pode pular frame. Para entrega final,\n  prefira a exportação PNG, que usa estes mesmos tempos com o relógio virtual quadro a quadro\n  e sai com a duração exata.\n\n=====================================================================\nEXPORTAÇÃO (regra 4 — o PNG do deck inteiro NÃO PODE FALHAR)\n=====================================================================\nEm TODA exportação o fundo é SÓLIDO (o fundo #0B0A0A do slide), nunca transparente, e o\nenquadramento é o PALCO em 1920x1080 — nunca o painel de ajustes.\n\nOfereça DOIS formatos de saída, escolhíveis no painel (seletor \"Vídeo / PNG\"):\n\n1) VÍDEO — grava a animação em tempo real e entrega um arquivo de vídeo por página.\n   Prático e leve; pode pular frame se a máquina engasgar.\n\n2) SEQUÊNCIA PNG — em vez de gravar em tempo real, avance a animação quadro a quadro\n   (30fps), capturando um PNG perfeito por frame. Qualidade exata, sem engasgo.\n   O editor importa no Premiere como \"sequência de imagens\".\n\n   COMO CAPTURAR CADA FRAME:\n   - NÃO deixe a animação correr sozinha tentando fotografar por cima — isso pula frames.\n   - Controle o tempo manualmente: desligue a animação automática e dirija o progresso por um\n     relógio próprio (variável de tempo virtual incrementada 1/30s por frame), aplicando o\n     estado exato de cada elemento naquele instante.\n   - Para cada frame, nesta ordem: (1) posicione a animação no tempo t; (2) ESPERE o navegador\n     desenhar (await de requestAnimationFrame); (3) gere o PNG como BLOB (canvas.toBlob,\n     nunca dataURL/base64 em string); (4) grave/enfileire o blob e só então avance.\n     Uma captura por vez, cada uma esperando a anterior concluir.\n   - Espere await document.fonts.ready antes do primeiro frame (senão sai fonte errada).\n   - Capture em resolução cheia 1920x1080, não do tamanho reduzido na tela.\n   - Preserve o desfoque na captura: se usar uma biblioteca, use uma que respeite CSS filter\n     (html-to-image / foreignObject). html2canvas ignora filter:blur — se for inevitável usar,\n     desenhe o blur no canvas ou avise no fim da resposta.\n\n   POR QUE O DECK INTEIRO ESTAVA DANDO ERRO — E COMO EVITAR (siga tudo):\n   - NÃO acumule os frames de todas as páginas para zipar no fim. Centenas de PNGs de\n     1920x1080 na memória estouram a aba (o zip sai vazio, corrompido, ou o navegador trava).\n   - SALVE PÁGINA POR PÁGINA: termine a página 1, gere o .zip dela, DISPARE O DOWNLOAD, libere\n     tudo da memória (blobs anulados, URL.revokeObjectURL, zip descartado) e só então comece a\n     página 2. O \"baixar todas as páginas\" entrega uma sequência de arquivos, um por página —\n     é o comportamento padrão e o mais seguro.\n   - Zip SEM COMPRESSÃO: compression \"STORE\" (PNG já é comprimido; comprimir de novo é o que\n     mais consome memória e tempo) e streamFiles:true ao gerar.\n   - PREFIRA ESCREVER DIRETO NO DISCO: se o navegador suportar a File System Access API\n     (showDirectoryPicker), peça uma pasta ao editor e escreva cada PNG direto nela, sem zip\n     nenhum. É o caminho mais confiável para deck grande. Deixe o zip como alternativa quando\n     a API não existir.\n   - LIMITE DE SEGURANÇA POR ARQUIVO: se um zip passar de ~600 frames ou ~1 GB, quebre em\n     partes (\"parte-01.zip\", \"parte-02.zip\"...) mantendo a numeração dos frames contínua entre\n     as partes. Nunca tente gerar um único arquivo gigante.\n   - Não trave a interface: entre um frame e outro devolva o controle ao navegador\n     (await de rAF ou setTimeout 0), para a aba não ser morta por \"página sem resposta\".\n   - Trate erro por frame: try/catch com até 3 tentativas. Se o frame falhar nas três,\n     PARE e diga exatamente onde parou (\"falhou no slide 3, frame 87 de 150\") em vez de\n     entregar um zip incompleto em silêncio.\n   - Só finalize/baixe o arquivo de uma página depois que TODOS os frames dela tiverem sido\n     efetivamente gerados; confira a contagem antes de fechar o zip.\n   - Progresso visível no painel: \"slide 2/8 · frame 42/150 · 38 MB\", com botão CANCELAR que\n     interrompe de verdade e libera a memória.\n   - Avise no painel, em texto pequeno: manter a aba em primeiro plano durante a exportação\n     (aba em segundo plano é estrangulada pelo navegador e a captura fica lenta ou falha).\n   - Ofereça um botão \"testar captura\": gera 1 frame só e baixa, para o editor conferir\n     fonte, cor e desfoque antes de rodar o deck inteiro.\n\nBOTÕES (todos no painel de baixo):\n- \"Baixar esta página\": exporta só a página atual, no formato escolhido (vídeo único, ou o\n  zip/pasta de PNGs dessa página). Numerada conforme a ordem: 001, 002, 003...\n- \"Baixar todas as páginas\": percorre as páginas em sequência, entregando UM ARQUIVO POR\n  PÁGINA (001, 002, 003...), salvando cada um assim que fica pronto. No modo PNG, o editor\n  escolhe como os frames são numerados:\n  (a) POR SLIDE — os frames reiniciam a numeração em cada página (001/frame_0001.png...).\n      Preserva a divisão por slide.\n  (b) SEQUÊNCIA ÚNICA CONTÍNUA — a numeração dos frames continua de uma página para a outra\n      (o slide 2 começa em frame_0121 se o slide 1 terminou em 0120), mesmo os arquivos\n      vindo em zips separados. O editor extrai tudo numa pasta só e importa no Premiere como\n      uma única sequência de imagens — o deck inteiro vira um clipe só, sem pausa entre slides.\n      É só numeração: continue sendo um arquivo por página, para não estourar a memória.\n- Renderiza uma página por vez em qualquer caso; a diferença é só como os arquivos são\n  nomeados e agrupados.\n\n=====================================================================\nMARCADORES PARA O PREMIERE (a partir dos mesmos tempos do timer)\n=====================================================================\n- Botão \"exportar marcadores para o Premiere\" (no painel de baixo): gera um arquivo de\n  marcadores com os MESMOS tempos que o timer usa (os estimados da transcrição pela leitura\n  de contexto), para o editor importar na timeline e encontrar cada ponto sem procurar.\n- UM MARCADOR PARA CADA TROCA DE INFORMAÇÃO NA TELA (isto mudou: antes era um por slide).\n  Marque o instante exato em que cada passo entra — a mudança do que está escrito no slide —\n  e também o início de cada página. Um marcador por passo, mais um por página.\n- NOME DO MARCADOR = AS PRIMEIRAS PALAVRAS DA INFORMAÇÃO QUE ENTRA, copiadas do slide, com o\n  prefixo de slide e passo para localizar. Até ~40 caracteres, sem reticências desnecessárias:\n  · início de página: \"S02 · 00 — <título do slide>\"\n  · passo:            \"S02 · 03 — Dívida bruta 78,4%\"\n                      \"S02 · 04 — Receita líquida cresce\"\n  Se o elemento for um número sem texto, use o número e o rótulo dele (\"S03 · 02 — 12,7 mi\").\n  As palavras vêm do SLIDE (o que aparece na tela), não da fala.\n- COMENTÁRIO DO MARCADOR: o trecho curto da transcrição que corresponde àquele passo, para o\n  editor conferir de ouvido se o ponto bate. Sem inventar: copie da transcrição.\n- O tempo do marcador é o mesmo do timer: o início da frase em que aquilo é falado, com\n  precisão de décimo de segundo convertida em frames (frame = segundos × 24, arredondado).\n- Formato: gere XML de sequência do ADOBE PREMIERE PRO (Final Cut Pro XML Interchange / \"xmeml\",\n  o formato que o Premiere Pro importa nativamente por Arquivo > Importar). NÃO use FCPXML do\n  Final Cut X e NÃO use CSV. Estrutura: um <sequence> com <rate> de 24 fps, <media> e os\n  marcadores como elementos <marker> com <name>, <comment> e <in> em NÚMERO DE FRAMES\n  (frame = segundos × 24, arredondado), não em texto de timecode. NTSC false, timebase 24.\n- A sequência do XML deve ser 1920x1080 a 24 fps (base de tempo do time).\n- Ao importar, o Premiere Pro cria uma SEQUÊNCIA nova com esses marcadores; o editor copia os\n  marcadores dela para a sequência de trabalho. Deixe isso anotado para o editor.\n- Deixe claro para o editor que os tempos são ESTIMADOS da transcrição — pontos de partida\n  para posicionar, não cortes exatos. Mesmo assim, mire no ponto certo: a estimativa tem que\n  cair na frase certa, não no parágrafo certo.\n- IMPORTANTE — o que o marcador faz: ele apenas POSICIONA (crava o ponto na timeline). Não corta\n  o vídeo do apresentador nem encaixa a animação sozinho; a montagem continua com o editor,\n  guiado pelos marcadores.\n\n=====================================================================\nENTREGA\n=====================================================================\n- Um arquivo .html autocontido: uma página por slide, palco em cima e painel de ajustes\n  embaixo (fora da área de gravação), motor de animação com entrada macia e desfoque, timer\n  na área do apresentador, modo relógio com barra de tempo e carga do vídeo de referência,\n  modo edição com mover/editar/apagar e os botões de exportação.\n- No fim, liste os passos da animação numerados, e para cada um: o tempo JÁ ANTECIPADO\n  (mm:ss.d), o elemento do slide que entra (as primeiras palavras dele, como vão no marcador) e\n  o trecho da transcrição que justifica aquele tempo. É por essa lista que eu confiro a\n  sincronia. Deixe explícito no topo da lista que os tempos já estão com o desconto aplicado:\n  slide -2s, informação -0,5s.\n- Entregue também a TABELA DE CONFERÊNCIA DA ORDEM DE ENTRADA (regra 12), lida do HTML pronto:\n  por página, passo · tempo · o texto que está de verdade no elemento. E diga que você rodou\n  essa conferência, com o resultado (\"nenhum elemento entra antes da fala\"). Liste à parte os\n  elementos que o apresentador nunca cita e em que passo eles entraram.\n- Liste também, se houver, as pendências de conferência (dado ilegível no slide, valor lido da\n  altura da barra, slide sem fonte no rodapé) — sem completar nada por conta própria.\n- E liste os TROPEÇOS DA TRANSCRIÇÃO que mudaram algum tempo: repetição, frase cortada, número\n  ou nome dito errado, trecho em que ele some do assunto. Uma linha por caso, dizendo o que a\n  fala traz, o que o slide traz e qual tempo você usou.\n- Diga DE ONDE VEIO CADA RÓTULO DE GRÁFICO que você teve que recuperar (XML do pptx, notas do\n  apresentador, linha de fonte, referência anexada ou fala) e registre qualquer divergência de\n  valor entre a figura e a referência. Rótulo que veio da fala sai marcado como \"confirmado\"\n  ou \"conferir de ouvido\", com o tempo em que ele diz.\n- Liste ONDE VOCÊ ACRESCENTOU UNIDADE e de onde ela veio, uma linha por slide (\"slide 4: %\n  nos 7 valores, do subtítulo 'em % ao ano'\" · \"slide 17: p.p. nos 3 valores, do subtítulo 'em\n  pontos percentuais'\"). E liste à parte todo número que ficou sem unidade porque o slide não\n  declara nenhuma.\n- Diga, por página, QUAL É O MENOR TEXTO DE CONTEÚDO em cqw e QUANTA ALTURA ÚTIL SOBROU vazia,\n  para eu conferir de uma olhada se ficou legível no celular.\n- E confirme, item a item, esta CHECAGEM FINAL:\n  [ ] Todo elemento com data-step tem os três efeitos de entrada (opacidade + blur + subida)\n      e \"filter\" está na lista do transition; nada é escondido com display:none.\n  [ ] Nenhuma família de fonte além de Roboto aparece no CSS (nem monospace, nem fallback\n      de sistema como primeira opção) e o SVG também está em Roboto.\n  [ ] Nenhum botão, menu, contador ou aviso fica por cima do slide; tudo está no painel\n      abaixo do palco.\n  [ ] O modo edição move, edita texto e APAGA elemento, com desfazer e restaurar original.\n  [ ] A exportação PNG salva uma página por vez, libera a memória entre páginas e mostra\n      progresso, com opção de numeração contínua entre páginas.\n  [ ] Nenhuma informação foi acrescentada: cada texto e cada número do HTML existe no slide\n      enviado, no mesmo formato. Nada veio da transcrição nem do meu próprio conhecimento.\n  [ ] Nenhum rodapé de fonte aparece em página nenhuma.\n  [ ] Nenhum gráfico ficou com categoria genérica (\"1\", \"2\", \"Série 1\"): todos têm o nome real,\n      recuperado do arquivo ou das referências, e os valores batem com a origem mais confiável.\n  [ ] Nenhum texto de conteúdo está abaixo de 1.45cqw (28px), inclusive dentro de SVG, e cada\n      página ocupa pelo menos 80% da altura útil.\n  [ ] Nenhum valor em dinheiro está sem o símbolo da moeda (R$, US$, €...), e a moeda é a do\n      slide, sem conversão.\n  [ ] Nenhuma porcentagem está sem %, nenhuma diferença entre taxas está em % em vez de p.p., e\n      todas as barras de um mesmo gráfico usam a mesma unidade e escala.\n  [ ] Cada slide entra 2s antes da fala do tema e cada informação entra 0,5s antes de ser\n      citada, e há um marcador por troca de informação, nomeado com as primeiras palavras do\n      que entra na tela.\n  [ ] NENHUMA INFORMAÇÃO APARECE ANTES DE SER FALADA: conferi no HTML pronto, elemento por\n      elemento, que o data-step de cada um é a posição dele na lista de tempos, e não a\n      posição dele na tela. Nenhum passo ficou sem elemento e nenhum elemento ficou com passo\n      inexistente.\n  [ ] Os elementos que o apresentador nunca cita entraram no último passo da página, nunca\n      junto do título, e estão listados na entrega.\n  [ ] Repetição, frase cortada e erro de fala foram tratados: o passo entra na primeira vez em\n      que a informação sai completa, e a tela traz o que está no slide, não o que ele errou.\n  [ ] O contador \"2/13\" aparece no topo da área do apresentador, acompanha a troca de página e\n      continua visível no modo H, na gravação e na exportação.\n  [ ] O modo relógio roda o deck inteiro sozinho na base de tempo da gravação, com relógio\n      absoluto (nunca setTimeout encadeado), aceita carregar o vídeo como relógio mestre e\n      permite cravar os tempos ouvindo.\n  [ ] A timeline aceita clique para rodar a partir de qualquer ponto, e a velocidade 2x/4x\n      divide TAMBÉM as durações das animações (variáveis CSS), com timer e marcadores sempre\n      no tempo real 1x.\n";
+function doCopy(btn){
+  var done=function(){var o=btn.textContent;btn.textContent='Copiado ✓';btn.classList.add('ok');
+    setTimeout(function(){btn.textContent=o;btn.classList.remove('ok');},1500);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(PROMPT).then(done).catch(function(){fallback();});
+  } else { fallback(); }
+  function fallback(){var a=document.createElement('textarea');a.value=PROMPT;document.body.appendChild(a);
+    a.select();try{document.execCommand('copy');}catch(e){}a.remove();done();}
+}
+document.getElementById('btn').addEventListener('click',function(){doCopy(this);});
+document.getElementById('fbtn').addEventListener('click',function(){doCopy(this);});
+</script>
+</body></html>
