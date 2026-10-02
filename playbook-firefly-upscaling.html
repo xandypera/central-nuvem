@@ -1,0 +1,90 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playbook · Upscaling no Firefly — Central do Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@500;600;700;800&family=Roboto:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F4EE;--surface:#FFFFFF;--ink:#21242C;--mut:#6f6a5e;--line:#E6E3DA;--line2:#D8D4CA;--gold:#EFBF4E;--gold-ink:#8C6207;--gold-deep:#A87000;--gold-soft:#FBF0D0;--graphite:#16181C;--red:#c0392b;--green:#2f8f5b;--disp:"Anek Latin",system-ui,sans-serif;--ui:"Roboto",system-ui,sans-serif;--num:"Sora",system-ui,sans-serif;}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 70px}
+a{color:var(--gold-deep)}
+header{background:var(--graphite);color:#fff;padding:30px 24px}
+.hd-in{max-width:860px;margin:0 auto}
+.tag{display:inline-block;font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:rgba(232,169,39,.12);border:1px solid rgba(232,169,39,.3);padding:4px 10px;border-radius:30px}
+h1{font-family:var(--disp);font-size:30px;margin:12px 0 6px;letter-spacing:-.01em}
+.sub{color:#b9beb7;font-size:14.5px;max-width:580px}
+h2{font-family:var(--disp);font-size:20px;margin:34px 0 6px;letter-spacing:-.01em}
+.lead{color:var(--mut);font-size:14px;margin-bottom:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.steps li{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px 16px 58px}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:8px;background:var(--gold-soft);color:var(--gold-ink);font-family:var(--num);font-weight:700;display:flex;align-items:center;justify-content:center}
+.steps b{font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#231a05;font-weight:700;font-size:12.5px;padding:3px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.03em}
+.callout{border-radius:10px;padding:14px 16px;margin-top:14px;display:flex;gap:12px;align-items:flex-start}
+.callout .ic{flex:none;width:26px;height:26px}
+.callout.warn{background:#fdeaea;border:1px solid #f3b8b3;color:#8a2b22}
+.callout.ok{background:#e9f6ee;border:1px solid #bfe3cd;color:#1c6b3f}
+.promptcard{background:var(--graphite);border-radius:12px;padding:18px 18px 16px;position:relative;color:#eceee6;margin-top:6px}
+.promptcard .plbl{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.promptcard .plbl span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9aa39b;font-weight:700}
+.copybtn{background:var(--gold);color:#231a05;border:none;border-radius:7px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--ui);text-transform:uppercase;letter-spacing:.03em}
+.copybtn:active{transform:translateY(1px)}
+.prompt{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:13px;line-height:1.6;white-space:pre-wrap;color:#dfe3da;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:14px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}@media(max-width:560px){.specs{grid-template-columns:1fr}}
+.spec{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.spec .k{font-size:12px;color:var(--mut)}.spec .v{font-family:var(--num);font-weight:700;font-size:20px;margin-top:4px}
+.foot{text-align:center;color:var(--mut);font-size:12px;margin-top:40px}
+.toolbar{max-width:860px;margin:14px auto 0;padding:0 24px;text-align:right}
+.btn-print{background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:8px;padding:8px 14px;font-weight:600;font-size:13px;cursor:pointer}
+@media print{.toolbar,.copybtn{display:none}header{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style></head>
+<body>
+<header><div class="hd-in">
+  <span class="tag">Playbook · Ferramentas IS</span>
+  <h1>Upscaling de imagens no Adobe Firefly</h1>
+  <div class="sub">O passo a passo para deixar as imagens em alta qualidade sem bugar o resultado. Padrão oficial: 2K + Automático.</div>
+</div></header>
+<div class="toolbar"><button class="btn-print" onclick="window.print()">Salvar como PDF</button></div>
+<div class="wrap">
+
+  <h2>O padrão oficial</h2>
+  <div class="lead">Use sempre estas duas configurações. Mudar para outros formatos pode <b>bugar a imagem</b>.</div>
+  <div class="specs">
+    <div class="spec"><div class="k">Resolução</div><div class="v">2K</div></div>
+    <div class="spec"><div class="k">Formato / proporção</div><div class="v">Automático</div></div>
+  </div>
+  <div class="callout warn">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+    <div><b>Atenção:</b> não troque a resolução nem escolha proporções manuais. Fora do padrão <b>2K + Automático</b>, o Firefly pode distorcer, cortar ou gerar artefatos na imagem.</div>
+  </div>
+
+  <h2>Prompt padrão — copiar e colar</h2>
+  <div class="lead">Cole exatamente este prompt no campo de descrição do Firefly.</div>
+  <div class="promptcard">
+    <div class="plbl"><span>Prompt (inglês)</span><button class="copybtn" onclick="copyPrompt()">Copiar</button></div>
+    <div class="prompt" id="prompt">Recreate this image with ultra-high quality (8K), hyper-sharp and extremely realistic. Faithfully preserves all the character's features, external proportions, skin texture, eye details, hair, and original lighting. Apply advanced photographic realism, with natural shadows, accurate depth of field, balanced colors, and a high level of detail. The image should look like a professional photo captured by a cinema camera, without distortions, without artists, without an artificial or cartoonish appearance. Maximum focus on sharpness, definition, and absolute realism.</div>
+  </div>
+
+  <h2>Como fazer — passo a passo</h2>
+  <ol class="steps">
+    <li><b>Abra o Adobe Firefly</b> e entre na ferramenta de geração/edição de imagem. Faça login na sua conta Adobe.</li>
+    <li><b>Envie a imagem</b> que você quer melhorar (a de baixa qualidade).</li>
+    <li><b>Cole o prompt padrão</b> acima no campo de descrição (botão "Copiar" facilita).</li>
+    <li>Nas configurações, deixe a <b>resolução em 2K</b> e o <b>formato em Automático</b>. <span class="badge">Não mude isso</span></li>
+    <li><b>Gere</b> e aguarde o resultado em alta qualidade.</li>
+    <li><b>Confira</b> se o rosto, proporções e detalhes ficaram fiéis. Se ficou estranho, gere de novo (sem mudar o padrão).</li>
+    <li><b>Baixe</b> a imagem final e use na edição.</li>
+  </ol>
+
+  <div class="callout ok">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+    <div><b>Resumo rápido:</b> imagem + prompt padrão + <b>2K</b> + <b>Automático</b> + gerar + baixar. Simples e sem bug.</div>
+  </div>
+
+  <div class="foot">Playbook de produção · Ferramentas IS · Central do Editor</div>
+</div>
+<script>
+function copyPrompt(){const t=document.getElementById('prompt').innerText;navigator.clipboard.writeText(t).then(()=>{const b=event.target;const o=b.textContent;b.textContent='Copiado!';setTimeout(()=>b.textContent=o,1500);}).catch(()=>{});}
+</script>
+</body></html>
