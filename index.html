@@ -105,6 +105,8 @@ body.light .cl-badge.B{background:#fde7e8;color:#c0343a;} body.light .cl-badge.Q
 .link-row{display:grid;grid-template-columns:110px 1fr auto;gap:10px;align-items:center;margin-bottom:8px;} @media(max-width:560px){.link-row{grid-template-columns:80px 1fr;}}
 .avatar-big{width:84px;height:84px;border-radius:50%;background:var(--surface3);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:800;font-size:26px;flex:none;overflow:hidden;} .avatar-big img{width:100%;height:100%;object-fit:cover;}
 .ch-ic{width:42px;height:42px;border-radius:10px;background:#2a1416;color:#ff8a8d;display:flex;align-items:center;justify-content:center;font-size:16px;flex:none;} body.light .ch-ic{background:#fde7e8;color:#d0454a;}
+.channel-card{padding:0;overflow:hidden;cursor:pointer;}.channel-card:hover{transform:translateY(-3px);border-color:var(--gold);}.channel-cover{height:132px;background:linear-gradient(135deg,#282a30,#575b63);background-size:cover;background-position:center;position:relative;}.channel-cover:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.38));}.channel-mark{position:absolute;z-index:1;left:14px;bottom:13px;width:54px;height:54px;border-radius:50%;border:3px solid var(--surface);background:var(--gold);display:flex;align-items:center;justify-content:center;overflow:hidden;color:#171717;font-size:14px;font-weight:800;box-shadow:0 3px 12px rgba(0,0,0,.28);}.channel-mark img{width:100%;height:100%;object-fit:cover;}.channel-copy{padding:14px 16px 16px;}
+.channel-grid-card{padding:18px 12px 14px;text-align:center;cursor:pointer;}.channel-grid-card:hover{transform:translateY(-3px);border-color:var(--gold);}.channel-profile{width:104px;height:104px;margin:0 auto 12px;border-radius:50%;overflow:hidden;background:var(--gold);border:3px solid var(--surface3);display:flex;align-items:center;justify-content:center;color:#171717;font-weight:800;font-size:25px;box-shadow:0 4px 16px rgba(0,0,0,.16);}.channel-profile img{width:100%;height:100%;object-fit:cover;display:block;}.channel-detail{margin-top:22px;overflow:hidden;}.channel-detail-cover{height:155px;background:linear-gradient(125deg,#27292e,#626773);background-size:cover;background-position:center;position:relative;}.channel-detail-cover:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 22%,rgba(0,0,0,.56));}.channel-detail-main{position:relative;padding:0 18px 18px;}.channel-detail-avatar{position:relative;z-index:2;width:76px;height:76px;margin-top:-38px;border:4px solid var(--surface);border-radius:50%;overflow:hidden;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#171717;font-size:19px;font-weight:800;}.channel-detail-avatar img{width:100%;height:100%;object-fit:cover;display:block;}.channel-detail-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;flex-wrap:wrap;}.channel-kpis{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;}.channel-kpi{min-width:135px;padding:10px 12px;background:var(--surface2);border:1px solid var(--line);border-radius:10px;}.channel-kpi b{display:block;font-size:17px;line-height:1.15;}.channel-kpi span{font-size:11px;color:var(--mut);display:block;margin-top:3px;}.video-link{position:absolute;right:8px;top:8px;z-index:4;width:30px;height:30px;border:1px solid rgba(255,255,255,.75);border-radius:50%;background:rgba(20,22,26,.82);color:#fff;display:grid;place-items:center;cursor:pointer;opacity:0;transition:.16s;font-size:14px;}.vcard:hover .video-link,.video-link:focus{opacity:1;}.video-linked{position:absolute;left:8px;bottom:8px;z-index:3;max-width:calc(100% - 16px);padding:4px 8px;border-radius:20px;background:rgba(21,24,28,.88);color:#fff;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.library-list{display:grid;gap:10px;margin-top:12px;}.library-video{display:grid;grid-template-columns:130px 1fr auto;gap:12px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);}.library-thumb{height:74px;border-radius:7px;background:center/cover no-repeat var(--surface3);}.library-video .lib-title{font-size:13px;font-weight:700;}.library-video .lib-meta{font-size:11.5px;color:var(--mut);margin-top:4px;}@media(max-width:620px){.library-video{grid-template-columns:98px 1fr;}.library-video .btn{grid-column:2;justify-self:start;}.library-thumb{height:60px;}}
 /* pomodoro */
 .pomo{display:flex;flex-direction:column;align-items:center;text-align:center;} .ring{width:220px;height:220px;border-radius:50%;border:8px solid var(--surface3);border-top-color:var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:10px 0;} .ring .tt{font-size:44px;font-weight:800;} .ring .st{color:var(--mut);font-size:13px;} .cyc{display:flex;gap:8px;margin:8px 0;} .cyc i{width:12px;height:12px;border-radius:50%;background:var(--surface3);} .cyc i.on{background:var(--gold);}
 .note{background:var(--surface2);border-left:2px solid var(--gold);border-radius:8px;padding:12px 14px;color:var(--mut);font-size:13.5px;margin-top:14px;}
@@ -178,14 +180,16 @@ body.light .prio.alta{background:#fdeaea;color:#c0392b;}
 .statcard .kpi{margin-top:14px;}
 /* feed de canais */
 .feedsec{margin-top:22px;}
+.yt-performance{margin:16px 0 4px;padding:14px 0;border-top:1px solid var(--line);}.yt-performance .perf-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}.perf-kpis{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;}.perf-kpi{min-width:132px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);}.perf-kpi b{display:block;font-size:17px;line-height:1.1;}.perf-kpi span{display:block;color:var(--mut);font-size:11px;margin-top:4px;}.perf-best{margin-top:12px;padding:10px 12px;border-left:3px solid var(--gold);background:var(--gold-dim);border-radius:0 9px 9px 0;font-size:12.5px;}.perf-best b{font-size:13px;}
 .feed-title{display:flex;align-items:center;gap:10px;} .feed-title .big{font-size:19px;}
+.feed-title.linked{cursor:pointer;width:max-content;max-width:100%;}.feed-title.linked:hover .big{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:4px;}
 .fpulse{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);} .fpulse i{width:7px;height:7px;border-radius:50%;background:var(--green);}
 .chtabs{display:flex;gap:9px;overflow-x:auto;padding:14px 0 4px;scrollbar-width:none;} .chtabs::-webkit-scrollbar{display:none;}
 .chtab{flex:none;display:flex;align-items:center;gap:9px;padding:7px 14px 7px 7px;border:1px solid var(--line);border-radius:var(--r-sm);cursor:pointer;background:var(--surface);transition:.15s;} .chtab:hover{border-color:var(--line2);} .chtab.on{border-color:var(--gold);background:var(--gold-dim);}
-.chav{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+.chav{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}.chav img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
 .chtab .cn{font-size:13px;font-weight:700;line-height:1.1;} .chtab .cs{font-size:10.5px;color:var(--mut);}
 .feedhead{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:12px 2px 2px;flex-wrap:wrap;}
-.feedhead .who{display:flex;align-items:center;gap:11px;} .feedhead .who .big2{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;}
+.feedhead .who{display:flex;align-items:center;gap:11px;} .feedhead .who .big2{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;}.feedhead .who .big2 img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
 .feedhead .who .nm{font-size:15.5px;font-weight:800;} .feedhead .who .sb{color:var(--mut);font-size:12px;}
 .opench{display:inline-flex;align-items:center;gap:7px;background:#16181C;color:#fff;border-radius:var(--r-sm);padding:9px 14px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;} .opench svg{width:13px;height:13px;}
 .reelwrap{position:relative;margin-top:12px;}
@@ -441,6 +445,7 @@ let DB=Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), LS.get(KEY,{}));
 DB.profile=Object.assign({},DEFAULTS.profile,DB.profile);
 DB.prefs=Object.assign({},DEFAULTS.prefs,DB.prefs);
 if(!DB.channels||!DB.channels.length)DB.channels=DEFAULTS.channels.slice();
+DEFAULTS.channels.forEach(channel=>{if(!DB.channels.some(existing=>existing.u===channel.u))DB.channels.push(channel);});
 if(!DB.reportFolders)DB.reportFolders=DEFAULTS.reportFolders.slice();
 if(!DB.trash)DB.trash=[];
 if(!DB.tasks)DB.tasks=[];
@@ -900,11 +905,12 @@ function renderInicio(){
      </div>
    </div>
    <div class="card feedsec">
-     <div class="feed-title"><div class="big">Canais AUVP</div><span class="fpulse" id="feedPulse"><i></i> vídeos recentes</span></div>
+     <div class="feed-title linked" onclick="go('canais')" title="Abrir todos os Canais AUVP"><div class="big">Canais AUVP</div><span class="fpulse" id="feedPulse"><i></i> vídeos recentes</span></div>
      <div class="chtabs" id="chtabs"></div>
+     <div class="yt-performance" id="ytPerformance"><div class="muted">Carregando métricas públicas dos vídeos…</div></div>
      <div id="feedBody"></div>
    </div>`;
-  tickClock();checkAvisoDoDia();startDestaques();renderFeed(0);refreshYouTubeFeed();
+  tickClock();checkAvisoDoDia();startDestaques();renderFeed(0);renderYouTubePerformance();refreshYouTubeFeed();
 }
 const CANAIS_FEED=[
   {n:"Investidor Sardinha",handle:"investidorsardinha",ini:"IS",cor:"#E8A927",subs:"1,42 mi inscritos",u:"https://www.youtube.com/@investidorsardinha",vids:[
@@ -920,8 +926,21 @@ const CANAIS_FEED=[
   {n:"AUVP Agro",handle:"AUVPagro",ini:"AG",cor:"#3FB27F",subs:"41 mil inscritos",u:"https://www.youtube.com/@AUVPagro",vids:[
     {t:"O boom do agro brasileiro em 2026",dur:"15:18",v:"33 mil",l:"2,7 mil",q:"há 4 d",g:"linear-gradient(135deg,#dcece3,#b7d8c6)"}]},
   {n:"AUVP Analítica",handle:"auvpanalitica",ini:"AN",cor:"#EF6B4E",subs:"12 mil inscritos",u:"https://www.youtube.com/@auvpanalitica",vids:[
-    {t:"Analisando o balanço da Petrobras",dur:"12:05",v:"9,4 mil",l:"820",q:"há 6 d",g:"linear-gradient(135deg,#f2e0da,#e6bfb2)"}]}
+    {t:"Analisando o balanço da Petrobras",dur:"12:05",v:"9,4 mil",l:"820",q:"há 6 d",g:"linear-gradient(135deg,#f2e0da,#e6bfb2)"}]},
+  {n:"Douglas Ribeiro AUVP",handle:"douglasribeiroAUVP",ini:"DR",cor:"#32A3B8",subs:"Canal AUVP",u:"https://www.youtube.com/@douglasribeiroAUVP",vids:[]}
 ];
+function renderYouTubePerformance(){
+  const target=$("#ytPerformance");if(!target)return;
+  const videos=CANAIS_FEED.flatMap(channel=>(channel.vids||[]).map(video=>Object.assign({channel},video))).filter(video=>Number(video.views)>0);
+  if(!videos.length){target.innerHTML='<div class="muted">As métricas aparecem assim que os canais terminarem de atualizar.</div>';return;}
+  const totalViews=videos.reduce((sum,video)=>sum+Number(video.views||0),0);
+  const totalLikes=videos.reduce((sum,video)=>sum+Number(video.likes||0),0);
+  const bestViews=videos.slice().sort((a,b)=>Number(b.views)-Number(a.views))[0];
+  const bestEngagement=videos.slice().sort((a,b)=>(Number(b.likes||0)/Math.max(Number(b.views||0),1))-(Number(a.likes||0)/Math.max(Number(a.views||0),1)))[0];
+  const compactMetric=n=>n>=1000000?`${(n/1000000).toLocaleString('pt-BR',{maximumFractionDigits:1})} mi`:n>=1000?`${(n/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})} mil`:n.toLocaleString('pt-BR');
+  const engagement=totalViews?(totalLikes/totalViews*100):0;
+  target.innerHTML=`<div class="perf-top"><div class="big">Performance dos vídeos recentes</div><div class="muted">dados públicos do YouTube</div></div><div class="perf-kpis"><div class="perf-kpi"><b>${compactMetric(totalViews)}</b><span>visualizações somadas</span></div><div class="perf-kpi"><b>${compactMetric(totalLikes)}</b><span>likes somados</span></div><div class="perf-kpi"><b>${engagement.toLocaleString('pt-BR',{maximumFractionDigits:2})}%</b><span>engajamento por like</span></div></div><div class="perf-best"><b>Maior alcance:</b> ${esc(bestViews.t)} <span class="muted">— ${esc(bestViews.channel.n)}, ${compactMetric(Number(bestViews.views))} visualizações</span><br><b>Maior engajamento:</b> ${esc(bestEngagement.t)} <span class="muted">— ${esc(bestEngagement.channel.n)}, ${(Number(bestEngagement.likes||0)/Math.max(Number(bestEngagement.views||0),1)*100).toLocaleString('pt-BR',{maximumFractionDigits:2})}%</span></div>`;
+}
 let _feedRefreshStarted=false;
 async function refreshYouTubeFeed(){
   if(_feedRefreshStarted||!window.cloudInvoke)return;_feedRefreshStarted=true;
@@ -930,7 +949,7 @@ async function refreshYouTubeFeed(){
     const data=await window.cloudInvoke('youtube-feed',{channels:CANAIS_FEED.map(c=>({name:c.n,handle:c.handle,color:c.cor}))});
     if(!Array.isArray(data.channels)||!data.channels.length)throw new Error('Nenhum canal retornado.');
     data.channels.forEach((channel,i)=>{if(!channel.unavailable)CANAIS_FEED[i]=Object.assign({},CANAIS_FEED[i],channel);});
-    renderFeed(0);if(pulse)pulse.innerHTML='<i></i> dados atualizados agora';
+    renderFeed(0);renderYouTubePerformance();if(pulse)pulse.innerHTML='<i></i> dados atualizados agora';
   }catch(err){
     if(pulse)pulse.innerHTML='<i></i> dados de demonstração';
     console.warn('Feed do YouTube indisponível:',err&&err.message?err.message:err);
@@ -940,12 +959,12 @@ const _eye='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
 const _like='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10v11M2 13v6a2 2 0 0 0 2 2h13.4a2 2 0 0 0 2-1.7l1.3-8A2 2 0 0 0 18.7 9H13l1-5a2 2 0 0 0-4-.5L7 10"/></svg>';
 function renderFeed(i){
   const tabs=$("#chtabs");if(!tabs)return;
-  tabs.innerHTML=CANAIS_FEED.map((c,k)=>`<div class="chtab ${k===i?'on':''}" onclick="renderFeed(${k})"><div class="chav" style="background:${c.cor}">${c.ini}</div><div><div class="cn">${esc(c.n)}</div><div class="cs">${esc(c.subs)}</div></div></div>`).join("");
+  tabs.innerHTML=CANAIS_FEED.map((c,k)=>`<div class="chtab ${k===i?'on':''}" onclick="renderFeed(${k})"><div class="chav" style="background:${c.cor}">${c.avatar?`<img src="${esc(c.avatar)}" alt="">`:c.ini}</div><div><div class="cn">${esc(c.n)}</div><div class="cs">${esc(c.subs)}</div></div></div>`).join("");
   const c=CANAIS_FEED[i];
-  const cards=c.vids.map(v=>`<div class="vcard" onclick="window.open('${c.u}','_blank')"><div class="vthumb" style="background:${v.thumb?'center / cover no-repeat url(\''+esc(v.thumb)+'\')':v.g}"><div class="vpl"><span>▶</span></div><div class="vdur">${v.dur}</div></div><div class="vtt">${esc(v.t)}</div><div class="vmt"><span class="g">${_eye}<b>${v.v}</b></span><span class="g">${_like}<b>${v.l}</b></span><span>${v.q}</span></div></div>`).join("");
+  const cards=c.vids.map((v,vi)=>{const linked=linkedProjectForVideo(v);return `<div class="vcard" onclick="window.open('${c.u}','_blank')"><div class="vthumb" style="background:${v.thumb?'center / cover no-repeat url(\''+esc(v.thumb)+'\')':v.g}"><button class="video-link" title="Vincular ao projeto" onclick="event.stopPropagation();openVideoLinker(${i},${vi})">↗</button><div class="vpl"><span>▶</span></div><div class="vdur">${v.dur}</div>${linked?`<div class="video-linked" title="Vinculado a ${esc(linked.nome)}">${esc(linked.nome)}</div>`:''}</div><div class="vtt">${esc(v.t)}</div><div class="vmt"><span class="g">${_eye}<b>${v.v}</b></span><span class="g">${_like}<b>${v.l}</b></span><span>${v.q}</span></div></div>`;}).join("");
   $("#feedBody").innerHTML=`
-   <div class="feedhead"><div class="who"><div class="big2" style="background:${c.cor}">${c.ini}</div><div><div class="nm">${esc(c.n)}</div><div class="sb">${esc(c.subs)} · ${c.vids.length} vídeos recentes</div></div></div>
-     <button class="opench" onclick="window.open('${c.u}','_blank')">Abrir canal <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></button></div>
+   <div class="feedhead"><div class="who"><div class="big2" style="background:${c.cor}">${c.avatar?`<img src="${esc(c.avatar)}" alt="">`:c.ini}</div><div><div class="nm">${esc(c.n)}</div><div class="sb">${esc(c.subs)} · ${c.vids.length} vídeos recentes</div></div></div>
+     <button class="opench" onclick="openVideoLibrary(${i})">Ver todos os vídeos</button></div>
    <div class="reelwrap"><button class="reel-arrow l" onclick="feedScroll(-1)">‹</button><button class="reel-arrow r" onclick="feedScroll(1)">›</button><div class="reel" id="reel">${cards}</div></div>`;
 }
 function feedScroll(d){const r=$("#reel");if(r)r.scrollBy({left:d*280,behavior:'smooth'});}
@@ -1467,9 +1486,30 @@ function renderGuias(){
      </div>`).join("")}`;
 }
 function guiaScroll(ri,d){const r=$("#greel-"+ri);if(r)r.scrollBy({left:d*300,behavior:'smooth'});}
-function renderCanais(){
-  $("#s-canais").innerHTML=`<div><h1>Canais AUVP</h1><div class="sub">Hub de acesso rápido. Abra qualquer canal com um clique.</div></div><div class="grid g4" style="margin-top:20px">${DB.channels.map(c=>`<div class="card hoverable" onclick="openLink('${encodeURI(c.u)}')"><div class="row" style="gap:12px"><div class="ch-ic">▶</div><div><div class="big">${esc(c.n)}</div><div class="muted">Abrir canal</div></div></div></div>`).join("")}</div>`;
+let selectedChannelName=null;
+function channelInitials(name){return (name||'A').split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();}
+function channelByName(name){return CANAIS_FEED.find(channel=>channel.n===name)||DB.channels.find(channel=>channel.n===name)||null;}
+function renderChannelDetails(){
+  const target=$("#channelDetails");if(!target||!selectedChannelName)return;
+  const c=channelByName(selectedChannelName);if(!c)return;
+  const avatar=c.avatar||"",cover=c.banner||c.avatar||"",videos=c.vids||[];
+  const totalViews=videos.reduce((sum,v)=>sum+Number(v.views||0),0),totalLikes=videos.reduce((sum,v)=>sum+Number(v.likes||0),0);
+  const compact=n=>n>=1000000?`${(n/1000000).toLocaleString('pt-BR',{maximumFractionDigits:1})} mi`:n>=1000?`${(n/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})} mil`:n?String(n):'—';
+  target.innerHTML=`<div class="card channel-detail"><div class="channel-detail-cover"${cover?` style="background-image:url('${esc(cover)}')"`:""}></div><div class="channel-detail-main"><div class="channel-detail-head"><div><div class="channel-detail-avatar">${avatar?`<img src="${esc(avatar)}" alt="">`:channelInitials(c.n)}</div><div class="big" style="font-size:19px;margin-top:10px">${esc(c.n)}</div><div class="muted">Dados públicos do YouTube</div></div><div class="row wrapf" style="gap:8px"><button class="btn ghost sm" onclick="openVideoLibraryByName('${esc(c.n)}')">Ver vídeos</button><button class="btn gold sm" onclick="openLink('${encodeURI(c.u||'')}')">Abrir canal</button></div></div><div class="channel-kpis"><div class="channel-kpi"><b>${esc(c.subs||'—')}</b><span>inscritos</span></div><div class="channel-kpi"><b>${compact(totalViews)}</b><span>views dos vídeos carregados</span></div><div class="channel-kpi"><b>${compact(totalLikes)}</b><span>likes dos vídeos carregados</span></div></div></div></div>`;
 }
+function selectChannel(name){selectedChannelName=name;renderChannelDetails();const target=$("#channelDetails");if(target)target.scrollIntoView({behavior:'smooth',block:'start'});}
+function renderCanais(){
+  const card=c=>{const live=channelByName(c.n)||{},avatar=live.avatar||"";return `<div class="card channel-grid-card" onclick="selectChannel('${esc(c.n)}')"><div class="channel-profile">${avatar?`<img src="${esc(avatar)}" alt="">`:channelInitials(c.n)}</div><div class="big">${esc(c.n)}</div><div class="muted" style="margin-top:4px">Ver dados do canal</div></div>`;};
+  $("#s-canais").innerHTML=`<div><h1>Canais AUVP</h1><div class="sub">Escolha um canal para ver os dados e os vídeos publicados.</div></div><div class="grid g4" style="margin-top:20px">${DB.channels.map(card).join("")}</div><div id="channelDetails"></div>`;
+  if(selectedChannelName)renderChannelDetails();
+}
+function videoKey(v){return v.id||v.videoId||v.t||'';}
+function linkedProjectForVideo(v){const key=videoKey(v);return DB.projects.find(project=>project.publishedVideo&&project.publishedVideo.id===key)||null;}
+let pendingVideoLink=null;
+function openVideoLinker(channelIndex,videoIndex){const channel=CANAIS_FEED[channelIndex],video=(channel&&channel.vids||[])[videoIndex];if(!channel||!video)return;pendingVideoLink={channel,video};const linked=linkedProjectForVideo(video);const options=DB.projects.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map(project=>`<option value="${project.id}" ${linked&&linked.id===project.id?'selected':''}>${esc(project.nome)}${projDone(project)?' · concluído':''}</option>`).join('');$("#modalBody").innerHTML=`<h3>Vincular vídeo ao projeto</h3><div class="muted" style="margin-top:4px">O vínculo usa o vídeo publicado, não o título. Se o título mudar no YouTube, a relação continua.</div><div class="card" style="margin-top:14px;background:var(--surface2)"><div class="big">${esc(video.t)}</div><div class="muted" style="margin-top:4px">${esc(channel.n)} · ${esc(video.v||'')}</div></div>${options?`<div class="field" style="margin-top:16px"><label>Projeto</label><select class="inp" id="videoProjectSelect">${options}</select></div><div class="row" style="justify-content:flex-end;gap:8px;margin-top:18px"><button class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn gold" onclick="saveVideoLink()">${linked?'Trocar vínculo':'Vincular ao projeto'}</button></div>`:'<div class="note" style="margin-top:16px">Crie um projeto antes de fazer esse vínculo.</div>'}`;openModal();}
+function saveVideoLink(){const project=getProject($("#videoProjectSelect").value);if(!project||!pendingVideoLink)return;const {channel,video}=pendingVideoLink,key=videoKey(video);DB.projects.forEach(p=>{if(p.publishedVideo&&p.publishedVideo.id===key)delete p.publishedVideo;});project.publishedVideo={id:key,title:video.t,channel:channel.n,url:video.url||channel.u,thumb:video.thumb||'',linkedAt:Date.now()};save();pendingVideoLink=null;closeModal();renderFeed(0);if(current==='canais')renderCanais();toast('Vídeo vinculado ao projeto.');}
+function openVideoLibrary(channelIndex){const c=CANAIS_FEED[channelIndex];if(c)openVideoLibraryByName(c.n);}
+function openVideoLibraryByName(name){const c=channelByName(name);if(!c)return;const ci=CANAIS_FEED.findIndex(channel=>channel.n===c.n),videos=c.vids||[];$("#modalBody").innerHTML=`<h3>Vídeos de ${esc(c.n)}</h3><div class="muted" style="margin-top:4px">Escolha um vídeo para vinculá-lo a um projeto.</div><div class="library-list">${videos.length?videos.map((v,vi)=>{const linked=linkedProjectForVideo(v);return `<div class="library-video"><div class="library-thumb" style="${v.thumb?`background-image:url('${esc(v.thumb)}')`:''}"></div><div><div class="lib-title">${esc(v.t)}</div><div class="lib-meta">${esc(v.v||'—')} views · ${esc(v.l||'—')} likes · ${esc(v.q||'')}</div>${linked?`<div class="lib-meta">Vinculado a: <b>${esc(linked.nome)}</b></div>`:''}</div><button class="btn ${linked?'ghost':'gold'} sm" onclick="openVideoLinker(${ci},${vi})">${linked?'Trocar vínculo':'Vincular'}</button></div>`;}).join(''):'<div class="muted">Ainda não há vídeos carregados para este canal.</div>'}</div><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn ghost" onclick="closeModal()">Fechar</button></div>`;openModal();}
 
 /* ============================ POMODORO ============================ */
 let pomo={mode:'foco',remaining:25*60,running:false,cycles:0,timer:null,_audio:null,_cat:null};
