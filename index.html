@@ -360,13 +360,25 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
 <script>
 (function(){
   const SUPA_URL='https://igdcvuzqdawkvfelevmn.supabase.co';
-  const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlnZGN2dXpxZGF3a3ZmZWxldm1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk5OTk0MzUsImV4cCI6MjEwNTU3NTQzNX0.O-HWfg_VJzjTQyWnqRx6keAEtzZ6He5EkMumqD0itxM';
+  const SUPA_KEY='sb_publishable_8Spz-U5N7Tc-TacmvnetYw_WcioILPP';
   const APP_KEY='central_editor_v1';
   let sbc=null, SB_USER=null, _ct=null, _signup=false;
   try{ sbc=window.supabase.createClient(SUPA_URL,SUPA_KEY); }catch(e){}
   const $g=id=>document.getElementById(id);
   window.cloudSave=function(obj){ if(!SB_USER||!sbc)return; clearTimeout(_ct); _ct=setTimeout(async()=>{ try{ await sbc.from('dados_central').upsert({user_id:SB_USER.id,conteudo:obj,atualizado_em:new Date().toISOString()}); }catch(e){} },1200); };
   window.cloudLogout=async function(){ try{ sbc&&await sbc.auth.signOut(); }catch(e){} try{ localStorage.removeItem(APP_KEY); }catch(e){} location.reload(); };
+  /* Chamadas autenticadas para recursos protegidos da Central (nunca expõe secrets no HTML). */
+  window.cloudInvoke=async function(fn,body){
+    if(!sbc||!SB_USER)throw new Error('Entre na sua conta para atualizar os canais.');
+    const {data:{session}}=await sbc.auth.getSession();
+    if(!session)throw new Error('Sua sessão expirou. Entre novamente.');
+    const res=await fetch(SUPA_URL+'/functions/v1/'+encodeURIComponent(fn),{
+      method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+session.access_token},body:JSON.stringify(body||{})
+    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok)throw new Error(data.error||'Não foi possível atualizar os canais agora.');
+    return data;
+  };
   function runApp(){ const el=$g('appcode'); if(!el||window.__appran)return; window.__appran=true; const s=document.createElement('script'); s.textContent=el.textContent; document.body.appendChild(s); }
   async function pullOrMigrate(){
     try{
@@ -888,35 +900,49 @@ function renderInicio(){
      </div>
    </div>
    <div class="card feedsec">
-     <div class="feed-title"><div class="big">Canais AUVP</div><span class="fpulse"><i></i> vídeos recentes</span></div>
+     <div class="feed-title"><div class="big">Canais AUVP</div><span class="fpulse" id="feedPulse"><i></i> vídeos recentes</span></div>
      <div class="chtabs" id="chtabs"></div>
      <div id="feedBody"></div>
    </div>`;
-  tickClock();checkAvisoDoDia();startDestaques();renderFeed(0);
+  tickClock();checkAvisoDoDia();startDestaques();renderFeed(0);refreshYouTubeFeed();
 }
 const CANAIS_FEED=[
-  {n:"Investidor Sardinha",ini:"IS",cor:"#E8A927",subs:"1,42 mi inscritos",u:"https://www.youtube.com/@investidorsardinha",vids:[
+  {n:"Investidor Sardinha",handle:"investidorsardinha",ini:"IS",cor:"#E8A927",subs:"1,42 mi inscritos",u:"https://www.youtube.com/@investidorsardinha",vids:[
     {t:"O MERCADO LIVRE está virando um BANCO?",dur:"14:32",v:"2,2 mi",l:"89 mil",q:"há 2 d",g:"linear-gradient(135deg,#e9e5da,#cfd6cf)"},
     {t:"BLACKROCK move US$ 2,1 TRILHÕES: o que eles estão vendo?",dur:"18:07",v:"1,4 mi",l:"62 mil",q:"há 4 d",g:"linear-gradient(135deg,#f6eccf,#e6c877)"},
     {t:"A NOVA PANDEMIA QUE PODE PARAR O MUNDO?",dur:"11:50",v:"980 mil",l:"47 mil",q:"há 6 d",g:"linear-gradient(135deg,#eadada,#d8b6b6)"},
     {t:"Por que os ricos não investem em FIIs",dur:"16:20",v:"1,1 mi",l:"55 mil",q:"há 1 sem",g:"linear-gradient(135deg,#dbe3ea,#b6c8dc)"}]},
-  {n:"AUVP Capital",ini:"AC",cor:"#3E7BF2",subs:"318 mil inscritos",u:"https://www.youtube.com/@AUVPCapital",vids:[
+  {n:"AUVP Capital",handle:"AUVPCapital",ini:"AC",cor:"#3E7BF2",subs:"318 mil inscritos",u:"https://www.youtube.com/@AUVPCapital",vids:[
     {t:"O plano de voo da renda fixa para 2026",dur:"22:14",v:"140 mil",l:"9,8 mil",q:"há 3 d",g:"linear-gradient(135deg,#dbe3ea,#aec3e0)"},
     {t:"Como montar uma carteira à prova de crise",dur:"19:02",v:"96 mil",l:"7,1 mil",q:"há 5 d",g:"linear-gradient(135deg,#e7ecf3,#c4d2e8)"}]},
-  {n:"AUVP Atlas",ini:"AT",cor:"#8B5CF6",subs:"96 mil inscritos",u:"https://www.youtube.com/@AUVPAtlas",vids:[
+  {n:"AUVP Atlas",handle:"AUVPAtlas",ini:"AT",cor:"#8B5CF6",subs:"96 mil inscritos",u:"https://www.youtube.com/@AUVPAtlas",vids:[
     {t:"A história por trás do maior banco do mundo",dur:"27:40",v:"58 mil",l:"4,3 mil",q:"há 1 sem",g:"linear-gradient(135deg,#e6e0f2,#cabfe6)"}]},
-  {n:"AUVP Agro",ini:"AG",cor:"#3FB27F",subs:"41 mil inscritos",u:"https://www.youtube.com/@AUVPagro",vids:[
+  {n:"AUVP Agro",handle:"AUVPagro",ini:"AG",cor:"#3FB27F",subs:"41 mil inscritos",u:"https://www.youtube.com/@AUVPagro",vids:[
     {t:"O boom do agro brasileiro em 2026",dur:"15:18",v:"33 mil",l:"2,7 mil",q:"há 4 d",g:"linear-gradient(135deg,#dcece3,#b7d8c6)"}]},
-  {n:"AUVP Analítica",ini:"AN",cor:"#EF6B4E",subs:"12 mil inscritos",u:"https://www.youtube.com/@auvpanalitica",vids:[
+  {n:"AUVP Analítica",handle:"auvpanalitica",ini:"AN",cor:"#EF6B4E",subs:"12 mil inscritos",u:"https://www.youtube.com/@auvpanalitica",vids:[
     {t:"Analisando o balanço da Petrobras",dur:"12:05",v:"9,4 mil",l:"820",q:"há 6 d",g:"linear-gradient(135deg,#f2e0da,#e6bfb2)"}]}
 ];
+let _feedRefreshStarted=false;
+async function refreshYouTubeFeed(){
+  if(_feedRefreshStarted||!window.cloudInvoke)return;_feedRefreshStarted=true;
+  const pulse=$("#feedPulse");if(pulse)pulse.innerHTML='<i></i> atualizando canais…';
+  try{
+    const data=await window.cloudInvoke('youtube-feed',{channels:CANAIS_FEED.map(c=>({name:c.n,handle:c.handle,color:c.cor}))});
+    if(!Array.isArray(data.channels)||!data.channels.length)throw new Error('Nenhum canal retornado.');
+    data.channels.forEach((channel,i)=>{if(!channel.unavailable)CANAIS_FEED[i]=Object.assign({},CANAIS_FEED[i],channel);});
+    renderFeed(0);if(pulse)pulse.innerHTML='<i></i> dados atualizados agora';
+  }catch(err){
+    if(pulse)pulse.innerHTML='<i></i> dados de demonstração';
+    console.warn('Feed do YouTube indisponível:',err&&err.message?err.message:err);
+  }
+}
 const _eye='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
 const _like='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10v11M2 13v6a2 2 0 0 0 2 2h13.4a2 2 0 0 0 2-1.7l1.3-8A2 2 0 0 0 18.7 9H13l1-5a2 2 0 0 0-4-.5L7 10"/></svg>';
 function renderFeed(i){
   const tabs=$("#chtabs");if(!tabs)return;
   tabs.innerHTML=CANAIS_FEED.map((c,k)=>`<div class="chtab ${k===i?'on':''}" onclick="renderFeed(${k})"><div class="chav" style="background:${c.cor}">${c.ini}</div><div><div class="cn">${esc(c.n)}</div><div class="cs">${esc(c.subs)}</div></div></div>`).join("");
   const c=CANAIS_FEED[i];
-  const cards=c.vids.map(v=>`<div class="vcard" onclick="window.open('${c.u}','_blank')"><div class="vthumb" style="background:${v.g}"><div class="vpl"><span>▶</span></div><div class="vdur">${v.dur}</div></div><div class="vtt">${esc(v.t)}</div><div class="vmt"><span class="g">${_eye}<b>${v.v}</b></span><span class="g">${_like}<b>${v.l}</b></span><span>${v.q}</span></div></div>`).join("");
+  const cards=c.vids.map(v=>`<div class="vcard" onclick="window.open('${c.u}','_blank')"><div class="vthumb" style="background:${v.thumb?'center / cover no-repeat url(\''+esc(v.thumb)+'\')':v.g}"><div class="vpl"><span>▶</span></div><div class="vdur">${v.dur}</div></div><div class="vtt">${esc(v.t)}</div><div class="vmt"><span class="g">${_eye}<b>${v.v}</b></span><span class="g">${_like}<b>${v.l}</b></span><span>${v.q}</span></div></div>`).join("");
   $("#feedBody").innerHTML=`
    <div class="feedhead"><div class="who"><div class="big2" style="background:${c.cor}">${c.ini}</div><div><div class="nm">${esc(c.n)}</div><div class="sb">${esc(c.subs)} · ${c.vids.length} vídeos recentes</div></div></div>
      <button class="opench" onclick="window.open('${c.u}','_blank')">Abrir canal <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></button></div>
