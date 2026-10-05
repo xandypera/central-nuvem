@@ -28,6 +28,8 @@ header{position:sticky;top:0;z-index:20;background:var(--headerbg);border-bottom
 .tabs button{font-size:13.5px;color:var(--header-mut);padding:9px 12px 10px;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;transition:.15s;}
 .tabs button:hover{color:var(--header-ink);} .tabs button.active{color:var(--header-ink);border-bottom-color:var(--gold);font-weight:700;}
 .tabs button:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px;}
+@media(max-width:720px){.hin{padding:10px 14px;gap:9px;flex-wrap:wrap;}.brand{font-size:14px;white-space:nowrap;}.tabs{order:3;width:100%;margin-left:0;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}.tabs::-webkit-scrollbar{display:none}.tabs button{flex:none;padding:8px 10px;font-size:12.5px}.wrap{padding:18px 14px 74px}.card{padding:16px}.row.between{align-items:flex-start}.btn{min-height:40px}.g4{grid-template-columns:repeat(2,1fr)}.youtube-project-card{grid-template-columns:1fr}.youtube-project-thumb{width:100%;height:auto;aspect-ratio:16/9}.youtube-project-copy{min-width:0}.youtube-project-card .row{justify-content:flex-start!important}.channel-kpi{min-width:calc(50% - 5px);flex:1}.channel-detail-main{padding-left:14px;padding-right:14px}}
+@media(max-width:420px){.brand{font-size:13px}.avatar-wrap{gap:5px}.avatar,.theme-toggle,.notification-bell{width:34px;height:34px}.g4{grid-template-columns:1fr}.channel-kpi{min-width:100%}}
 .avatar-wrap{position:relative;display:flex;align-items:center;gap:8px;}
 .avatar{width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);background:var(--surface3);color:var(--gold);font-weight:800;font-size:13px;cursor:pointer;overflow:hidden;} .avatar:hover{border-color:var(--gold);} .avatar img{width:100%;height:100%;object-fit:cover;} .avatar.sm{width:34px;height:34px;font-size:12px;}
 .menu{position:absolute;right:0;top:46px;width:250px;background:var(--surface);border:1px solid var(--line2);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.5);padding:8px;display:none;z-index:70;} .menu.show{display:block;}
@@ -43,8 +45,8 @@ h1{font-size:26px;font-weight:800;letter-spacing:-.02em;} .sub{color:var(--mut);
 .pill{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid var(--line2);color:var(--mut);}
 .pill.g{background:var(--green-dim);border-color:#1c5a34;color:#8fe0a6;} .pill.gold{background:var(--gold-dim);border-color:#6a531a;color:var(--gold-ink);} .pill.b{background:#10203a;border-color:#26406e;color:#9dc0ff;}
 body.light .pill.g{background:#e7f6ec;color:#1e7a3c;} body.light .pill.b{background:#e8f0ff;color:#2a5bb0;} body.light .pill.gold{background:#fbf1d6;color:#8a6a12;}
-.grid{display:grid;gap:14px;} .g4{grid-template-columns:repeat(4,1fr);} .g3{grid-template-columns:repeat(3,1fr);}
-@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr);}.g3{grid-template-columns:1fr;}} @media(max-width:560px){.g4{grid-template-columns:1fr;}}
+.grid{display:grid;gap:14px;} .g4{grid-template-columns:repeat(4,1fr);} .g3{grid-template-columns:repeat(3,1fr);}.g2{grid-template-columns:repeat(2,minmax(0,1fr));}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr);}.g3,.g2{grid-template-columns:1fr;}} @media(max-width:560px){.g4{grid-template-columns:1fr;}}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;transition:.2s;}
 .card.hoverable{cursor:pointer;} .card.hoverable:hover{transform:translateY(-3px);border-color:var(--gold);}
 .muted{color:var(--mut);font-size:13px;} .big{font-size:15px;font-weight:700;} .mono{font-variant-numeric:tabular-nums;}
@@ -106,7 +108,7 @@ body.light .cl-badge.B{background:#fde7e8;color:#c0343a;} body.light .cl-badge.Q
 .avatar-big{width:84px;height:84px;border-radius:50%;background:var(--surface3);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:800;font-size:26px;flex:none;overflow:hidden;} .avatar-big img{width:100%;height:100%;object-fit:cover;}
 .ch-ic{width:42px;height:42px;border-radius:10px;background:#2a1416;color:#ff8a8d;display:flex;align-items:center;justify-content:center;font-size:16px;flex:none;} body.light .ch-ic{background:#fde7e8;color:#d0454a;}
 .channel-card{padding:0;overflow:hidden;cursor:pointer;}.channel-card:hover{transform:translateY(-3px);border-color:var(--gold);}.channel-cover{height:132px;background:linear-gradient(135deg,#282a30,#575b63);background-size:cover;background-position:center;position:relative;}.channel-cover:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.38));}.channel-mark{position:absolute;z-index:1;left:14px;bottom:13px;width:54px;height:54px;border-radius:50%;border:3px solid var(--surface);background:var(--gold);display:flex;align-items:center;justify-content:center;overflow:hidden;color:#171717;font-size:14px;font-weight:800;box-shadow:0 3px 12px rgba(0,0,0,.28);}.channel-mark img{width:100%;height:100%;object-fit:cover;}.channel-copy{padding:14px 16px 16px;}
-.channel-grid-card{padding:18px 12px 14px;text-align:center;cursor:pointer;}.channel-grid-card:hover{transform:translateY(-3px);border-color:var(--gold);}.channel-profile{width:104px;height:104px;margin:0 auto 12px;border-radius:50%;overflow:hidden;background:var(--gold);border:3px solid var(--surface3);display:flex;align-items:center;justify-content:center;color:#171717;font-weight:800;font-size:25px;box-shadow:0 4px 16px rgba(0,0,0,.16);}.channel-profile img{width:100%;height:100%;object-fit:cover;display:block;}.channel-detail{margin-top:22px;overflow:hidden;}.channel-detail-cover{height:155px;background:linear-gradient(125deg,#27292e,#626773);background-size:cover;background-position:center;position:relative;}.channel-detail-cover:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 22%,rgba(0,0,0,.56));}.channel-detail-main{position:relative;padding:0 18px 18px;}.channel-detail-avatar{position:relative;z-index:2;width:76px;height:76px;margin-top:-38px;border:4px solid var(--surface);border-radius:50%;overflow:hidden;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#171717;font-size:19px;font-weight:800;}.channel-detail-avatar img{width:100%;height:100%;object-fit:cover;display:block;}.channel-detail-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;flex-wrap:wrap;}.channel-kpis{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;}.channel-kpi{min-width:135px;padding:10px 12px;background:var(--surface2);border:1px solid var(--line);border-radius:10px;}.channel-kpi b{display:block;font-size:17px;line-height:1.15;}.channel-kpi span{font-size:11px;color:var(--mut);display:block;margin-top:3px;}.video-link{position:absolute;right:8px;top:8px;z-index:4;width:30px;height:30px;border:1px solid rgba(255,255,255,.75);border-radius:50%;background:rgba(20,22,26,.82);color:#fff;display:grid;place-items:center;cursor:pointer;opacity:0;transition:.16s;font-size:14px;}.video-hover-actions{position:absolute;right:8px;top:8px;z-index:4;display:flex;gap:6px;opacity:0;transform:translateY(-3px);transition:.16s}.vcard:hover .video-hover-actions,.vcard:focus-within .video-hover-actions{opacity:1;transform:none}.video-hover-actions button{border:1px solid rgba(255,255,255,.72);border-radius:7px;background:rgba(20,22,26,.9);color:#fff;padding:6px 8px;font-size:10.5px;font-weight:800;cursor:pointer}.video-hover-actions button:hover{background:var(--gold);color:#1b1608;border-color:var(--gold)}.video-linked{position:absolute;left:8px;bottom:8px;z-index:3;max-width:calc(100% - 16px);padding:4px 8px;border-radius:20px;background:rgba(21,24,28,.88);color:#fff;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.library-filters{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:8px;margin-top:14px}.library-filters input,.library-filters select{min-width:0}.library-list{display:grid;gap:10px;margin-top:12px;}.library-video{display:grid;grid-template-columns:130px 1fr auto;gap:12px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);}.library-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.library-thumb{height:74px;border-radius:7px;background:center/cover no-repeat var(--surface3);}.library-video .lib-title{font-size:13px;font-weight:700;}.library-video .lib-meta{font-size:11.5px;color:var(--mut);margin-top:4px;}@media(max-width:620px){.video-hover-actions{opacity:1;transform:none}.video-hover-actions button{font-size:10px;padding:5px 6px}.library-filters{grid-template-columns:1fr 1fr}.library-filters input{grid-column:1/-1}.library-video{grid-template-columns:98px 1fr;}.library-actions{grid-column:2;justify-content:flex-start}.library-thumb{height:60px;}}
+.channel-grid-card{padding:18px 12px 14px;text-align:center;cursor:pointer;}.channel-grid-card:hover{transform:translateY(-3px);border-color:var(--gold);}.channel-reel{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 8px;scroll-snap-type:x mandatory;scrollbar-width:none}.channel-reel::-webkit-scrollbar{display:none}.channel-reel .channel-grid-card{flex:0 0 min(215px,72vw);scroll-snap-align:start}.channel-profile{width:104px;height:104px;margin:0 auto 12px;border-radius:50%;overflow:hidden;background:var(--gold);border:3px solid var(--surface3);display:flex;align-items:center;justify-content:center;color:#171717;font-weight:800;font-size:25px;box-shadow:0 4px 16px rgba(0,0,0,.16);}.channel-profile img{width:100%;height:100%;object-fit:cover;display:block;}.channel-detail{margin-top:22px;overflow:hidden;}.channel-detail-cover{height:155px;background:linear-gradient(125deg,#27292e,#626773);background-size:cover;background-position:center;position:relative;}.channel-detail-cover:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 22%,rgba(0,0,0,.56));}.channel-detail-main{position:relative;padding:0 18px 18px;}.channel-detail-avatar{position:relative;z-index:2;width:76px;height:76px;margin-top:-38px;border:4px solid var(--surface);border-radius:50%;overflow:hidden;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#171717;font-size:19px;}.channel-detail-avatar img{width:100%;height:100%;object-fit:cover;display:block;}.channel-detail-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;flex-wrap:wrap;}.channel-kpis{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;}.channel-kpi{min-width:135px;padding:10px 12px;background:var(--surface2);border:1px solid var(--line);border-radius:10px;}.channel-kpi b{display:block;font-size:17px;line-height:1.15;}.channel-kpi span{font-size:11px;color:var(--mut);display:block;margin-top:3px;}.video-link{position:absolute;right:8px;top:8px;z-index:4;width:30px;height:30px;border:1px solid rgba(255,255,255,.75);border-radius:50%;background:rgba(20,22,26,.82);color:#fff;display:grid;place-items:center;cursor:pointer;opacity:0;transition:.16s;font-size:14px;}.video-hover-actions{position:absolute;right:8px;top:8px;z-index:4;display:flex;gap:6px;opacity:0;transform:translateY(-3px);transition:.16s}.vcard:hover .video-hover-actions,.vcard:focus-within .video-hover-actions{opacity:1;transform:none}.video-hover-actions button{border:1px solid rgba(255,255,255,.72);border-radius:7px;background:rgba(20,22,26,.9);color:#fff;padding:6px 8px;font-size:10.5px;font-weight:800;cursor:pointer}.video-hover-actions button:hover{background:var(--gold);color:#1b1608;border-color:var(--gold)}.video-linked{position:absolute;left:8px;bottom:8px;z-index:3;max-width:calc(100% - 16px);padding:4px 8px;border-radius:20px;background:rgba(21,24,28,.88);color:#fff;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.library-filters{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:8px;margin-top:14px}.library-filters input,.library-filters select{min-width:0}.library-list{display:grid;gap:10px;margin-top:12px;}.library-video{display:grid;grid-template-columns:130px 1fr auto;gap:12px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);}.library-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.library-thumb{height:74px;border-radius:7px;background:center/cover no-repeat var(--surface3);}.library-video .lib-title{font-size:13px;font-weight:700;}.library-video .lib-meta{font-size:11.5px;color:var(--mut);margin-top:4px;}@media(max-width:620px){.video-hover-actions{opacity:1;transform:none}.video-hover-actions button{font-size:10px;padding:5px 6px}.library-filters{grid-template-columns:1fr 1fr}.library-filters input{grid-column:1/-1}.library-video{grid-template-columns:98px 1fr;}.library-actions{grid-column:2;justify-content:flex-start}.library-thumb{height:60px;}}
 /* pomodoro */
 .pomo{display:flex;flex-direction:column;align-items:center;text-align:center;} .ring{width:220px;height:220px;border-radius:50%;border:8px solid var(--surface3);border-top-color:var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:10px 0;} .ring .tt{font-size:44px;font-weight:800;} .ring .st{color:var(--mut);font-size:13px;} .cyc{display:flex;gap:8px;margin:8px 0;} .cyc i{width:12px;height:12px;border-radius:50%;background:var(--surface3);} .cyc i.on{background:var(--gold);}
 .note{background:var(--surface2);border-left:2px solid var(--gold);border-radius:8px;padding:12px 14px;color:var(--mut);font-size:13.5px;margin-top:14px;}
@@ -296,6 +298,7 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
     <div class="menu" id="userMenu">
       <div class="menu-head"><div class="avatar sm" id="menuAv">JA</div><div><div class="big" id="menuName">—</div><div class="muted" id="menuMail">—</div></div></div>
       <button class="menu-item" onclick="go('config');toggleMenu(false)">Configurações</button>
+      <button class="menu-item" id="adminMenuItem" style="display:none" onclick="go('admin');toggleMenu(false)">Administração</button>
       <button class="menu-item danger" onclick="cloudLogout&&cloudLogout()">Sair da conta</button>
     </div>
   </div>
@@ -313,6 +316,7 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
   <div class="screen" id="s-guias"></div>
   <div class="screen" id="s-canais"></div>
   <div class="screen" id="s-config"></div>
+  <div class="screen" id="s-admin"></div>
 </div>
 
 <div class="fab" id="fab"><div class="fi"></div><div><div class="fn" id="fabN">Rodando · toque para voltar</div><div class="ft mono" id="fabT">—</div></div><div class="fx"><button class="mini2" id="bell" title="Sino de hora em hora"><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button><button class="mini2" id="fabGo" title="Abrir projeto"><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg></button></div></div>
@@ -376,6 +380,34 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
   let sbc=null, SB_USER=null, _ct=null, _signup=false;
   try{ sbc=window.supabase.createClient(SUPA_URL,SUPA_KEY); }catch(e){}
   const $g=id=>document.getElementById(id);
+  let TEAM_STATE={enabled:false,profile:null};
+  window.centralTeam={
+    state:()=>TEAM_STATE,
+    async refresh(){
+      if(!sbc||!SB_USER)return TEAM_STATE;
+      try{
+        let {data,error}=await sbc.from('central_profiles').select('user_id,email,display_name,role').eq('user_id',SB_USER.id).maybeSingle();
+        if(error)throw error;
+        if(!data){
+          const display=SB_USER.user_metadata&&SB_USER.user_metadata.full_name||SB_USER.email||'Membro da equipe';
+          const created=await sbc.from('central_profiles').insert({user_id:SB_USER.id,email:SB_USER.email||'',display_name:display,role:'pending'}).select('user_id,email,display_name,role').single();
+          if(created.error)throw created.error; data=created.data;
+        }
+        TEAM_STATE={enabled:true,profile:data};
+      }catch(error){ TEAM_STATE={enabled:false,profile:null}; }
+      return TEAM_STATE;
+    },
+    async profiles(){if(!sbc||!TEAM_STATE.enabled)return[];const {data,error}=await sbc.from('central_profiles').select('user_id,email,display_name,role,created_at').order('created_at');if(error)throw error;return data||[];},
+    async setRole(userId,role){if(!sbc)throw new Error('Conexão indisponível.');const {error}=await sbc.from('central_profiles').update({role}).eq('user_id',userId);if(error)throw error;},
+    async content(){if(!sbc||!TEAM_STATE.enabled)return[];const {data,error}=await sbc.from('central_content').select('content_key,value,updated_at');if(error)throw error;return data||[];},
+    async saveContent(contentKey,value){if(!sbc)throw new Error('Conexão indisponível.');const {error}=await sbc.from('central_content').upsert({content_key:contentKey,value,updated_by:SB_USER.id,updated_at:new Date().toISOString()});if(error)throw error;},
+    async shareProject(project){if(!sbc)throw new Error('Conexão indisponível.');const payload={...project,_localProjectId:project.id};const {data,error}=await sbc.from('central_projects').insert({owner_id:SB_USER.id,title:project.nome,priority:project.priority||'normal',deadline:project.prazo||null,impact:project.impact||'internal',confidentiality:project.confidentiality||'internal',payload}).select('id').single();if(error)throw error;return data;},
+    async updateSharedProject(projectId,project){if(!sbc)return;const payload={...project,_localProjectId:project.id};const {error}=await sbc.from('central_projects').update({title:project.nome,priority:project.priority||'normal',deadline:project.prazo||null,impact:project.impact||'internal',confidentiality:project.confidentiality||'internal',payload,updated_at:new Date().toISOString()}).eq('id',projectId);if(error)throw error;},
+    async sharedProjects(){if(!sbc||!TEAM_STATE.enabled)return[];const {data,error}=await sbc.from('central_projects').select('id,owner_id,title,priority,deadline,impact,confidentiality,payload,updated_at').order('updated_at',{ascending:false});if(error)throw error;return data||[];},
+    async projectMembers(projectId){if(!sbc)return[];const {data,error}=await sbc.from('central_project_members').select('user_id,project_role').eq('project_id',projectId);if(error)throw error;return data||[];},
+    async setProjectMember(projectId,userId,projectRole){if(!sbc)throw new Error('Conexão indisponível.');const {error}=await sbc.from('central_project_members').upsert({project_id:projectId,user_id:userId,project_role:projectRole});if(error)throw error;},
+    async removeProjectMember(projectId,userId){if(!sbc)throw new Error('Conexão indisponível.');const {error}=await sbc.from('central_project_members').delete().eq('project_id',projectId).eq('user_id',userId);if(error)throw error;}
+  };
   window.cloudSave=function(obj){ if(!SB_USER||!sbc)return; clearTimeout(_ct); _ct=setTimeout(async()=>{ try{ await sbc.from('dados_central').upsert({user_id:SB_USER.id,conteudo:obj,atualizado_em:new Date().toISOString()}); }catch(e){} },1200); };
   window.cloudLogout=async function(){ try{ sbc&&await sbc.auth.signOut(); }catch(e){} try{ localStorage.removeItem(APP_KEY); }catch(e){} location.reload(); };
   /* Chamadas autenticadas para recursos protegidos da Central (nunca expõe secrets no HTML). */
@@ -399,7 +431,7 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
       else if(local){ try{ await sbc.from('dados_central').upsert({user_id:SB_USER.id,conteudo:JSON.parse(local)}); }catch(e){} }
     }catch(e){}
   }
-  async function startAuthed(){ await pullOrMigrate(); const g=$g('authGate'); if(g)g.style.display='none'; runApp(); }
+  async function startAuthed(){ await pullOrMigrate(); await window.centralTeam.refresh(); const g=$g('authGate'); if(g)g.style.display='none'; runApp(); }
   window.agToggle=function(){ _signup=!_signup; $g('agBtn').textContent=_signup?'Criar conta':'Entrar'; $g('agSub').textContent=_signup?'Crie sua conta para salvar tudo na nuvem.':'Entre para acessar seus projetos na nuvem.'; $g('agToggleWrap').innerHTML=_signup?'Já tem conta? <a onclick="agToggle()">Entrar</a>':'Ainda não tem conta? <a onclick="agToggle()">Criar conta</a>'; $g('agErr').textContent=''; };
   function traduz(m){ m=(m||'').toLowerCase(); if(m.includes('invalid login')) return 'E-mail ou senha incorretos.'; if(m.includes('already')) return 'Esse e-mail já tem conta. Clique em Entrar.'; if(m.includes('password')) return 'Senha muito curta (mínimo 6 caracteres).'; if(m.includes('email')) return 'E-mail inválido.'; return 'Não foi possível. Verifique os dados e tente de novo.'; }
   window.agSubmit=async function(){
@@ -462,7 +494,7 @@ if(!DB.melhorias)DB.melhorias=[];
 if(!DB.avisos)DB.avisos=[];
 [{id:"aviso_horas",nome:"Enviar horas extras",tipo:"mensal",dia:20,ativo:true,fixo:true,grau:"importante",som:"ding"},{id:"aviso_relatorio",nome:"Enviar o relatório",tipo:"mensal",dia:20,ativo:true,fixo:true,grau:"importante",som:"ding"}].forEach(fx=>{if(!DB.avisos.some(a=>a.id===fx.id))DB.avisos.unshift(fx);});
 (function(){const r=DB.avisos.find(a=>a.id==='aviso_relatorio');if(r&&r.urgente)r.urgente=false;DB.avisos.forEach(a=>{if(!a.grau)a.grau='normal';if(!a.som)a.som='bip';});})();
-function save(){LS.set(KEY,DB);if(window.cloudSave)window.cloudSave(DB);}
+function save(){LS.set(KEY,DB);if(window.cloudSave)window.cloudSave(DB);queueSharedProjectSync();}
 
 /* ===== Categorias: Canal -> Programas ===== */
 const CATEGORIES={
@@ -516,6 +548,7 @@ function go(s){
   if(s==='guias')renderGuias();
   if(s==='canais')renderCanais();
   if(s==='config')renderConfig();
+  if(s==='admin')renderAdmin();
   if(s==='pomodoro')renderPomodoro();
   window.scrollTo({top:0,behavior:'smooth'});
   if(typeof positionDock==='function')setTimeout(positionDock,60);
@@ -567,6 +600,7 @@ function renderProjetos(){
      <div><h1>Olá, ${esc((DB.profile.name||'editor').split(' ')[0])}</h1><div class="sub">${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})} · seus projetos e cronômetros</div></div>
      <div class="row" style="gap:14px"><button class="btn gold" onclick="newProjectModal()">+ Novo projeto</button></div>
    </div>
+   ${renderSharedProjects()}
    <div class="toolbar">
      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg><input id="pSearch" placeholder="Buscar projeto por nome..."></div>
      <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap">
@@ -650,6 +684,10 @@ function projectFormHTML(p){
       <div class="field"><label>Nome</label><input class="inp" id="npNome" placeholder="Ex: Giro da Bolsa 14-09" value="${esc(p.nome||'')}"></div>
       <div class="field"><label>Editor</label><input class="inp" id="npEditor" value="${esc(p.editor!=null?p.editor:DB.profile.name)}"></div>
       <div class="field"><label>Data</label><input class="inp" id="npData" type="date" value="${esc(p.data!=null?p.data:today)}"></div>
+      <div class="field"><label>Prazo</label><input class="inp" id="npPrazo" type="date" value="${esc(p.prazo||'')}"></div>
+      <div class="field"><label>Prioridade</label><select class="inp" id="npPriority"><option value="low" ${(p.priority||'normal')==='low'?'selected':''}>Baixa</option><option value="normal" ${(p.priority||'normal')==='normal'?'selected':''}>Normal</option><option value="high" ${(p.priority||'normal')==='high'?'selected':''}>Alta</option><option value="urgent" ${(p.priority||'normal')==='urgent'?'selected':''}>Urgente</option></select></div>
+      <div class="field"><label>Impacto</label><select class="inp" id="npImpact"><option value="internal" ${(p.impact||'internal')==='internal'?'selected':''}>Interno</option><option value="team" ${(p.impact||'internal')==='team'?'selected':''}>Time</option><option value="company" ${(p.impact||'internal')==='company'?'selected':''}>Empresa</option><option value="external" ${(p.impact||'internal')==='external'?'selected':''}>Externo</option></select></div>
+      <div class="field"><label>Confidencialidade</label><select class="inp" id="npConfidentiality"><option value="public" ${(p.confidentiality||'internal')==='public'?'selected':''}>Público</option><option value="internal" ${(p.confidentiality||'internal')==='internal'?'selected':''}>Interno</option><option value="confidential" ${(p.confidentiality||'internal')==='confidential'?'selected':''}>Confidencial</option></select></div>
       <div class="field"><label>Canal / Categoria</label><select class="inp" id="npCanal" onchange="npUpdatePrograma()">${canais.map(c=>`<option ${c===curCanal?'selected':''}>${esc(c)}</option>`).join("")}</select></div>
       <div class="field" id="npCanalTxtWrap" style="display:none"><label>Descreva (o que é?)</label><input class="inp" id="npCanalTxt" placeholder="Ex: Reunião, Treinamento, Arte" value="${esc(p.canalTxt||'')}"></div>
       <div class="field"><label>Programa</label><select class="inp" id="npPrograma"></select></div>
@@ -681,7 +719,7 @@ function saveProjectForm(id){
   if(isVideoCanal(canal)&&!bruto){toast("Informe o tempo do bruto (hh:mm) para projetos de vídeo.");$("#npBruto").focus();return;}
   if(bruto&&!validHM(bruto)){toast("Tempo do bruto inválido. Use o formato hh:mm (ex: 01:30).");$("#npBruto").focus();return;}
   const data=$("#npData").value||(programa==='Gaveta'?'':new Date().toISOString().slice(0,10));
-  const base={nome,editor:$("#npEditor").value.trim(),data,canal,canalTxt,programa,programaTxt,bruto,fluxo:$("#npFluxo").value,drive:$("#npDrive").value.trim(),links:collectLinks(),obs:$("#npObs").value.trim()};
+  const base={nome,editor:$("#npEditor").value.trim(),data,prazo:$("#npPrazo").value,priority:$("#npPriority").value,impact:$("#npImpact").value,confidentiality:$("#npConfidentiality").value,canal,canalTxt,programa,programaTxt,bruto,fluxo:$("#npFluxo").value,drive:$("#npDrive").value.trim(),links:collectLinks(),obs:$("#npObs").value.trim()};
   if(id){const p=getProject(id);if(p){Object.assign(p,base);save();closeModal();openProject(id);toast("Projeto atualizado.");}}
   else{const p=Object.assign({id:uid(),status:"em edição",done:false,createdAt:Date.now(),timers:makeDefaultTimers(),checklist:emptyChecklist()},base);DB.projects.unshift(p);save();closeModal();openProject(p.id);toast("Projeto criado.");}
 }
@@ -698,7 +736,7 @@ function renderProjeto(){
     <div class="row between wrapf">
       <div><div class="row" style="gap:10px"><button class="btn ghost sm" onclick="go('projetos')">← Projetos</button><h1 style="font-size:23px">${esc(p.nome)}</h1><span class="pill">${esc(canalLabel(p))}</span><span class="pill ${tipoClass}">${esc(programaLabel(p))}</span>${statusSelo(p)}</div>
       <div class="sub">${p.data?fmtDateBR(p.data):'Sem data'} · Editor: ${esc(p.editor||'—')}${p.bruto?' · Bruto: '+esc(p.bruto):''}${p.projStart?' · <b>Início:</b> '+fmtDT(p.projStart):''}${p.doneAt&&projDone(p)?' · <b>Concluído:</b> '+fmtDT(p.doneAt):''}</div></div>
-      <div class="row wrapf" style="gap:8px">${p.drive?`<button class="btn ghost sm" onclick="openLink('${encodeURI(p.drive)}')">Abrir Drive</button>`:''}${(p.links||[]).map(l=>`<button class="btn ghost sm" onclick="openLink('${encodeURI(l.url)}')">${esc(l.label||'Link')}</button>`).join("")}<button class="btn ${projDone(p)?'ghost':'gold'} sm" onclick="toggleDone('${p.id}')">${projDone(p)?'Reabrir':'Concluir'}</button><button class="btn ghost sm" onclick="toggleChat()">Chat</button><button class="btn ghost sm" onclick="editProject('${p.id}')">Editar</button><button class="btn ghost sm" onclick="delProject('${p.id}')">Excluir</button></div>
+      <div class="row wrapf" style="gap:8px">${p.drive?`<button class="btn ghost sm" onclick="openLink('${encodeURI(p.drive)}')">Abrir Drive</button>`:''}${(p.links||[]).map(l=>`<button class="btn ghost sm" onclick="openLink('${encodeURI(l.url)}')">${esc(l.label||'Link')}</button>`).join("")}${projectTeamButton(p)}<button class="btn ${projDone(p)?'ghost':'gold'} sm" onclick="toggleDone('${p.id}')">${projDone(p)?'Reabrir':'Concluir'}</button><button class="btn ghost sm" onclick="toggleChat()">Chat</button><button class="btn ghost sm" onclick="editProject('${p.id}')">Editar</button><button class="btn ghost sm" onclick="delProject('${p.id}')">Excluir</button></div>
     </div>
     <div class="grid g4" style="margin-top:20px">
       <div class="card"><div class="muted">Tempo total</div><div class="kpi mono" id="pTotal" style="margin-top:4px">${fmt(projectTotal(p))}</div></div>
@@ -716,7 +754,6 @@ function renderProjeto(){
     </div>
     <div class="new-timer" id="newBtn" onclick="toggleNewForm(true)">＋ Novo cronômetro</div>
     ${checklistPct(p)===100&&!projDone(p)?`<div class="bridge" style="border-color:var(--green)"><div><div class="big">Tudo checado! </div><div class="muted">O checklist chegou a 100%. Quer marcar este projeto como concluído?</div></div><button class="btn gold" onclick="toggleDone('${p.id}')">Marcar como concluída</button></div>`:''}
-    <div class="card destaque compact" onclick="insClick()" style="margin-bottom:16px"></div>
     <div class="bridge"><div><div class="big">Etapas concluídas? Passe para a verificação final.</div><div class="muted">O tempo de cada etapa entra no relatório junto com o checklist.</div></div><button class="btn gold" onclick="openChecklist('${p.id}')">→ Próximo passo: Checklist</button></div>
     ${renderPublishedVideo(p)}
     </div>
@@ -875,6 +912,14 @@ bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9
 pin:'<path d="M12 17v5"/><path d="M9 4h6v6l2 2v2H7v-2l2-2z"/>',
 lightbulb:'<path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>'
 };return '<svg class="luc" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(P[n]||'')+'</svg>';}
+let TEAM_CONTENT={};
+function siteText(key,fallback){const value=TEAM_CONTENT[key];return value&&typeof value.text==='string'&&value.text.trim()?value.text:fallback;}
+function siteImage(key,fallback=''){const value=TEAM_CONTENT[key];return value&&typeof value.url==='string'&&value.url.trim()?value.url:fallback;}
+async function loadTeamContent(){
+  if(!window.centralTeam||!window.centralTeam.state().enabled)return;
+  try{const rows=await window.centralTeam.content();TEAM_CONTENT={};rows.forEach(row=>TEAM_CONTENT[row.content_key]=row.value||{});if(current==='inicio')renderInicio();if(current==='guias')renderGuias();if(current==='canais')renderCanais();}
+  catch(error){}
+}
 function renderInicio(){
   const nome=(DB.profile.name||'editor').split(' ')[0];
   const emCurso=DB.tasks.filter(t=>!t.done);
@@ -886,9 +931,9 @@ function renderInicio(){
   const topTasks=emCurso.slice().sort((a,b)=>{const o={urgente:0,importante:1,normal:2,lembrete:3};return (o[a.grau]-o[b.grau])||((a.prazo||'zzz').localeCompare(b.prazo||'zzz'));}).slice(0,6);
   $("#s-inicio").innerHTML=`
    <div class="ihero">
-     <div class="herocard${DB.profile.photo?' hasphoto':''}"><div class="blob"></div>${DB.profile.photo?`<div class="pbg" style="background-image:url('${DB.profile.photo}')"></div>`:''}
+    <div class="herocard${siteImage('home_hero_image',DB.profile.photo)?' hasphoto':''}"><div class="blob"></div>${siteImage('home_hero_image',DB.profile.photo)?`<div class="pbg" style="background-image:url('${esc(siteImage('home_hero_image',DB.profile.photo))}')"></div>`:''}
        <h1>Olá, ${esc(nome)} </h1>
-       <div class="hd">${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}. Organize, cronometre e acompanhe a produção do dia.</div>
+       <div class="hd">${esc(siteText('home_subtitle',new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})+'. Organize, cronometre e acompanhe a produção do dia.'))}</div>
        <button class="hcta" onclick="newProjectModal()">+ Novo projeto</button>
      </div>
      <div class="clockcard" id="clockCard">
@@ -977,7 +1022,7 @@ function renderFeed(i){
   const tabs=$("#chtabs");if(!tabs)return;
   tabs.innerHTML=CANAIS_FEED.map((c,k)=>`<div class="chtab ${k===i?'on':''}" onclick="renderFeed(${k})"><div class="chav" style="background:${c.cor}">${c.avatar?`<img src="${esc(c.avatar)}" alt="">`:c.ini}</div><div><div class="cn">${esc(c.n)}</div><div class="cs">${esc(c.subs)}</div></div></div>`).join("");
   const c=CANAIS_FEED[i];
-  const cards=c.vids.map((v,vi)=>{const linked=linkedProjectForVideo(v),videoUrl=v.url||c.u;return `<div class="vcard" onclick="window.open('${esc(videoUrl)}','_blank','noopener')"><div class="vthumb" style="background:${v.thumb?'center / cover no-repeat url(\''+esc(v.thumb)+'\')':v.g}"><div class="video-hover-actions"><button title="Vincular este vídeo a um projeto" onclick="event.stopPropagation();openVideoLinker(${i},${vi})">Vincular</button><button title="Criar mensagem para compartilhar este vídeo" onclick="event.stopPropagation();openPublicationForVideo(${i},${vi})">Criar publicação</button></div><div class="vpl"><span>▶</span></div><div class="vdur">${v.dur}</div>${linked?`<div class="video-linked" title="Vinculado a ${esc(linked.nome)}">${esc(linked.nome)}</div>`:''}</div><div class="vtt">${esc(v.t)}</div><div class="vmt"><span class="g">${_eye}<b>${v.v}</b></span><span class="g">${_like}<b>${v.l}</b></span><span>${youtubePublicationDate(v)}</span></div></div>`;}).join("");
+  const cards=c.vids.map((v,vi)=>{const linked=linkedProjectForVideo(v),shared=sharedProjectForVideo(v),videoUrl=v.url||c.u;const projectTag=linked?`<div class="video-linked" title="Vinculado a ${esc(linked.nome)}">${esc(linked.nome)}</div>`:shared?`<button class="video-linked" title="Ver projeto vinculado" onclick="event.stopPropagation();openSharedProject('${shared.id}')">${esc(shared.title)}</button>`:'';return `<div class="vcard" onclick="window.open('${esc(videoUrl)}','_blank','noopener')"><div class="vthumb" style="background:${v.thumb?'center / cover no-repeat url(\''+esc(v.thumb)+'\')':v.g}"><div class="video-hover-actions"><button title="Vincular este vídeo a um projeto" onclick="event.stopPropagation();openVideoLinker(${i},${vi})">Vincular</button><button title="Criar mensagem para compartilhar este vídeo" onclick="event.stopPropagation();openPublicationForVideo(${i},${vi})">Criar publicação</button></div><div class="vpl"><span>▶</span></div><div class="vdur">${v.dur}</div>${projectTag}</div><div class="vtt">${esc(v.t)}</div><div class="vmt"><span class="g">${_eye}<b>${v.v}</b></span><span class="g">${_like}<b>${v.l}</b></span><span>${youtubePublicationDate(v)}</span></div></div>`;}).join("");
   $("#feedBody").innerHTML=`
    <div class="feedhead"><div class="who"><div class="big2" style="background:${c.cor}">${c.avatar?`<img src="${esc(c.avatar)}" alt="">`:c.ini}</div><div><div class="nm">${esc(c.n)}</div><div class="sb">${esc(c.subs)} · ${c.vids.length} vídeos recentes</div></div></div>
      <button class="opench" onclick="openVideoLibrary(${i})">Ver todos os vídeos</button></div>
@@ -1492,7 +1537,7 @@ function guiaCard(g){
 }
 function renderGuias(){
   $("#s-guias").innerHTML=`
-   <div><h1>Guias</h1><div class="sub">Treinamentos, playbooks e ferramentas para dominar a produção. Ponto de partida para quem está começando.</div></div>
+   <div><h1>Guias</h1><div class="sub">${esc(siteText('guides_intro','Treinamentos, playbooks e ferramentas para dominar a produção. Ponto de partida para quem está começando.'))}</div></div>
    ${GUIAS.map((row,ri)=>`
      <div class="guia-row">
        <div class="big" style="margin:22px 0 10px">${esc(row.cat)}</div>
@@ -1508,19 +1553,20 @@ function channelByName(name){return CANAIS_FEED.find(channel=>channel.n===name)|
 function renderChannelDetails(){
   const target=$("#channelDetails");if(!target||!selectedChannelName)return;
   const c=channelByName(selectedChannelName);if(!c)return;
-  const avatar=c.avatar||"",cover=c.banner||c.avatar||"",videos=c.vids||[];
-  const totalViews=videos.reduce((sum,v)=>sum+Number(v.views||0),0),totalLikes=videos.reduce((sum,v)=>sum+Number(v.likes||0),0);
-  const compact=n=>n>=1000000?`${(n/1000000).toLocaleString('pt-BR',{maximumFractionDigits:1})} mi`:n>=1000?`${(n/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})} mil`:n?String(n):'—';
-  target.innerHTML=`<div class="card channel-detail"><div class="channel-detail-cover"${cover?` style="background-image:url('${esc(cover)}')"`:""}></div><div class="channel-detail-main"><div class="channel-detail-head"><div><div class="channel-detail-avatar">${avatar?`<img src="${esc(avatar)}" alt="">`:channelInitials(c.n)}</div><div class="big" style="font-size:19px;margin-top:10px">${esc(c.n)}</div><div class="muted">Dados públicos do YouTube</div></div><div class="row wrapf" style="gap:8px"><button class="btn ghost sm" onclick="openVideoLibraryByName('${esc(c.n)}')">Ver vídeos</button><button class="btn gold sm" onclick="openLink('${encodeURI(c.u||'')}')">Abrir canal</button></div></div><div class="channel-kpis"><div class="channel-kpi"><b>${esc(c.subs||'—')}</b><span>inscritos</span></div><div class="channel-kpi"><b>${compact(totalViews)}</b><span>views dos vídeos carregados</span></div><div class="channel-kpi"><b>${compact(totalLikes)}</b><span>likes dos vídeos carregados</span></div></div></div></div>`;
+  const avatar=c.avatar||"",cover=c.banner||c.avatar||"";
+  const total=n=>Number.isFinite(Number(n))&&Number(n)>0?Number(n).toLocaleString('pt-BR'):'—';
+  target.innerHTML=`<div class="card channel-detail"><div class="channel-detail-cover"${cover?` style="background-image:url('${esc(cover)}')"`:""}></div><div class="channel-detail-main"><div class="channel-detail-head"><div><div class="channel-detail-avatar">${avatar?`<img src="${esc(avatar)}" alt="">`:channelInitials(c.n)}</div><div class="big" style="font-size:19px;margin-top:10px">${esc(c.n)}</div><div class="muted">Dados públicos oficiais do YouTube</div></div><div class="row wrapf" style="gap:8px"><button class="btn ghost sm" onclick="openVideoLibraryByName('${esc(c.n)}')">Ver vídeos</button><button class="btn gold sm" onclick="openLink('${encodeURI(c.u||'')}')">Abrir canal</button></div></div><div class="channel-kpis"><div class="channel-kpi"><b>${esc(c.subs||'—')}</b><span>inscritos</span></div><div class="channel-kpi"><b>${total(c.videoCount)}</b><span>vídeos publicados</span></div><div class="channel-kpi"><b>${total(c.viewCount)}</b><span>visualizações totais</span></div></div></div></div>`;
 }
 function selectChannel(name){selectedChannelName=name;renderChannelDetails();const target=$("#channelDetails");if(target)target.scrollIntoView({behavior:'smooth',block:'start'});}
 function renderCanais(){
   const card=c=>{const live=channelByName(c.n)||{},avatar=live.avatar||"";return `<div class="card channel-grid-card" onclick="selectChannel('${esc(c.n)}')"><div class="channel-profile">${avatar?`<img src="${esc(avatar)}" alt="">`:channelInitials(c.n)}</div><div class="big">${esc(c.n)}</div><div class="muted" style="margin-top:4px">Ver dados do canal</div></div>`;};
-  $("#s-canais").innerHTML=`<div><h1>Canais AUVP</h1><div class="sub">Escolha um canal para ver os dados e os vídeos publicados.</div></div><div class="grid g4" style="margin-top:20px">${DB.channels.map(card).join("")}</div><div id="channelDetails"></div>`;
+  $("#s-canais").innerHTML=`<div><h1>Canais AUVP</h1><div class="sub">${esc(siteText('channels_intro','Escolha um canal para ver os dados e os vídeos publicados.'))}</div></div><div class="reelwrap" style="margin-top:20px"><button class="reel-arrow l" onclick="channelScroll(-1)" aria-label="Canais anteriores">‹</button><button class="reel-arrow r" onclick="channelScroll(1)" aria-label="Próximos canais">›</button><div class="channel-reel" id="channelReel">${DB.channels.map(card).join("")}</div></div><div id="channelDetails"></div>`;
   if(selectedChannelName)renderChannelDetails();
 }
+function channelScroll(direction){const reel=$('#channelReel');if(reel)reel.scrollBy({left:direction*250,behavior:'smooth'});}
 function videoKey(v){return v.id||v.videoId||v.t||'';}
 function linkedProjectForVideo(v){const key=videoKey(v);return DB.projects.find(project=>project.publishedVideo&&project.publishedVideo.id===key)||null;}
+function sharedProjectForVideo(v){const key=videoKey(v);return TEAM_SHARED_PROJECTS.find(project=>project.payload&&project.payload.publishedVideo&&project.payload.publishedVideo.id===key)||null;}
 function formatMetric(value){const n=Number(value);return Number.isFinite(n)?new Intl.NumberFormat('pt-BR',{notation:'compact',maximumFractionDigits:1}).format(n):String(value||'—');}
 function renderPublishedVideo(p){const v=p.publishedVideo;if(!v)return '';const metrics=[];if(v.views!=null)metrics.push(`<span>${formatMetric(v.views)} views</span>`);if(v.likes!=null)metrics.push(`<span>${formatMetric(v.likes)} likes</span>`);return `<section class="youtube-project-card" aria-label="Vídeo publicado vinculado"><div class="youtube-project-thumb" style="${v.thumb?`background-image:url('${esc(v.thumb)}')`:''}"></div><div class="youtube-project-copy"><div class="muted">Publicado no YouTube</div><h3>${esc(v.title||'Vídeo no YouTube')}</h3><div class="muted">${esc(v.channel||'Canal')}${v.publishedAt?' · '+esc(fmtDateBR(v.publishedAt.slice(0,10))):''}</div>${metrics.length?`<div class="youtube-project-metrics">${metrics.join('')}</div>`:'<div class="muted" style="margin-top:8px">Métricas públicas serão atualizadas na próxima sincronização.</div>'}</div><div class="row wrapf" style="gap:7px;justify-content:flex-end"><button class="btn ghost sm" onclick="openLink('${encodeURI(v.url||'')}')">Abrir vídeo</button><button class="btn ghost sm" onclick="unlinkPublishedVideo('${p.id}')">Desvincular</button></div></section>`;}
 function unlinkPublishedVideo(id){const p=getProject(id);if(!p||!p.publishedVideo)return;delete p.publishedVideo;save();renderProjeto();toast('Vídeo desvinculado do projeto.');}
@@ -1681,12 +1727,9 @@ function renderConfig(){
 function renderProfiles(){
   const cur=DB.prefs.profile||'ambar';const box=$("#profGrid");if(!box)return;
   const sw=name=>{const v=profileVars(name);return `<button class="prof ${cur===name?'on':''}" onclick="pickProfile('${name}')"><div class="prof-dots"><span style="background:${v['--headerbg']}"></span><span style="background:${v['--bg']}"></span><span style="background:${v['--gold']}"></span></div><div class="prof-name">${PROFILE_LABELS[name]}</div></button>`;};
-  box.innerHTML=['ambar','coral','violeta','escuro','custom'].map(sw).join("");
+  box.innerHTML=['ambar','escuro'].map(sw).join("");
   const cb=$("#customBox");
-  if(cur==='custom'){cb.style.display='block';const c=Object.assign({},CUSTOM_DEF,DB.prefs.customProfile||{});
-    const f=(k,lbl)=>`<div class="field" style="margin-top:0"><label>${lbl}</label><input type="color" class="col-in" value="${c[k]}" onchange="setCustom('${k}',this.value)"></div>`;
-    cb.innerHTML=`<div class="grid" style="grid-template-columns:repeat(4,1fr);gap:10px">${f('accent','Destaque')}${f('header','Cabeçalho')}${f('bg','Fundo')}${f('surface','Superfície')}${f('text','Texto')}${f('mut','Texto secundário')}${f('border','Bordas')}${f('danger','Alerta')}</div><button class="btn ghost sm" style="margin-top:12px" onclick="resetCustom()">Restaurar padrão</button>`;
-  }else cb.style.display='none';
+  if(cb){cb.style.display='none';cb.innerHTML='';}
   checkContrast();
 }
 function pickProfile(name){if(name==='custom'&&!DB.prefs.customProfile)DB.prefs.customProfile=Object.assign({},CUSTOM_DEF);setProfile(name);renderProfiles();}
@@ -1706,6 +1749,77 @@ function addFolder(){DB.reportFolders.push({label:"Novo mês",link:""});save();r
 function saveProfile(){DB.profile.name=$("#cfgName").value;DB.profile.role=$("#cfgRole").value;DB.profile.email=$("#cfgMail").value;DB.profile.team=$("#cfgTeam").value;save();refreshProfile();toast("Perfil salvo.");}
 function setFlow(f){DB.prefs.defaultFlow=f;save();$$("#flowSeg button").forEach((b,i)=>b.classList.toggle('on',(i===1)===(f==='Urgente')));}
 function toggleBell(el){el.classList.toggle('on');DB.prefs.bell=el.classList.contains('on');save();}
+
+/* ============================ EQUIPE E ADMINISTRAÇÃO ============================ */
+const TEAM_ROLE_LABEL={pending:'Pendente',owner:'Dono da plataforma',admin:'Administrador',manager:'Gestor',editor:'Editor',capture:'Captação',content:'Especialista em conteúdo'};
+function teamState(){return window.centralTeam&&window.centralTeam.state?window.centralTeam.state():{enabled:false,profile:null};}
+function teamIsAdmin(){const profile=teamState().profile;return !!profile&&['owner','admin'].includes(profile.role);}
+function refreshTeamMenu(){const item=$('#adminMenuItem');if(item)item.style.display=teamIsAdmin()?'block':'none';}
+async function renderAdmin(){
+  const screen=$('#s-admin');if(!screen)return;const state=teamState();
+  if(!state.enabled){screen.innerHTML=`<h1>Administração</h1><div class="card" style="margin-top:18px"><div class="big">A base de equipe ainda não foi ativada.</div><div class="sub">A Central continua funcionando normalmente. A ativação só acontece depois que as permissões seguras forem aplicadas no banco.</div></div>`;return;}
+  if(!teamIsAdmin()){screen.innerHTML=`<h1>Administração</h1><div class="card" style="margin-top:18px"><div class="big">Seu acesso está pendente.</div><div class="sub">Um administrador precisa definir seu cargo antes de liberar recursos de equipe.</div></div>`;return;}
+  screen.innerHTML=`<div class="row between wrapf"><div><h1>Administração</h1><div class="sub">Gerencie pessoas, cargos e textos gerais da Central.</div></div><span class="pill gold">Acesso administrativo</span></div><div class="grid g2" style="margin-top:20px"><section class="card"><div class="big">Equipe</div><div class="muted" style="margin-top:4px">Contas novas entram pendentes até você definir o acesso.</div><div id="teamPeople" style="margin-top:14px"><div class="muted">Carregando equipe…</div></div></section><section class="card"><div class="big">Conteúdo da Central</div><div class="muted" style="margin-top:4px">Edite textos e a imagem de destaque sem mexer no HTML.</div><div id="teamContentForm" style="margin-top:14px"><div class="muted">Carregando conteúdo…</div></div></section></div>`;
+  try{const [people,content]=await Promise.all([window.centralTeam.profiles(),window.centralTeam.content()]);renderTeamPeople(people);renderTeamContentForm(content);}catch(error){screen.innerHTML=`<h1>Administração</h1><div class="card" style="margin-top:18px"><div class="big">Não foi possível carregar os dados administrativos.</div><div class="sub">Tente novamente quando a conexão voltar.</div></div>`;}
+}
+function renderTeamPeople(people){const box=$('#teamPeople');if(!box)return;box.innerHTML=people.length?people.map(person=>{const locked=person.role==='owner';return `<div class="row between wrapf" style="padding:11px 0;border-bottom:1px solid var(--line);gap:8px"><div style="min-width:170px"><b>${esc(person.display_name||'Sem nome')}</b><div class="muted" style="font-size:12px">${esc(person.email||'')}</div></div><select class="inp" style="width:178px" ${locked?'disabled':''} onchange="adminSetRole('${person.user_id}',this.value)">${Object.entries(TEAM_ROLE_LABEL).map(([role,label])=>`<option value="${role}" ${person.role===role?'selected':''}>${label}</option>`).join('')}</select></div>`;}).join(''):'<div class="muted">Nenhuma conta cadastrada ainda.</div>';}
+function contentByKey(rows,key){const item=rows.find(row=>row.content_key===key);return item&&item.value||{};}
+function renderTeamContentForm(rows){const box=$('#teamContentForm');if(!box)return;const fields=[['home_subtitle','Texto principal da Home','text'],['guides_intro','Texto de Guias','text'],['channels_intro','Texto de Canais','text'],['home_hero_image','Imagem de destaque (link)','url']];box.innerHTML=fields.map(([key,label,type])=>{const value=type==='url'?contentByKey(rows,key).url||'':contentByKey(rows,key).text||'';return `<div class="field"><label>${label}</label>${type==='url'?`<input class="inp" id="content_${key}" value="${esc(value)}" placeholder="https://...">`:`<textarea class="inp" id="content_${key}" rows="3">${esc(value)}</textarea>`}</div>`;}).join('')+`<div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn gold" onclick="adminSaveContent()">Salvar conteúdo</button></div>`;}
+async function adminSetRole(userId,role){try{await window.centralTeam.setRole(userId,role);toast('Cargo atualizado.');renderAdmin();}catch(error){toast('Não foi possível alterar esse cargo.');renderAdmin();}}
+async function adminSaveContent(){const data=[['home_subtitle','text'],['guides_intro','text'],['channels_intro','text'],['home_hero_image','url']];try{for(const [key,field] of data){const el=$('#content_'+key);await window.centralTeam.saveContent(key,{[field]:(el&&el.value||'').trim()});}await loadTeamContent();toast('Conteúdo atualizado.');}catch(error){toast('Não foi possível salvar o conteúdo agora.');}}
+let _sharedSyncTimer=null;
+let TEAM_SHARED_PROJECTS=[];
+async function loadTeamProjects(){
+  const state=teamState();if(!state.enabled||!window.centralTeam)return;
+  try{TEAM_SHARED_PROJECTS=await window.centralTeam.sharedProjects();if(current==='projetos')renderProjetos();}
+  catch(error){TEAM_SHARED_PROJECTS=[];}
+}
+function renderSharedProjects(){
+  const localIds=new Set(DB.projects.map(project=>project.id));
+  const received=TEAM_SHARED_PROJECTS.filter(project=>!localIds.has(project.payload&&project.payload._localProjectId));
+  if(!received.length)return '';
+  return `<section class="card" style="margin-top:18px"><div class="row between wrapf"><div><div class="big">Projetos compartilhados com você</div><div class="muted" style="margin-top:3px">Acesse somente os projetos em que você foi incluído.</div></div><span class="pill gold">${received.length} compartilhado${received.length===1?'':'s'}</span></div><div class="grid g3" style="margin-top:14px">${received.map(project=>`<button class="card hoverable" style="text-align:left;padding:14px;cursor:pointer" onclick="openSharedProject('${project.id}')"><b>${esc(project.title)}</b><div class="muted" style="font-size:12px;margin-top:5px">${project.deadline?'Prazo '+fmtDateBR(project.deadline):'Sem prazo'} · ${project.confidentiality==='confidential'?'Confidencial':'Compartilhado'}</div></button>`).join('')}</div></section>`;
+}
+function openSharedProject(sharedId){
+  const shared=TEAM_SHARED_PROJECTS.find(project=>project.id===sharedId);if(!shared)return;
+  const project=shared.payload||{},published=project.publishedVideo;
+  const links=[project.drive?`<button class="btn ghost sm" onclick="openLink('${encodeURI(project.drive)}')">Abrir Drive</button>`:'',...(project.links||[]).map(link=>`<button class="btn ghost sm" onclick="openLink('${encodeURI(link.url||'')}')">${esc(link.label||'Link')}</button>`)].join('');
+  $('#modalBody').innerHTML=`<h3>${esc(shared.title)}</h3><div class="muted" style="margin-top:4px">Projeto compartilhado pela equipe</div><div class="grid g2" style="margin-top:16px"><div class="card" style="background:var(--surface2)"><div class="muted">Prioridade</div><b>${esc({low:'Baixa',normal:'Normal',high:'Alta',urgent:'Urgente'}[shared.priority]||'Normal')}</b></div><div class="card" style="background:var(--surface2)"><div class="muted">Prazo</div><b>${shared.deadline?fmtDateBR(shared.deadline):'Sem prazo'}</b></div><div class="card" style="background:var(--surface2)"><div class="muted">Impacto</div><b>${esc({internal:'Interno',team:'Time',company:'Empresa',external:'Externo'}[shared.impact]||'Interno')}</b></div><div class="card" style="background:var(--surface2)"><div class="muted">Acesso</div><b>${shared.confidentiality==='confidential'?'Confidencial':shared.confidentiality==='public'?'Público':'Interno'}</b></div></div>${project.obs?`<div class="field"><label>Observações</label><div class="note">${esc(project.obs)}</div></div>`:''}${published?`<div class="card" style="margin-top:14px"><div class="muted">Vídeo publicado</div><b>${esc(published.title||'Vídeo no YouTube')}</b><div class="row" style="margin-top:10px"><button class="btn gold sm" onclick="openLink('${encodeURI(published.url||'')}')">Abrir vídeo</button></div></div>`:''}${links?`<div class="row wrapf" style="margin-top:14px">${links}</div>`:''}<div class="row" style="justify-content:flex-end;margin-top:18px"><button class="btn ghost" onclick="closeModal()">Fechar</button></div>`;
+  openModal();
+}
+function queueSharedProjectSync(){
+  const state=teamState();if(!state.enabled||!window.centralTeam||!DB||!DB.projects)return;
+  clearTimeout(_sharedSyncTimer);_sharedSyncTimer=setTimeout(()=>{
+    DB.projects.filter(project=>project.teamProjectId).forEach(project=>window.centralTeam.updateSharedProject(project.teamProjectId,project).catch(()=>{}));
+  },1600);
+}
+function projectTeamButton(project){return teamIsAdmin()?`<button class="btn ghost sm" onclick="openProjectTeam('${project.id}')">Equipe</button>`:'';}
+async function openProjectTeam(projectId){
+  const project=getProject(projectId);if(!project||!teamIsAdmin())return;
+  $('#modalBody').innerHTML=`<h3>Equipe do projeto</h3><div class="muted" style="margin-top:4px">Defina quem pode acompanhar esta entrega. Editor e gestor podem editar; captação e conteúdo acompanham sem mexer em dados críticos.</div><div id="projectTeamBody" style="margin-top:16px"><div class="muted">Carregando equipe…</div></div><div class="row" style="justify-content:flex-end;margin-top:18px"><button class="btn ghost" onclick="closeModal()">Fechar</button></div>`;openModal();
+  try{
+    if(!project.teamProjectId){
+      $('#projectTeamBody').innerHTML=`<div class="card" style="background:var(--surface2)"><div class="big">Este projeto ainda é privado.</div><div class="muted" style="margin-top:5px">Ao liberar, apenas as pessoas que você adicionar aqui terão acesso a ele.</div><button class="btn gold" style="margin-top:14px" onclick="shareProjectWithTeam('${project.id}')">Liberar para equipe</button></div>`;
+      return;
+    }
+    await renderProjectTeam(project);
+  }catch(error){$('#projectTeamBody').innerHTML='<div class="muted">Não foi possível carregar a equipe deste projeto.</div>';}
+}
+async function shareProjectWithTeam(projectId){
+  const project=getProject(projectId);if(!project)return;
+  try{const shared=await window.centralTeam.shareProject(project);project.teamProjectId=shared.id;save();toast('Projeto liberado para equipe.');await renderProjectTeam(project);}
+  catch(error){toast('Não foi possível liberar o projeto agora.');}
+}
+async function renderProjectTeam(project){
+  const target=$('#projectTeamBody');if(!target||!project.teamProjectId)return;
+  const [people,members]=await Promise.all([window.centralTeam.profiles(),window.centralTeam.projectMembers(project.teamProjectId)]);
+  const memberByUser=new Map(members.map(member=>[member.user_id,member.project_role]));
+  target.innerHTML=`<div class="note" style="margin-bottom:10px">Projeto compartilhado. Pessoas fora desta lista não conseguem abrir os dados.</div>${people.filter(person=>person.role!=='pending').map(person=>{const own=person.user_id===teamState().profile.user_id;const role=memberByUser.get(person.user_id)||'';return `<div class="row between wrapf" style="padding:10px 0;border-bottom:1px solid var(--line);gap:8px"><div><b>${esc(person.display_name||person.email)}</b><div class="muted" style="font-size:12px">${esc(TEAM_ROLE_LABEL[person.role]||person.role)}</div></div>${own?'<span class="pill gold">Dono</span>':`<select class="inp" style="width:178px" onchange="setProjectAccess('${project.id}','${person.user_id}',this.value)"><option value="">Sem acesso</option><option value="manager" ${role==='manager'?'selected':''}>Gestor</option><option value="editor" ${role==='editor'?'selected':''}>Editor</option><option value="capture" ${role==='capture'?'selected':''}>Captação</option><option value="content" ${role==='content'?'selected':''}>Conteúdo</option><option value="viewer" ${role==='viewer'?'selected':''}>Somente visualizar</option></select>`}</div>`;}).join('')}`;
+}
+async function setProjectAccess(projectId,userId,role){
+  const project=getProject(projectId);if(!project||!project.teamProjectId)return;
+  try{if(role)await window.centralTeam.setProjectMember(project.teamProjectId,userId,role);else await window.centralTeam.removeProjectMember(project.teamProjectId,userId);toast(role?'Acesso atualizado.':'Acesso removido.');await renderProjectTeam(project);}catch(error){toast('Não foi possível alterar esse acesso.');}
+}
 
 /* ============================ PERFIL / TEMA / MENU ============================ */
 function refreshProfile(){const pr=DB.profile;const av=pr.photo?`<img src="${esc(pr.photo)}">`:initials(pr.name);$("#avatar").innerHTML=av;$("#menuAv").innerHTML=av;$("#menuName").textContent=pr.name;$("#menuMail").textContent=pr.email||pr.team||"";}
@@ -1802,7 +1916,10 @@ document.querySelector('.hin').insertAdjacentHTML('beforeend','<button class="bt
 applyProfile(activeTheme());
 renderThemeToggle();
 refreshProfile();
+refreshTeamMenu();
 renderInicio();
+loadTeamContent();
+loadTeamProjects();
 setTimeout(showOnboarding,350);
 </script>
 </body>
