@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Central do Editor alpha</title>
+<title>Central de Conteúdo - Beta</title>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Sora:wght@500;600;700&display=swap");
 h1,h2,h3,.big,.brand,.herocard h1,.feed-title .big,.panel-h h3,.sec-h h2{font-family:var(--disp);letter-spacing:-.01em;}
@@ -280,7 +280,7 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
 </head>
 <body class="light">
 <header><div class="hin">
-  <div class="brand" onclick="go('inicio')" style="cursor:pointer">Central do Editor <span class="ver">alpha</span></div>
+  <div class="brand" onclick="go('inicio')" style="cursor:pointer">Central de Conteúdo <span class="ver">Beta</span></div>
   <div class="tabs" id="tabs">
     <button data-s="inicio" class="active">Início</button>
     <button data-s="projetos">Projetos</button>
@@ -346,7 +346,7 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
 <div id="authGate" style="display:none">
   <div class="ag-bg"></div>
   <div class="ag-card">
-    <div class="ag-brand">Central do Editor <span>alpha</span></div>
+    <div class="ag-brand">Central de Conteúdo <span>Beta</span></div>
     <div class="ag-sub" id="agSub">Entre para acessar seus projetos na nuvem.</div>
     <input class="ag-inp" id="agEmail" type="email" placeholder="seu@email.com" autocomplete="email">
     <input class="ag-inp" id="agPass" type="password" placeholder="senha (mín. 6 caracteres)" autocomplete="current-password">
@@ -376,7 +376,8 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
 (function(){
   const SUPA_URL='https://igdcvuzqdawkvfelevmn.supabase.co';
   const SUPA_KEY='sb_publishable_8Spz-U5N7Tc-TacmvnetYw_WcioILPP';
-  const APP_KEY='central_editor_v1';
+  const APP_KEY_BASE='central_editor_v1';
+  let APP_KEY=APP_KEY_BASE;
   let sbc=null, SB_USER=null, _ct=null, _signup=false;
   try{ sbc=window.supabase.createClient(SUPA_URL,SUPA_KEY); }catch(e){}
   const $g=id=>document.getElementById(id);
@@ -423,15 +424,31 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
     return data;
   };
   function runApp(){ const el=$g('appcode'); if(!el||window.__appran)return; window.__appran=true; const s=document.createElement('script'); s.textContent=el.textContent; document.body.appendChild(s); }
+  function nameFromEmail(email){const local=String(email||'').split('@')[0].replace(/[._-]+/g,' ').trim();return local?local.replace(/\b\p{L}/gu,letter=>letter.toUpperCase()):'Pessoa da equipe';}
+  function parseData(raw){try{return raw?JSON.parse(raw):null;}catch(error){return null;}}
+  function isProfileTemplate(data){const profile=data&&data.profile||{};return !profile.email&&(!profile.name||profile.name==='Jean Alexandre (Xandão)');}
+  async function prepareProfile(){
+    const data=parseData(localStorage.getItem(APP_KEY));if(!data)return;
+    data.profile=data.profile||{};data.prefs=data.prefs||{};
+    const email=String(SB_USER.email||'').trim();let changed=false;
+    if(isProfileTemplate(data)){data.profile.name='';data.profile.role='';data.profile.team='';changed=true;}
+    if(email&&data.profile.email!==email){data.profile.email=email;changed=true;}
+    if(!data.profile.name&&email){data.profile.name=nameFromEmail(email);changed=true;}
+    if(changed){localStorage.setItem(APP_KEY,JSON.stringify(data));try{await sbc.from('dados_central').upsert({user_id:SB_USER.id,conteudo:data,atualizado_em:new Date().toISOString()});}catch(error){}}
+  }
   async function pullOrMigrate(){
     try{
-      const {data}=await sbc.from('dados_central').select('conteudo').eq('user_id',SB_USER.id).maybeSingle();
-      const local=localStorage.getItem(APP_KEY);
-      if(data&&data.conteudo&&Object.keys(data.conteudo).length){ localStorage.setItem(APP_KEY,JSON.stringify(data.conteudo)); }
-      else if(local){ try{ await sbc.from('dados_central').upsert({user_id:SB_USER.id,conteudo:JSON.parse(local)}); }catch(e){} }
+      const {data,error}=await sbc.from('dados_central').select('conteudo,atualizado_em').eq('user_id',SB_USER.id).maybeSingle();
+      if(error)throw error;
+      const cloud=data&&data.conteudo;
+      const scoped=localStorage.getItem(APP_KEY);
+      const legacy=localStorage.getItem(APP_KEY_BASE);
+      if(cloud&&Object.keys(cloud).length){localStorage.setItem(APP_KEY,JSON.stringify(cloud));window.CENTRAL_SYNC={status:'loaded',updatedAt:data.atualizado_em||null};}
+      else if(scoped){await sbc.from('dados_central').upsert({user_id:SB_USER.id,conteudo:JSON.parse(scoped),atualizado_em:new Date().toISOString()});window.CENTRAL_SYNC={status:'migrated'};}
+      else {const previous=parseData(legacy);if(previous&&String(previous.profile&&previous.profile.email||'').toLowerCase()===String(SB_USER.email||'').toLowerCase()){localStorage.setItem(APP_KEY,legacy);await sbc.from('dados_central').upsert({user_id:SB_USER.id,conteudo:previous,atualizado_em:new Date().toISOString()});window.CENTRAL_SYNC={status:'migrated'};}else{window.CENTRAL_SYNC={status:'new'};}}
     }catch(e){}
   }
-  async function startAuthed(){ await pullOrMigrate(); await window.centralTeam.refresh(); const g=$g('authGate'); if(g)g.style.display='none'; runApp(); }
+  async function startAuthed(){APP_KEY=APP_KEY_BASE+'_'+SB_USER.id;window.CENTRAL_STORAGE_KEY=APP_KEY;window.CENTRAL_AUTH_EMAIL=SB_USER.email||'';await pullOrMigrate();await prepareProfile();await window.centralTeam.refresh();const g=$g('authGate');if(g)g.style.display='none';runApp();}
   window.agToggle=function(){ _signup=!_signup; $g('agBtn').textContent=_signup?'Criar conta':'Entrar'; $g('agSub').textContent=_signup?'Crie sua conta para salvar tudo na nuvem.':'Entre para acessar seus projetos na nuvem.'; $g('agToggleWrap').innerHTML=_signup?'Já tem conta? <a onclick="agToggle()">Entrar</a>':'Ainda não tem conta? <a onclick="agToggle()">Criar conta</a>'; $g('agErr').textContent=''; };
   function traduz(m){ m=(m||'').toLowerCase(); if(m.includes('invalid login')) return 'E-mail ou senha incorretos.'; if(m.includes('already')) return 'Esse e-mail já tem conta. Clique em Entrar.'; if(m.includes('password')) return 'Senha muito curta (mínimo 6 caracteres).'; if(m.includes('email')) return 'E-mail inválido.'; return 'Não foi possível. Verifique os dados e tente de novo.'; }
   window.agSubmit=async function(){
@@ -459,9 +476,9 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
 <script type="text/plain" id="appcode">
 /* ============================ ARMAZENAMENTO ============================ */
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
-const KEY="central_editor_v1";
+const KEY=window.CENTRAL_STORAGE_KEY||"central_editor_v1";
 const DEFAULTS={
-  profile:{name:"Jean Alexandre (Xandão)",role:"Editor de Vídeo",email:"",team:"Edição — AUVP",photo:""},
+  profile:{name:"",role:"",email:"",team:"",photo:""},
   prefs:{profile:"ambar",customProfile:null,bell:true,defaultFlow:"Padrão",processes:["Decupagem","Corte","Trilha","Motion","Export","Revisão"],spotifyClientId:"",spotifyToken:null},
   channels:[
     {n:"Investidor Sardinha",u:"https://www.youtube.com/@investidorsardinha"},
@@ -917,11 +934,12 @@ function siteText(key,fallback){const value=TEAM_CONTENT[key];return value&&type
 function siteImage(key,fallback=''){const value=TEAM_CONTENT[key];return value&&typeof value.url==='string'&&value.url.trim()?value.url:fallback;}
 async function loadTeamContent(){
   if(!window.centralTeam||!window.centralTeam.state().enabled)return;
-  try{const rows=await window.centralTeam.content();TEAM_CONTENT={};rows.forEach(row=>TEAM_CONTENT[row.content_key]=row.value||{});if(current==='inicio')renderInicio();if(current==='guias')renderGuias();if(current==='canais')renderCanais();}
+  try{const rows=await window.centralTeam.content();TEAM_CONTENT={};rows.forEach(row=>TEAM_CONTENT[row.content_key]=row.value||{});if(current==='inicio')renderInicio();if(current==='guias')renderGuias();if(current==='canais')renderCanais();if(current==='pomodoro')renderPomodoro();}
   catch(error){}
 }
 function renderInicio(){
   const nome=(DB.profile.name||'editor').split(' ')[0];
+  const saudacao=siteText('home_greeting','Olá, {nome}').replaceAll('{nome}',nome);
   const emCurso=DB.tasks.filter(t=>!t.done);
   const hoje=new Date().toISOString().slice(0,10);
   const atrasadas=emCurso.filter(t=>t.prazo&&t.prazo<hoje);
@@ -932,7 +950,7 @@ function renderInicio(){
   $("#s-inicio").innerHTML=`
    <div class="ihero">
     <div class="herocard${siteImage('home_hero_image',DB.profile.photo)?' hasphoto':''}"><div class="blob"></div>${siteImage('home_hero_image',DB.profile.photo)?`<div class="pbg" style="background-image:url('${esc(siteImage('home_hero_image',DB.profile.photo))}')"></div>`:''}
-       <h1>Olá, ${esc(nome)} </h1>
+       <h1>${esc(saudacao)} </h1>
        <div class="hd">${esc(siteText('home_subtitle',new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})+'. Organize, cronometre e acompanhe a produção do dia.'))}</div>
        <button class="hcta" onclick="newProjectModal()">+ Novo projeto</button>
      </div>
@@ -940,7 +958,7 @@ function renderInicio(){
        <div class="ct mono" id="clockT">--:--</div>
        <div class="cd" id="clockD">—</div>
        <div class="csep"></div>
-       <div class="cfoot"><span>Foco de hoje</span><b>${emCurso.length} tarefa${emCurso.length===1?'':'s'}</b></div>
+       <div class="cfoot"><span>${esc(siteText('home_focus_label','Foco de hoje'))}</span><b>${emCurso.length} tarefa${emCurso.length===1?'':'s'}</b></div>
        <div class="ctip" id="clockTip"></div>
      </div>
    </div>
@@ -960,7 +978,7 @@ function renderInicio(){
      </div>
    </div>
    <div class="card feedsec">
-     <div class="home-feedhead"><div class="feed-title linked" onclick="go('canais')" title="Abrir todos os Canais AUVP"><div class="big">Canais AUVP</div><span class="fpulse" id="feedPulse"><i></i> vídeos recentes</span></div><button class="btn ghost sm" onclick="event.stopPropagation();openAllVideoLibrary()">Biblioteca de vídeos</button></div>
+     <div class="home-feedhead"><div class="feed-title linked" onclick="go('canais')" title="Abrir todos os Canais AUVP"><div class="big">${esc(siteText('home_channels_title','Canais AUVP'))}</div><span class="fpulse" id="feedPulse"><i></i> ${esc(siteText('home_channels_hint','vídeos recentes'))}</span></div><button class="btn ghost sm" onclick="event.stopPropagation();openAllVideoLibrary()">Biblioteca de vídeos</button></div>
      <div class="channel-tabs-wrap"><button class="channel-tab-arrow l" aria-label="Canal anterior" onclick="homeChannelScroll(-1)">‹</button><div class="chtabs" id="chtabs"></div><button class="channel-tab-arrow r" aria-label="Próximo canal" onclick="homeChannelScroll(1)">›</button></div>
      <div class="yt-performance" id="ytPerformance"><div class="muted">Carregando métricas públicas dos vídeos…</div></div>
      <div id="feedBody"></div>
@@ -1006,7 +1024,7 @@ async function refreshYouTubeFeed(silent=false){
     if(!Array.isArray(data.channels)||!data.channels.length)throw new Error('Nenhum canal retornado.');
     data.channels.forEach((channel,i)=>{if(!channel.unavailable)CANAIS_FEED[i]=Object.assign({},CANAIS_FEED[i],channel);});
     refreshLinkedPublishedVideos();syncVideoNotifications();
-    renderFeed(0);renderYouTubePerformance();if(pulse)pulse.innerHTML='<i></i> dados atualizados agora';
+    renderFeed(0);renderYouTubePerformance();if(current==='canais')renderCanais();if(pulse)pulse.innerHTML='<i></i> dados atualizados agora';
   }catch(err){
     if(pulse)pulse.innerHTML='<i></i> dados de demonstração';
     console.warn('Feed do YouTube indisponível:',err&&err.message?err.message:err);
@@ -1057,6 +1075,8 @@ function marcosInsights(){
 }
 function buildInsights(){
   const arr=[];const withTime=DB.projects.filter(p=>projectTotal(p)>0);const done=DB.projects.filter(p=>projDone(p));
+  const destaqueTitulo=siteText('home_highlight_title','');const destaqueTexto=siteText('home_highlight_text','');
+  if(destaqueTitulo||destaqueTexto)arr.push({ic:'',t:destaqueTitulo||'Destaque',x:destaqueTexto||'Confira este recado da equipe.'});
   if(withTime.length){
     const fast=withTime.slice().sort((a,b)=>projectTotal(a)-projectTotal(b))[0];
     arr.push({ic:'',t:'Edição mais rápida',x:`"${fast.nome}" saiu em ${_short(projectTotal(fast))}. Belo ritmo!`,pid:fast.id});
@@ -1214,7 +1234,7 @@ function melCardHTML(m){
 }
 function openMelhoria(id){
   const m=id?(DB.melhorias||[]).find(x=>x.id===id):null;
-  const prods=(DB.channels||[]).map(c=>c.n).concat(['Central do Editor','Gerador de Slides','Fluxo de edição','Outro']);
+  const prods=(DB.channels||[]).map(c=>c.n).concat(['Central de Conteúdo','Gerador de Slides','Fluxo de edição','Outro']);
   $("#modalBody").innerHTML=`<h3>${m?'Editar melhoria':'Nova melhoria'}</h3>
     <div class="field"><label>Título</label><input class="inp" id="melTitulo" placeholder="Ex: Novo método de sincronização de telas" value="${m?esc(m.titulo):''}"></div>
     <div class="field"><label>Descrição (o que foi testado/implementado)</label><textarea class="inp" id="melDesc" rows="3" placeholder="Descreva a melhoria...">${m?esc(m.desc||''):''}</textarea></div>
@@ -1300,7 +1320,7 @@ function saveTask(id){const t=DB.tasks.find(x=>x.id===id);if(!t)return;
   save();closeModal();renderTasksBody();toast("Tarefa salva.");}
 function delTask(id){confirmAction('Excluir esta tarefa?',()=>{const t=DB.tasks.find(x=>x.id===id);if(t)DB.trash.unshift({type:'task',data:t,at:Date.now()});DB.tasks=DB.tasks.filter(x=>x.id!==id);save();closeModal();renderTasksBody();toast("Tarefa na lixeira.");});}
 function exportTasksXLS(){
-  let h=`<table border="1" cellspacing="0" cellpadding="4"><tr><td colspan="6" style="font-size:16px;font-weight:bold;background:#e2b23c">Tarefas — Central do Editor alpha</td></tr>`;
+  let h=`<table border="1" cellspacing="0" cellpadding="4"><tr><td colspan="6" style="font-size:16px;font-weight:bold;background:#e2b23c">Tarefas — Central de Conteúdo - Beta</td></tr>`;
   h+=`<tr><td colspan="6">Responsável: ${xesc(DB.profile.name)} &nbsp;|&nbsp; Gerado em: ${new Date().toLocaleString('pt-BR')}</td></tr><tr><td colspan="6"></td></tr>`;
   h+=`<tr style="font-weight:bold;background:#dddddd"><td>Tarefa</td><td>Prioridade</td><td>Grau</td><td>Status</td><td>Prazo</td><td>Projeto</td></tr>`;
   DB.tasks.forEach(t=>{const proj=t.projetoId?getProject(t.projetoId):null;h+=`<tr><td>${xesc(t.nome)}${t.pdi?' (PDI)':''}</td><td>${PRIO_LABEL[t.prioridade]}</td><td>${GRAU_LABEL[t.grau]||t.grau}</td><td>${t.done?'Feito':(t.status==='fazendo'?'Fazendo':'A fazer')}</td><td>${t.prazo?fmtDateBR(t.prazo):'—'}</td><td>${proj?xesc(proj.nome):'—'}</td></tr>`;});
@@ -1405,9 +1425,9 @@ function buildReportDoc(){
   const progChips=Object.entries(progCount).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<span class="pchip">${esc(k)} <b>${v}</b></span>`).join("");
   const nLead=4+(hasBruto?1:0);
   const CSS=`:root{--bg:#F6F4EE;--surface:#fff;--surface2:#F6F4EE;--surface3:#EDEAE2;--line:#D9D5CC;--line2:#CBC6BB;--ink:#21242C;--mut:#77736B;--gold:#EFBF4E;--gold-dim:#FBF0D0;--gold-ink:#8C6207;--gold-deep:#A87000;--green:#39865d;--green-dim:#e7f4ec;--headerbg:#171717;--header-ink:#f4f2ee;}*{box-sizing:border-box;}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:14px;line-height:1.5;}.mono{font-variant-numeric:tabular-nums;}.wrap{max-width:920px;margin:0 auto;padding:0 0 60px;}header{background:var(--headerbg);color:var(--header-ink);padding:26px 40px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;}.brand{font-weight:800;font-size:20px;}.brand .ver{font-family:Georgia,serif;font-style:italic;font-weight:600;color:var(--gold);font-size:15px;}.brand .sub{display:block;font-weight:500;font-size:12.5px;color:#a8a29a;margin-top:3px;letter-spacing:.02em;text-transform:uppercase;}.hmeta{text-align:right;font-size:12.5px;color:#c9c4bb;}.hmeta b{color:var(--header-ink);}.body{padding:32px 40px;}h2{font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--gold-ink);margin:34px 0 14px;font-weight:800;}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}.kpi .l{color:var(--mut);font-size:12px;}.kpi .v{font-size:26px;font-weight:800;margin-top:6px;font-variant-numeric:tabular-nums;}.kpi .v.g{color:var(--gold-ink);}.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;}.bar-row{display:grid;grid-template-columns:190px 1fr 64px;gap:12px;align-items:center;margin-bottom:10px;}.bar-lbl{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.bar-track{background:var(--surface3);border-radius:8px;height:16px;overflow:hidden;}.bar-fill{height:100%;background:var(--gold);border-radius:8px;}.bar-fill.p{background:var(--gold-ink);}.bar-val{text-align:right;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;}table{width:100%;border-collapse:collapse;font-size:12.5px;}th{text-align:left;color:var(--mut);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.03em;padding:9px 8px;border-bottom:2px solid var(--line);}td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top;}td.b{font-weight:800;}.pname{font-weight:600;max-width:230px;}tr.grp td{background:var(--surface3);font-weight:800;font-size:12px;}.tag{background:var(--gold-dim);color:var(--gold-ink);font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;}.chk{font-weight:700;font-size:11px;padding:2px 8px;border-radius:20px;}.chk.ok{background:var(--green-dim);color:var(--green);}.chk.mid{background:var(--surface3);color:var(--mut);}.cmt{margin-top:5px;background:var(--gold-dim);color:var(--gold-ink);border-radius:8px;padding:6px 9px;font-size:11.5px;}.pchips{display:flex;gap:8px;flex-wrap:wrap;}.pchip{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:5px 12px;font-size:12.5px;}.pchip b{color:var(--gold-ink);}.insight{background:var(--gold-dim);border:1px solid var(--gold);border-radius:14px;padding:16px 20px;font-size:13.5px;}.insight ul{margin:8px 0 0;padding-left:18px;}.insight li{margin:3px 0;}a{color:var(--gold-ink);}.foot{text-align:center;color:var(--mut);font-size:11.5px;margin-top:36px;}.toolbar{max-width:920px;margin:16px auto 0;padding:0 40px;text-align:right;}.pbtn{background:var(--gold);color:#1a1a1a;border:none;border-radius:9px;padding:9px 16px;font-weight:700;cursor:pointer;font-size:13px;}.scroll{overflow-x:auto;}@media print{.toolbar{display:none;}body{background:#fff;}header,.kpi,.card,.tag,.chk,.cmt,.insight,.bar-fill,.bar-track,tr.grp td{-webkit-print-color-adjust:exact;print-color-adjust:exact;}@page{margin:12mm;}}@media(max-width:680px){.kpis{grid-template-columns:repeat(2,1fr);}header,.body{padding:22px;}.bar-row{grid-template-columns:120px 1fr 52px;}}`;
-  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Relatório de Produção — Central do Editor</title><style>${CSS}</style></head><body>
+  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Relatório de Produção — Central de Conteúdo</title><style>${CSS}</style></head><body>
   <div class="toolbar"><button class="pbtn" onclick="window.print()">Salvar como PDF / Imprimir</button></div>
-  <div class="wrap"><header><div class="brand">Central do Editor <span class="ver">alpha</span><span class="sub">Relatório de Produção</span></div><div class="hmeta"><div>Editor: <b>${esc(DB.profile.name||'—')}</b></div><div>Período: <b>${esc(perLabel)}</b></div><div>Gerado em: ${new Date().toLocaleString('pt-BR')}</div></div></header>
+  <div class="wrap"><header><div class="brand">Central de Conteúdo <span class="ver">Beta</span><span class="sub">Relatório de Produção</span></div><div class="hmeta"><div>Editor: <b>${esc(DB.profile.name||'—')}</b></div><div>Período: <b>${esc(perLabel)}</b></div><div>Gerado em: ${new Date().toLocaleString('pt-BR')}</div></div></header>
   <div class="body">
    <h2>Resumo do período</h2>
    <div class="kpis"><div class="kpi"><div class="l">Tempo total trabalhado</div><div class="v g">${_short(total)}</div></div><div class="kpi"><div class="l">Projetos</div><div class="v">${nProj}</div></div><div class="kpi"><div class="l">Média por projeto</div><div class="v">${_short(media)}</div></div><div class="kpi"><div class="l">Concluídos (checklist 100%)</div><div class="v">${nDone}<span style="font-size:14px;color:var(--mut);font-weight:600"> / ${nProj}</span></div></div></div>
@@ -1420,7 +1440,7 @@ function buildReportDoc(){
    ${detRows?`<h2>Detalhe por etapa</h2><div class="scroll"><table><thead><tr><th>Etapa / comentário</th><th>Início</th><th>Término</th><th>Tempo</th></tr></thead><tbody>${detRows}</tbody></table></div>`:''}
    ${(()=>{const tks=tasksInPeriod();return tks.length?`<h2>Tarefas concluídas</h2><div class="scroll"><table><thead><tr><th>Tarefa</th><th>Grau</th><th>Subtarefas</th><th>Data</th></tr></thead><tbody>${tks.map(t=>`<tr><td><b>${esc(t.nome)}</b>${t.desc?`<div style="color:var(--mut);margin-top:3px">${esc(t.desc)}</div>`:''}${t.obs?`<div style="color:var(--mut);margin-top:3px">Obs: ${esc(t.obs)}</div>`:''}</td><td>${esc(GRAU_LABEL[t.grau]||'Normal')}</td><td>${(t.sub||[]).length?(t.sub.filter(s=>s.done).length+'/'+t.sub.length):'—'}</td><td>${t.doneAt?fmtDateBR(new Date(t.doneAt).toISOString()):(t.prazo?fmtDateBR(t.prazo):'—')}</td></tr>`).join("")}</tbody></table></div>`:'';})()}
    ${(DB.melhorias&&DB.melhorias.length)?`<h2>Melhorias</h2><div class="scroll"><table><thead><tr><th>Melhoria</th><th>Produto</th><th>Status</th><th>Data</th></tr></thead><tbody>${DB.melhorias.slice().sort((a,b)=>(b.data||'').localeCompare(a.data||'')).map(m=>`<tr><td><b>${esc(m.titulo||'')}</b>${m.desc?`<div style="color:var(--mut);margin-top:3px">${esc(m.desc)}</div>`:''}</td><td>${esc(m.produto||'—')}</td><td>${esc(({testado:'Testado',aprovado:'Aprovado',descartado:'Descartado'})[m.status]||'—')}</td><td>${m.data?fmtDateBR(m.data):'—'}</td></tr>`).join("")}</tbody></table></div>`:''}
-   <div class="foot">Gerado pela Central do Editor · ${new Date().toLocaleString('pt-BR')} · Documento de produção — AUVP</div>
+   <div class="foot">Gerado pela Central de Conteúdo · ${new Date().toLocaleString('pt-BR')} · Documento de produção — AUVP</div>
   </div></div></body></html>`;
 }
 function backupDownload(){
@@ -1490,7 +1510,7 @@ function exportXLS(){
   const perLabel=repLabel();
   const nCols=7+procs.length+3;
   let h=`<table border="1" cellspacing="0" cellpadding="4">`;
-  h+=`<tr><td colspan="${nCols}" style="font-size:16px;font-weight:bold;background:#e2b23c">Relatório — Central do Editor alpha</td></tr>`;
+  h+=`<tr><td colspan="${nCols}" style="font-size:16px;font-weight:bold;background:#e2b23c">Relatório — Central de Conteúdo - Beta</td></tr>`;
   h+=`<tr><td colspan="${nCols}">Editor: ${xesc(DB.profile.name)} &nbsp;|&nbsp; Período: ${perLabel} &nbsp;|&nbsp; Gerado em: ${new Date().toLocaleString('pt-BR')}</td></tr>`;
   h+=`<tr><td colspan="${nCols}"></td></tr>`;
   h+=`<tr style="font-weight:bold;background:#dddddd"><td>Data</td><td>Projeto</td><td>Canal</td><td>Programa</td><td>Editor</td><td>Bruto</td><td>Fluxo</td>${procs.map(p=>`<td>${xesc(p)}</td>`).join("")}<td>Total</td><td>Checklist %</td><td>Link Drive</td></tr>`;
@@ -1562,6 +1582,7 @@ function renderCanais(){
   const card=c=>{const live=channelByName(c.n)||{},avatar=live.avatar||"";return `<div class="card channel-grid-card" onclick="selectChannel('${esc(c.n)}')"><div class="channel-profile">${avatar?`<img src="${esc(avatar)}" alt="">`:channelInitials(c.n)}</div><div class="big">${esc(c.n)}</div><div class="muted" style="margin-top:4px">Ver dados do canal</div></div>`;};
   $("#s-canais").innerHTML=`<div><h1>Canais AUVP</h1><div class="sub">${esc(siteText('channels_intro','Escolha um canal para ver os dados e os vídeos publicados.'))}</div></div><div class="channel-grid" style="margin-top:20px">${DB.channels.map(card).join("")}</div><div id="channelDetails"></div>`;
   if(selectedChannelName)renderChannelDetails();
+  refreshYouTubeFeed(true);
 }
 function videoKey(v){return v.id||v.videoId||v.t||'';}
 function linkedProjectForVideo(v){const key=videoKey(v);return DB.projects.find(project=>project.publishedVideo&&project.publishedVideo.id===key)||null;}
@@ -1611,7 +1632,7 @@ const AUDIO={
   ]}
 };
 function renderPomodoro(){
-  $("#s-pomodoro").innerHTML=`<h1>Modo foco (Pomodoro)</h1><div class="sub">Ferramenta à parte. <b>Não entra no relatório.</b></div>
+  $("#s-pomodoro").innerHTML=`<h1>${esc(siteText('pomodoro_title','Modo foco (Pomodoro)'))}</h1><div class="sub">${esc(siteText('pomodoro_intro','Ferramenta à parte. Não entra no relatório.'))}</div>
    <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:22px;align-items:start">
      <div class="card pomo">
        <div class="seg" id="pomoSeg"><button data-m="foco">Foco 25′</button><button data-m="pausa">Pausa 5′</button><button data-m="longa">Pausa longa 15′</button></div>
@@ -1763,9 +1784,23 @@ async function renderAdmin(){
 }
 function renderTeamPeople(people){const box=$('#teamPeople');if(!box)return;box.innerHTML=people.length?people.map(person=>{const locked=person.role==='owner';return `<div class="row between wrapf" style="padding:11px 0;border-bottom:1px solid var(--line);gap:8px"><div style="min-width:170px"><b>${esc(person.display_name||'Sem nome')}</b><div class="muted" style="font-size:12px">${esc(person.email||'')}</div></div><select class="inp" style="width:178px" ${locked?'disabled':''} onchange="adminSetRole('${person.user_id}',this.value)">${Object.entries(TEAM_ROLE_LABEL).map(([role,label])=>`<option value="${role}" ${person.role===role?'selected':''}>${label}</option>`).join('')}</select></div>`;}).join(''):'<div class="muted">Nenhuma conta cadastrada ainda.</div>';}
 function contentByKey(rows,key){const item=rows.find(row=>row.content_key===key);return item&&item.value||{};}
-function renderTeamContentForm(rows){const box=$('#teamContentForm');if(!box)return;const fields=[['home_subtitle','Texto principal da Home','text'],['guides_intro','Texto de Guias','text'],['channels_intro','Texto de Canais','text'],['home_hero_image','Imagem de destaque (link)','url']];box.innerHTML=fields.map(([key,label,type])=>{const value=type==='url'?contentByKey(rows,key).url||'':contentByKey(rows,key).text||'';return `<div class="field"><label>${label}</label>${type==='url'?`<input class="inp" id="content_${key}" value="${esc(value)}" placeholder="https://...">`:`<textarea class="inp" id="content_${key}" rows="3">${esc(value)}</textarea>`}</div>`;}).join('')+`<div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn gold" onclick="adminSaveContent()">Salvar conteúdo</button></div>`;}
+const ADMIN_CONTENT_FIELDS=[
+  ['home_greeting','Saudação da Home','Use {nome} para mostrar o primeiro nome da pessoa.','text'],
+  ['home_subtitle','Texto principal da Home','Texto logo abaixo da saudação.','text'],
+  ['home_focus_label','Título do relógio','Ex.: Foco de hoje.','text'],
+  ['home_channels_title','Título dos canais na Home','Ex.: Canais AUVP.','text'],
+  ['home_channels_hint','Chamada dos canais na Home','Ex.: vídeos recentes.','text'],
+  ['home_highlight_title','Título da lâmpada','Ex.: Levante um pouco.','text'],
+  ['home_highlight_text','Texto da lâmpada','Recado que aparece no destaque da Home.','text'],
+  ['guides_intro','Texto de Guias','Descrição da aba Guias.','text'],
+  ['channels_intro','Texto de Canais','Descrição da aba Canais.','text'],
+  ['pomodoro_title','Título do Pomodoro','Título principal da ferramenta.','text'],
+  ['pomodoro_intro','Texto do Pomodoro','Descrição curta da ferramenta.','text'],
+  ['home_hero_image','Imagem de destaque','Cole um link de imagem pública.','url']
+];
+function renderTeamContentForm(rows){const box=$('#teamContentForm');if(!box)return;box.innerHTML=`<div class="note" style="margin-bottom:14px">Edite os textos principais da Central. Deixe um campo vazio para usar o texto padrão.</div>`+ADMIN_CONTENT_FIELDS.map(([key,label,help,type])=>{const value=type==='url'?contentByKey(rows,key).url||'':contentByKey(rows,key).text||'';return `<div class="field"><label>${label}</label><div class="muted" style="font-size:11px;margin:2px 0 6px">${help}</div>${type==='url'?`<input class="inp" id="content_${key}" value="${esc(value)}" placeholder="https://...">`:`<textarea class="inp" id="content_${key}" rows="2">${esc(value)}</textarea>`}</div>`;}).join('')+`<div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn gold" onclick="adminSaveContent()">Salvar conteúdo</button></div>`;}
 async function adminSetRole(userId,role){try{await window.centralTeam.setRole(userId,role);toast('Cargo atualizado.');renderAdmin();}catch(error){toast('Não foi possível alterar esse cargo.');renderAdmin();}}
-async function adminSaveContent(){const data=[['home_subtitle','text'],['guides_intro','text'],['channels_intro','text'],['home_hero_image','url']];try{for(const [key,field] of data){const el=$('#content_'+key);await window.centralTeam.saveContent(key,{[field]:(el&&el.value||'').trim()});}await loadTeamContent();toast('Conteúdo atualizado.');}catch(error){toast('Não foi possível salvar o conteúdo agora.');}}
+async function adminSaveContent(){try{for(const [key,,,field] of ADMIN_CONTENT_FIELDS){const el=$('#content_'+key);await window.centralTeam.saveContent(key,{[field]:(el&&el.value||'').trim()});}await loadTeamContent();toast('Conteúdo atualizado.');}catch(error){toast('Não foi possível salvar o conteúdo agora.');}}
 let _sharedSyncTimer=null;
 let TEAM_SHARED_PROJECTS=[];
 async function loadTeamProjects(){
@@ -1907,8 +1942,8 @@ function addReviewNote(id){const input=$('#reviewInput'),text=(input&&input.valu
 function removeReviewNote(id,index){const p=getProject(id);if(!p)return;p.reviewNotes.splice(index,1);save();renderProjeto();}
 const baseRenderProjeto=renderProjeto;renderProjeto=function(){baseRenderProjeto();const p=getProject(openProjectId),main=$('#projWrap .proj-main');if(!p||!main)return;const pauseAction=(p.workflowStage||'produção')==='pausa'?`<button class="btn gold sm" onclick="resumeProject('${p.id}')">Retomar projeto</button>`:'';const stage=`<section class="card" style="margin:18px 0 0"><div class="row between wrapf" style="gap:10px"><div><h3 style="font-size:15px">Etapa de produção</h3><div class="muted">${(p.workflowStage||'produção')==='pausa'?'Sem prioridade agora. Ao retomar, volta para a etapa anterior.':'Selecione o ponto atual do projeto.'}</div></div><div class="row wrapf" style="gap:7px"><select class="inp" style="max-width:190px" onchange="setProjectStage('${p.id}',this.value)">${['planejamento','produção','revisão','ajustes','pausa','publicado'].map(s=>`<option value="${s}" ${(p.workflowStage||'produção')===s?'selected':''}>${stageLabel(s)}</option>`).join('')}</select>${pauseAction}</div></div></section>`;const holder=document.createElement('div');holder.innerHTML=stage;main.insertBefore(holder,main.children[1]||null);};
 const baseRenderProjetos=renderProjetos;renderProjetos=function(){baseRenderProjetos();const grid=$('#pGrid');if(grid&&!$('#opsBoard')){const board=document.createElement('div');board.id='opsBoard';board.innerHTML=renderOperationsBoard();grid.parentElement.insertBefore(board,grid);}};
-function showOnboarding(){if(DB.prefs.onboardingDone)return;const el=document.createElement('div');el.id='onboarding';el.className='onboarding';el.innerHTML=`<div class="onboarding-card"><div class="big">Bem-vindo à Central</div><div class="sub" style="margin-top:6px">Organize cada entrega, registre tempo e acompanhe o resultado publicado.</div><div class="onboarding-steps"><div class="onboarding-step"><b>1. Crie um projeto</b><br><span class="muted">Defina canal, programa, prazo e materiais.</span></div><div class="onboarding-step"><b>2. Registre as etapas</b><br><span class="muted">Use cronômetros para enxergar onde o tempo trava.</span></div><div class="onboarding-step"><b>3. Revise e vincule o vídeo</b><br><span class="muted">Finalize com checklist e conecte o resultado publicado.</span></div></div><div class="row" style="justify-content:flex-end"><button class="btn gold" onclick="finishOnboarding()">Começar</button></div></div>`;document.body.appendChild(el);}
-function finishOnboarding(){DB.prefs.onboardingDone=true;save();const el=$('#onboarding');if(el)el.remove();}
+function showOnboarding(){if(DB.prefs.onboardingDone)return;const el=document.createElement('div');el.id='onboarding';el.className='onboarding';const suggested=DB.profile.name||'Pessoa da equipe';el.innerHTML=`<div class="onboarding-card"><div class="big">Bem-vindo à Central de Conteúdo</div><div class="sub" style="margin-top:6px">Seu perfil começa neutro. Escolha como quer aparecer para a equipe.</div><div class="field" style="margin-top:18px"><label>Como podemos te chamar?</label><input class="inp" id="onboardingName" value="${esc(suggested)}" autocomplete="name"></div><div class="onboarding-steps"><div class="onboarding-step"><b>1. Organize seu trabalho</b><br><span class="muted">Crie projetos, registre etapas e acompanhe as entregas.</span></div><div class="onboarding-step"><b>2. Ajuste o perfil quando quiser</b><br><span class="muted">Foto, função e equipe ficam em Configurações.</span></div><div class="onboarding-step"><b>3. Acesso da equipe</b><br><span class="muted">Projetos compartilhados só aparecem quando alguém liberar você.</span></div></div><div class="row" style="justify-content:flex-end"><button class="btn gold" onclick="finishOnboarding()">Continuar</button></div></div>`;document.body.appendChild(el);}
+function finishOnboarding(){const input=$('#onboardingName');const name=(input&&input.value||'').trim();if(name)DB.profile.name=name;DB.profile.email=window.CENTRAL_AUTH_EMAIL||DB.profile.email||'';DB.prefs.onboardingDone=true;save();refreshProfile();renderInicio();const el=$('#onboarding');if(el)el.remove();}
 document.querySelector('.hin').insertAdjacentHTML('beforeend','<button class="btn ghost sm" style="margin-left:4px" onclick="globalSearchOpen()">Buscar</button>');
 
 /* ============================ INIT ============================ */
@@ -1923,5 +1958,3 @@ setTimeout(showOnboarding,350);
 </script>
 </body>
 </html>
-
-  <!-- publicação técnica: reativar GitHub Pages -->
