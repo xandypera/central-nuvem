@@ -31,6 +31,11 @@ header{position:sticky;top:0;z-index:20;background:var(--headerbg);border-bottom
 @media(max-width:720px){.hin{padding:10px 14px;gap:9px;flex-wrap:wrap;}.brand{font-size:14px;white-space:nowrap;}.tabs{order:3;width:100%;margin-left:0;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}.tabs::-webkit-scrollbar{display:none}.tabs button{flex:none;padding:8px 10px;font-size:12.5px}.wrap{padding:18px 14px 74px}.card{padding:16px}.row.between{align-items:flex-start}.btn{min-height:40px}.g4{grid-template-columns:repeat(2,1fr)}.youtube-project-card{grid-template-columns:1fr}.youtube-project-thumb{width:100%;height:auto;aspect-ratio:16/9}.youtube-project-copy{min-width:0}.youtube-project-card .row{justify-content:flex-start!important}.channel-kpi{min-width:calc(50% - 5px);flex:1}.channel-detail-main{padding-left:14px;padding-right:14px}}
 @media(max-width:420px){.brand{font-size:13px}.avatar-wrap{gap:5px}.avatar,.theme-toggle,.notification-bell{width:34px;height:34px}.g4{grid-template-columns:1fr}.channel-kpi{min-width:100%}}
 .avatar-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+.page-edit-toggle{display:none;white-space:nowrap;}
+.page-edit-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 18px;padding:11px 13px;border:1px solid var(--gold);border-radius:12px;background:var(--gold-dim);}
+.page-edit-bar .muted{color:var(--ink);}.page-edit-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.page-editable.editing{outline:1px dashed var(--gold);outline-offset:3px;border-radius:4px;cursor:text;min-width:1.5ch;}
+.page-editable.editing:focus{outline:2px solid var(--gold);background:var(--surface);}
 .avatar{width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);background:var(--surface3);color:var(--gold);font-weight:800;font-size:13px;cursor:pointer;overflow:hidden;} .avatar:hover{border-color:var(--gold);} .avatar img{width:100%;height:100%;object-fit:cover;} .avatar.sm{width:34px;height:34px;font-size:12px;}
 .menu{position:absolute;right:0;top:46px;width:250px;background:var(--surface);border:1px solid var(--line2);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.5);padding:8px;display:none;z-index:70;} .menu.show{display:block;}
 .menu-head{display:flex;gap:10px;align-items:center;padding:10px;border-bottom:1px solid var(--line);margin-bottom:6px;}
@@ -293,6 +298,7 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
   </div>
   <div class="avatar-wrap">
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Alternar tema"></button>
+    <button class="btn ghost sm page-edit-toggle" id="pageEditToggle" onclick="togglePageEdit()" title="Editar os textos desta página">Editar página</button>
     <div class="notification-wrap"><button class="notification-bell" id="notificationBell" onclick="toggleVideoNotifications()" title="Notificações de vídeos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="notification-badge" id="notificationBadge">0</span></button><div class="notification-popover" id="notificationPopover"></div></div>
     <button class="avatar" id="avatar">JA</button>
     <div class="menu" id="userMenu">
@@ -567,6 +573,7 @@ function go(s){
   if(s==='config')renderConfig();
   if(s==='admin')renderAdmin();
   if(s==='pomodoro')renderPomodoro();
+  refreshPageEditButton();
   window.scrollTo({top:0,behavior:'smooth'});
   if(typeof positionDock==='function')setTimeout(positionDock,60);
 }
@@ -932,9 +939,26 @@ lightbulb:'<path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-
 let TEAM_CONTENT={};
 function siteText(key,fallback){const value=TEAM_CONTENT[key];return value&&typeof value.text==='string'&&value.text.trim()?value.text:fallback;}
 function siteImage(key,fallback=''){const value=TEAM_CONTENT[key];return value&&typeof value.url==='string'&&value.url.trim()?value.url:fallback;}
+let PAGE_EDIT_MODE=false;
+const PAGE_EDITABLE_SCREENS=new Set(['inicio','guias','canais','pomodoro']);
+function pageEditingAvailable(){return typeof teamIsAdmin==='function'&&teamIsAdmin()&&PAGE_EDITABLE_SCREENS.has(current);}
+function pageEditBar(){return PAGE_EDIT_MODE&&pageEditingAvailable()?`<div class="page-edit-bar"><div><b>Modo administrador</b><div class="muted">Clique em um texto destacado para alterar. Dados e nomes de projetos não entram neste modo.</div></div><div class="page-edit-actions"><button class="btn ghost sm" onclick="cancelPageEdits()">Cancelar</button><button class="btn gold sm" onclick="savePageEdits()">Salvar alterações</button></div></div>`:'';}
+function pageEditText(key,fallback,replaceName=''){
+  const source=siteText(key,fallback),display=PAGE_EDIT_MODE?source:(replaceName?source.replaceAll('{nome}',replaceName):source);
+  return `<span class="page-editable${PAGE_EDIT_MODE?' editing':''}" data-page-content="${esc(key)}" contenteditable="${PAGE_EDIT_MODE?'true':'false'}" spellcheck="true">${esc(display)}</span>`;
+}
+function refreshPageEditButton(){const button=$('#pageEditToggle');if(!button)return;const available=pageEditingAvailable();button.style.display=available?'inline-flex':'none';button.textContent=PAGE_EDIT_MODE?'Sair da edição':'Editar página';}
+function togglePageEdit(){if(!pageEditingAvailable()){toast('A edição de páginas é exclusiva do Dono e Administradores.');return;}PAGE_EDIT_MODE=!PAGE_EDIT_MODE;go(current);toast(PAGE_EDIT_MODE?'Modo administrador ativado.':'Modo administrador fechado.');}
+function cancelPageEdits(){PAGE_EDIT_MODE=false;go(current);toast('Alterações não salvas foram descartadas.');}
+async function savePageEdits(){
+  const edits=[...new Map($$('[data-page-content]').map(el=>[el.dataset.pageContent,(el.innerText||'').trim()])).entries()];
+  if(!edits.length){toast('Não há textos para salvar nesta página.');return;}
+  try{for(const [key,text] of edits)await window.centralTeam.saveContent(key,{text});await loadTeamContent();PAGE_EDIT_MODE=false;go(current);toast('Textos da página atualizados.');}
+  catch(error){toast('Não foi possível salvar os textos agora.');}
+}
 async function loadTeamContent(){
   if(!window.centralTeam||!window.centralTeam.state().enabled)return;
-  try{const rows=await window.centralTeam.content();TEAM_CONTENT={};rows.forEach(row=>TEAM_CONTENT[row.content_key]=row.value||{});if(current==='inicio')renderInicio();if(current==='guias')renderGuias();if(current==='canais')renderCanais();if(current==='pomodoro')renderPomodoro();}
+  try{const rows=await window.centralTeam.content();TEAM_CONTENT={};rows.forEach(row=>TEAM_CONTENT[row.content_key]=row.value||{});refreshTeamMenu();refreshPageEditButton();if(current==='inicio')renderInicio();if(current==='guias')renderGuias();if(current==='canais')renderCanais();if(current==='pomodoro')renderPomodoro();}
   catch(error){}
 }
 function renderInicio(){
@@ -948,17 +972,18 @@ function renderInicio(){
   const avisosAtivos=(DB.avisos||[]).filter(a=>a.ativo&&!avExpirado(a));
   const topTasks=emCurso.slice().sort((a,b)=>{const o={urgente:0,importante:1,normal:2,lembrete:3};return (o[a.grau]-o[b.grau])||((a.prazo||'zzz').localeCompare(b.prazo||'zzz'));}).slice(0,6);
   $("#s-inicio").innerHTML=`
+   ${pageEditBar()}
    <div class="ihero">
     <div class="herocard${siteImage('home_hero_image',DB.profile.photo)?' hasphoto':''}"><div class="blob"></div>${siteImage('home_hero_image',DB.profile.photo)?`<div class="pbg" style="background-image:url('${esc(siteImage('home_hero_image',DB.profile.photo))}')"></div>`:''}
-       <h1>${esc(saudacao)} </h1>
-       <div class="hd">${esc(siteText('home_subtitle',new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})+'. Organize, cronometre e acompanhe a produção do dia.'))}</div>
+        <h1>${pageEditText('home_greeting','Olá, {nome}',nome)} </h1>
+        <div class="hd">${pageEditText('home_subtitle',new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})+'. Organize, cronometre e acompanhe a produção do dia.')}</div>
        <button class="hcta" onclick="newProjectModal()">+ Novo projeto</button>
      </div>
      <div class="clockcard" id="clockCard">
        <div class="ct mono" id="clockT">--:--</div>
        <div class="cd" id="clockD">—</div>
        <div class="csep"></div>
-       <div class="cfoot"><span>${esc(siteText('home_focus_label','Foco de hoje'))}</span><b>${emCurso.length} tarefa${emCurso.length===1?'':'s'}</b></div>
+        <div class="cfoot"><span>${pageEditText('home_focus_label','Foco de hoje')}</span><b>${emCurso.length} tarefa${emCurso.length===1?'':'s'}</b></div>
        <div class="ctip" id="clockTip"></div>
      </div>
    </div>
@@ -978,12 +1003,12 @@ function renderInicio(){
      </div>
    </div>
    <div class="card feedsec">
-     <div class="home-feedhead"><div class="feed-title linked" onclick="go('canais')" title="Abrir todos os Canais AUVP"><div class="big">${esc(siteText('home_channels_title','Canais AUVP'))}</div><span class="fpulse" id="feedPulse"><i></i> ${esc(siteText('home_channels_hint','vídeos recentes'))}</span></div><button class="btn ghost sm" onclick="event.stopPropagation();openAllVideoLibrary()">Biblioteca de vídeos</button></div>
+      <div class="home-feedhead"><div class="feed-title linked" onclick="go('canais')" title="Abrir todos os Canais AUVP"><div class="big">${pageEditText('home_channels_title','Canais AUVP')}</div><span class="fpulse" id="feedPulse"><i></i> ${pageEditText('home_channels_hint','vídeos recentes')}</span></div><button class="btn ghost sm" onclick="event.stopPropagation();openAllVideoLibrary()">Biblioteca de vídeos</button></div>
      <div class="channel-tabs-wrap"><button class="channel-tab-arrow l" aria-label="Canal anterior" onclick="homeChannelScroll(-1)">‹</button><div class="chtabs" id="chtabs"></div><button class="channel-tab-arrow r" aria-label="Próximo canal" onclick="homeChannelScroll(1)">›</button></div>
      <div class="yt-performance" id="ytPerformance"><div class="muted">Carregando métricas públicas dos vídeos…</div></div>
      <div id="feedBody"></div>
    </div>`;
-  tickClock();checkAvisoDoDia();startDestaques();renderFeed(0);renderYouTubePerformance();refreshYouTubeFeed();
+   tickClock();checkAvisoDoDia();if(PAGE_EDIT_MODE)renderEditableHighlight();else startDestaques();renderFeed(0);renderYouTubePerformance();refreshYouTubeFeed();
 }
 const CANAIS_FEED=[
   {n:"Investidor Sardinha",handle:"investidorsardinha",ini:"IS",cor:"#E8A927",subs:"1,42 mi inscritos",u:"https://www.youtube.com/@investidorsardinha",vids:[
@@ -1072,6 +1097,11 @@ function marcosInsights(){
   if(mes)arr.push({ic:'',t:'Marco do mês',x:`${mes} projeto(s) fechado(s) no último mês. Consistência é tudo.`});
   if(ano)arr.push({ic:'',t:'Marco do ano',x:`${ano} projeto(s) concluído(s) nos últimos 12 meses. Que jornada!`});
   return arr;
+}
+function renderEditableHighlight(){
+  const target=$('#destaqueCard');if(!target)return;
+  target.classList.remove('click');target.onclick=null;target.onwheel=null;
+  target.innerHTML=`<div class="dst-ic">${IC('lightbulb')}</div><div class="dst-b"><div class="dst-t">${pageEditText('home_highlight_title','Destaque')}</div><div class="dst-x">${pageEditText('home_highlight_text','Escreva um recado para a equipe.')}</div></div>`;
 }
 function buildInsights(){
   const arr=[];const withTime=DB.projects.filter(p=>projectTotal(p)>0);const done=DB.projects.filter(p=>projDone(p));
@@ -1557,7 +1587,7 @@ function guiaCard(g){
 }
 function renderGuias(){
   $("#s-guias").innerHTML=`
-   <div><h1>Guias</h1><div class="sub">${esc(siteText('guides_intro','Treinamentos, playbooks e ferramentas para dominar a produção. Ponto de partida para quem está começando.'))}</div></div>
+   ${pageEditBar()}<div><h1>${pageEditText('guides_title','Guias')}</h1><div class="sub">${pageEditText('guides_intro','Treinamentos, playbooks e ferramentas para dominar a produção. Ponto de partida para quem está começando.')}</div></div>
    ${GUIAS.map((row,ri)=>`
      <div class="guia-row">
        <div class="big" style="margin:22px 0 10px">${esc(row.cat)}</div>
@@ -1580,7 +1610,7 @@ function renderChannelDetails(){
 function selectChannel(name){selectedChannelName=name;renderChannelDetails();const target=$("#channelDetails");if(target)target.scrollIntoView({behavior:'smooth',block:'start'});}
 function renderCanais(){
   const card=c=>{const live=channelByName(c.n)||{},avatar=live.avatar||"";return `<div class="card channel-grid-card" onclick="selectChannel('${esc(c.n)}')"><div class="channel-profile">${avatar?`<img src="${esc(avatar)}" alt="">`:channelInitials(c.n)}</div><div class="big">${esc(c.n)}</div><div class="muted" style="margin-top:4px">Ver dados do canal</div></div>`;};
-  $("#s-canais").innerHTML=`<div><h1>Canais AUVP</h1><div class="sub">${esc(siteText('channels_intro','Escolha um canal para ver os dados e os vídeos publicados.'))}</div></div><div class="channel-grid" style="margin-top:20px">${DB.channels.map(card).join("")}</div><div id="channelDetails"></div>`;
+  $("#s-canais").innerHTML=`${pageEditBar()}<div><h1>${pageEditText('channels_title','Canais AUVP')}</h1><div class="sub">${pageEditText('channels_intro','Escolha um canal para ver os dados e os vídeos publicados.')}</div></div><div class="channel-grid" style="margin-top:20px">${DB.channels.map(card).join("")}</div><div id="channelDetails"></div>`;
   if(selectedChannelName)renderChannelDetails();
   refreshYouTubeFeed(true);
 }
@@ -1632,7 +1662,7 @@ const AUDIO={
   ]}
 };
 function renderPomodoro(){
-  $("#s-pomodoro").innerHTML=`<h1>${esc(siteText('pomodoro_title','Modo foco (Pomodoro)'))}</h1><div class="sub">${esc(siteText('pomodoro_intro','Ferramenta à parte. Não entra no relatório.'))}</div>
+  $("#s-pomodoro").innerHTML=`${pageEditBar()}<h1>${pageEditText('pomodoro_title','Modo foco (Pomodoro)')}</h1><div class="sub">${pageEditText('pomodoro_intro','Ferramenta à parte. Não entra no relatório.')}</div>
    <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:22px;align-items:start">
      <div class="card pomo">
        <div class="seg" id="pomoSeg"><button data-m="foco">Foco 25′</button><button data-m="pausa">Pausa 5′</button><button data-m="longa">Pausa longa 15′</button></div>
@@ -1779,8 +1809,8 @@ async function renderAdmin(){
   const screen=$('#s-admin');if(!screen)return;const state=teamState();
   if(!state.enabled){screen.innerHTML=`<h1>Administração</h1><div class="card" style="margin-top:18px"><div class="big">A base de equipe ainda não foi ativada.</div><div class="sub">A Central continua funcionando normalmente. A ativação só acontece depois que as permissões seguras forem aplicadas no banco.</div></div>`;return;}
   if(!teamIsAdmin()){screen.innerHTML=`<h1>Administração</h1><div class="card" style="margin-top:18px"><div class="big">Seu acesso está pendente.</div><div class="sub">Um administrador precisa definir seu cargo antes de liberar recursos de equipe.</div></div>`;return;}
-  screen.innerHTML=`<div class="row between wrapf"><div><h1>Administração</h1><div class="sub">Gerencie pessoas, cargos e textos gerais da Central.</div></div><span class="pill gold">Acesso administrativo</span></div><div class="grid g2" style="margin-top:20px"><section class="card"><div class="big">Equipe</div><div class="muted" style="margin-top:4px">Contas novas entram pendentes até você definir o acesso.</div><div id="teamPeople" style="margin-top:14px"><div class="muted">Carregando equipe…</div></div></section><section class="card"><div class="big">Conteúdo da Central</div><div class="muted" style="margin-top:4px">Edite textos e a imagem de destaque sem mexer no HTML.</div><div id="teamContentForm" style="margin-top:14px"><div class="muted">Carregando conteúdo…</div></div></section></div>`;
-  try{const [people,content]=await Promise.all([window.centralTeam.profiles(),window.centralTeam.content()]);renderTeamPeople(people);renderTeamContentForm(content);}catch(error){screen.innerHTML=`<h1>Administração</h1><div class="card" style="margin-top:18px"><div class="big">Não foi possível carregar os dados administrativos.</div><div class="sub">Tente novamente quando a conexão voltar.</div></div>`;}
+  screen.innerHTML=`<div class="row between wrapf"><div><h1>Administração</h1><div class="sub">Gerencie pessoas e cargos da Central.</div></div><span class="pill gold">Acesso administrativo</span></div><section class="card" style="margin-top:20px"><div class="big">Equipe</div><div class="muted" style="margin-top:4px">Contas novas entram pendentes até você definir o acesso.</div><div id="teamPeople" style="margin-top:14px"><div class="muted">Carregando equipe…</div></div></section><div class="note" style="margin-top:14px">Para alterar títulos e textos, abra a página desejada e use <b>Editar página</b> no topo.</div>`;
+  try{const people=await window.centralTeam.profiles();renderTeamPeople(people);}catch(error){screen.innerHTML=`<h1>Administração</h1><div class="card" style="margin-top:18px"><div class="big">Não foi possível carregar os dados administrativos.</div><div class="sub">Tente novamente quando a conexão voltar.</div></div>`;}
 }
 function renderTeamPeople(people){const box=$('#teamPeople');if(!box)return;box.innerHTML=people.length?people.map(person=>{const locked=person.role==='owner';return `<div class="row between wrapf" style="padding:11px 0;border-bottom:1px solid var(--line);gap:8px"><div style="min-width:170px"><b>${esc(person.display_name||'Sem nome')}</b><div class="muted" style="font-size:12px">${esc(person.email||'')}</div></div><select class="inp" style="width:178px" ${locked?'disabled':''} onchange="adminSetRole('${person.user_id}',this.value)">${Object.entries(TEAM_ROLE_LABEL).map(([role,label])=>`<option value="${role}" ${person.role===role?'selected':''}>${label}</option>`).join('')}</select></div>`;}).join(''):'<div class="muted">Nenhuma conta cadastrada ainda.</div>';}
 function contentByKey(rows,key){const item=rows.find(row=>row.content_key===key);return item&&item.value||{};}
@@ -1951,6 +1981,7 @@ applyProfile(activeTheme());
 renderThemeToggle();
 refreshProfile();
 refreshTeamMenu();
+refreshPageEditButton();
 renderInicio();
 loadTeamContent();
 loadTeamProjects();
