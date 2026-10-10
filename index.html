@@ -357,7 +357,7 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
 <div class="mback" id="mback"><div class="modal" id="modalBody"></div></div>
 <div id="toast"></div>
 
-<div id="authGate" style="display:none">
+<div id="authGate" style="display:flex">
   <div class="ag-bg"></div>
   <div class="ag-card">
     <div class="ag-brand">Central de Conteúdo <span>Beta</span></div>
@@ -371,6 +371,8 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
   </div>
 </div>
 <style>
+/* A Central só aparece após a sessão ser confirmada: evita mostrar o esqueleto padrão de outra pessoa durante o login. */
+body:not(.central-ready)>header,body:not(.central-ready)>.wrap,body:not(.central-ready)>.fab,body:not(.central-ready)>.player-dock,body:not(.central-ready)>.dback,body:not(.central-ready)>.draw,body:not(.central-ready)>.mback,body:not(.central-ready)>#toast{display:none!important}
 #authGate{position:fixed;inset:0;z-index:200;background:linear-gradient(150deg,#0e3b2e,#12503c);display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,-apple-system,sans-serif;overflow:hidden}
 .ag-bg{position:absolute;inset:0;background:url('empresa.png.png') center/cover no-repeat;opacity:.55}
 #authGate::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,40,31,.45),rgba(12,50,38,.62))}
@@ -462,7 +464,22 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
       else {const previous=parseData(legacy);if(previous&&String(previous.profile&&previous.profile.email||'').toLowerCase()===String(SB_USER.email||'').toLowerCase()){localStorage.setItem(APP_KEY,legacy);await sbc.from('dados_central').upsert({user_id:SB_USER.id,conteudo:previous,atualizado_em:new Date().toISOString()});window.CENTRAL_SYNC={status:'migrated'};}else{window.CENTRAL_SYNC={status:'new'};}}
     }catch(e){}
   }
-  async function startAuthed(){APP_KEY=APP_KEY_BASE+'_'+SB_USER.id;window.CENTRAL_STORAGE_KEY=APP_KEY;window.CENTRAL_AUTH_EMAIL=SB_USER.email||'';await pullOrMigrate();await Promise.all([prepareProfile(),window.centralTeam.refresh()]);const g=$g('authGate');if(g)g.style.display='none';runApp();}
+  async function startAuthed(){
+    const g=$g('authGate');
+    try{
+      APP_KEY=APP_KEY_BASE+'_'+SB_USER.id;
+      window.CENTRAL_STORAGE_KEY=APP_KEY;
+      window.CENTRAL_AUTH_EMAIL=SB_USER.email||'';
+      await pullOrMigrate();
+      await Promise.all([prepareProfile(),window.centralTeam.refresh()]);
+      runApp();
+      document.body.classList.add('central-ready');
+      if(g)g.style.display='none';
+    }catch(error){
+      document.body.classList.remove('central-ready');
+      if(g){g.style.display='flex';$g('agErr').textContent='Não foi possível abrir a Central agora. Recarregue a página e tente de novo.';}
+    }
+  }
   window.agToggle=function(){ _signup=!_signup; $g('agBtn').textContent=_signup?'Criar conta':'Entrar'; $g('agSub').textContent=_signup?'Crie sua conta para salvar tudo na nuvem.':'Entre para acessar seus projetos na nuvem.'; $g('agToggleWrap').innerHTML=_signup?'Já tem conta? <a onclick="agToggle()">Entrar</a>':'Ainda não tem conta? <a onclick="agToggle()">Criar conta</a>'; $g('agErr').textContent=''; };
   function traduz(m){ m=(m||'').toLowerCase(); if(m.includes('invalid login')) return 'E-mail ou senha incorretos.'; if(m.includes('already')) return 'Esse e-mail já tem conta. Clique em Entrar.'; if(m.includes('password')) return 'Senha muito curta (mínimo 6 caracteres).'; if(m.includes('email')) return 'E-mail inválido.'; return 'Não foi possível. Verifique os dados e tente de novo.'; }
   window.agSubmit=async function(){
