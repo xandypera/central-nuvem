@@ -366,6 +366,7 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
     <input class="ag-inp" id="agPass" type="password" placeholder="senha (mín. 6 caracteres)" autocomplete="current-password">
     <div class="ag-err" id="agErr"></div>
     <button class="ag-btn" id="agBtn" onclick="agSubmit()">Entrar</button>
+    <button class="ag-forgot" type="button" onclick="agForgotPassword()">Esqueci minha senha</button>
     <div class="ag-toggle" id="agToggleWrap">Ainda não tem conta? <a onclick="agToggle()">Criar conta</a></div>
     <div class="ag-load" id="agLoad" style="display:none">Conectando…</div>
   </div>
@@ -383,6 +384,7 @@ body:not(.central-ready)>header,body:not(.central-ready)>.wrap,body:not(.central
 .ag-inp:focus{outline:2px solid #E8A927;border-color:#E8A927}
 .ag-btn{width:100%;background:#E8A927;color:#231a05;border:none;border-radius:9px;padding:12px;font-weight:800;font-size:14.5px;cursor:pointer}
 .ag-btn:hover{filter:brightness(.97)}
+.ag-forgot{display:block;margin:11px auto 0;border:0;background:transparent;color:#0e3b2e;font-size:12.5px;font-weight:700;text-decoration:underline;cursor:pointer}
 .ag-toggle{text-align:center;font-size:13px;color:#6B7269;margin-top:12px}.ag-toggle a{color:#0e3b2e;font-weight:700;cursor:pointer;text-decoration:underline}
 .ag-err{color:#c0392b;font-size:12.5px;margin-bottom:8px;min-height:16px}
 .ag-load{text-align:center;color:#6B7269;font-size:13px;margin-top:10px}
@@ -481,6 +483,32 @@ body:not(.central-ready)>header,body:not(.central-ready)>.wrap,body:not(.central
     }
   }
   window.agToggle=function(){ _signup=!_signup; $g('agBtn').textContent=_signup?'Criar conta':'Entrar'; $g('agSub').textContent=_signup?'Crie sua conta para salvar tudo na nuvem.':'Entre para acessar seus projetos na nuvem.'; $g('agToggleWrap').innerHTML=_signup?'Já tem conta? <a onclick="agToggle()">Entrar</a>':'Ainda não tem conta? <a onclick="agToggle()">Criar conta</a>'; $g('agErr').textContent=''; };
+  function recoveryLink(){return /(?:[?#&]type=recovery)(?:[&#]|$)/.test(location.hash+location.search);}
+  window.agForgotPassword=async function(){
+    const email=($g('agEmail').value||'').trim();const err=$g('agErr');
+    err.style.color='#c0392b';err.textContent='';
+    if(!email){err.textContent='Digite seu e-mail acima para receber o link de troca de senha.';return;}
+    if(!sbc){err.textContent='Conexão indisponível. Recarregue a página.';return;}
+    $g('agLoad').style.display='block';
+    try{
+      const {error}=await sbc.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+      if(error)throw error;
+      err.style.color='#176b45';err.textContent='Se esse e-mail tiver uma conta, o link de troca foi enviado.';
+    }catch(error){err.textContent='Não foi possível enviar o link agora. Tente novamente.';}
+    $g('agLoad').style.display='none';
+  };
+  window.agShowReset=function(){
+    const card=$g('authGate')&&$g('authGate').querySelector('.ag-card');if(!card)return;
+    card.innerHTML='<div class="ag-brand">Nova senha <span>Central</span></div><div class="ag-sub">Crie uma nova senha para acessar seus projetos.</div><input class="ag-inp" id="agNewPass" type="password" placeholder="nova senha (mín. 6 caracteres)" autocomplete="new-password"><input class="ag-inp" id="agNewPass2" type="password" placeholder="repita a nova senha" autocomplete="new-password"><div class="ag-err" id="agErr"></div><button class="ag-btn" onclick="agResetPassword()">Salvar nova senha</button><div class="ag-load" id="agLoad" style="display:none">Salvando…</div>';
+    $g('authGate').style.display='flex';
+  };
+  window.agResetPassword=async function(){
+    const pass=$g('agNewPass').value||'',repeat=$g('agNewPass2').value||'',err=$g('agErr');err.style.color='#c0392b';err.textContent='';
+    if(pass.length<6){err.textContent='Use pelo menos 6 caracteres.';return;}
+    if(pass!==repeat){err.textContent='As duas senhas precisam ser iguais.';return;}
+    $g('agLoad').style.display='block';
+    try{const {error}=await sbc.auth.updateUser({password:pass});if(error)throw error;history.replaceState({},document.title,location.pathname);await startAuthed();}catch(error){err.textContent='Não foi possível trocar a senha. Abra o link mais recente enviado ao seu e-mail.';$g('agLoad').style.display='none';}
+  };
   function traduz(m){ m=(m||'').toLowerCase(); if(m.includes('invalid login')) return 'E-mail ou senha incorretos.'; if(m.includes('already')) return 'Esse e-mail já tem conta. Clique em Entrar.'; if(m.includes('password')) return 'Senha muito curta (mínimo 6 caracteres).'; if(m.includes('email')) return 'E-mail inválido.'; return 'Não foi possível. Verifique os dados e tente de novo.'; }
   window.agSubmit=async function(){
     if(!sbc){ $g('agErr').textContent='Supabase não carregou. Recarregue a página.'; return; }
@@ -491,14 +519,23 @@ body:not(.central-ready)>header,body:not(.central-ready)>.wrap,body:not(.central
     try{
       let res = _signup ? await sbc.auth.signUp({email,password:pass}) : await sbc.auth.signInWithPassword({email,password:pass});
       if(res.error){ err.textContent=traduz(res.error.message); $g('agLoad').style.display='none'; return; }
-      let s=(await sbc.auth.getSession()).data.session;
-      if(!s){ const r2=await sbc.auth.signInWithPassword({email,password:pass}); if(r2.error){ err.textContent=traduz(r2.error.message); $g('agLoad').style.display='none'; return; } s=(await sbc.auth.getSession()).data.session; }
+      /* Usa a sessão devolvida pelo login: alguns navegadores ainda não gravaram o cache quando getSession é chamado logo em seguida. */
+      let s=res.data&&res.data.session;
+      if(!s){
+        const afterLogin=await sbc.auth.getSession();
+        s=afterLogin.data&&afterLogin.data.session;
+      }
+      if(!s){ err.textContent=_signup?'Conta criada. Confirme seu e-mail antes de entrar.':'Não foi possível concluir a sessão. Recarregue a página e tente novamente.'; $g('agLoad').style.display='none'; return; }
       SB_USER=s.user; await startAuthed();
     }catch(e){ err.textContent='Erro de conexão. Tente de novo.'; $g('agLoad').style.display='none'; }
   };
   (async function boot(){
     const g=$g('authGate');
     if(!sbc){ if(g)g.style.display='flex'; $g('agErr').textContent='Falha ao carregar o Supabase.'; return; }
+    if(recoveryLink()){
+      const listener=sbc.auth.onAuthStateChange((event,session)=>{if((event==='PASSWORD_RECOVERY'||event==='SIGNED_IN')&&session){SB_USER=session.user;window.agShowReset();listener.data.subscription.unsubscribe();}});
+      try{const {data:{session}}=await sbc.auth.getSession();if(session){SB_USER=session.user;window.agShowReset();return;}}catch(e){}
+    }
     try{ const {data:{session}}=await sbc.auth.getSession(); if(session){ SB_USER=session.user; await startAuthed(); return; } }catch(e){}
     if(g)g.style.display='flex';
   })();
