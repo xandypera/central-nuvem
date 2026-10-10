@@ -1603,10 +1603,22 @@ const GUIAS=[
     {t:"Universidade AUVP",tipo:"Site",cor:"#0E3B2E",u:"https://universidade.auvp.com.br/home",d:"Plataforma de estudos da empresa."}
   ]}
 ];
-const GUIAS_PHOTOS=['checklist','documentos','processos','universidade','slides','relatorio','processos','slides','edicao','documentos','universidade'];
-GUIAS.flatMap(row=>row.itens).forEach((guia,index)=>guia.coverPhoto=GUIAS_PHOTOS[index]||'checklist');
+const GUIAS_COVERS=[
+  'raul-sena-v21.png',
+  'revisao-documento-v21.jpg',
+  'frameio-v21.jpg',
+  'revisao-drive-v21.jpg',
+  'fluxo-v21.jpg',
+  'relatorio-revisao-v21.jpg',
+  'firefly-v21.jpg',
+  'gerador-slides-sardinha-v21.svg',
+  'ferramentas-is-v21.jpg',
+  'todos-documentos-v21.png',
+  'universidade-auvp-v21.jpg'
+];
+GUIAS.flatMap(row=>row.itens).forEach((guia,index)=>guia.coverAsset=GUIAS_COVERS[index]||'checklist.jpg');
 function guiaCard(g){
-  const cover=`background-color:${g.cor};background-image:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.04)),url('assets/guias-fotos/${g.coverPhoto}.jpg');background-size:cover;background-position:center;`;
+  const cover=`background-color:${g.cor};background-image:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.04)),url('assets/guias-fotos/${g.coverAsset}');background-size:cover;background-position:center;`;
   return `<div class="gcard" onclick="openLink('${encodeURI(g.u)}')">
     <div class="gcover" style="${cover}"><span class="gtype">${esc(g.tipo)}</span></div>
     <div class="gbody"><div class="gt">${esc(g.t)}</div><div class="gd">${esc(g.d||'')}</div></div>
