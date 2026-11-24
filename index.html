@@ -292,6 +292,22 @@ body:not(.light) .declare-check{background:rgba(240,101,90,.1);border-color:rgba
 </style>
 </head>
 <body class="light">
+<!-- AVISO DE MUDANÇA (24/11/2026): a Central do Editor virou o Takeflow. Este bloco cobre a tela inteira e
+     leva para a plataforma nova. Para voltar a usar a v21, basta apagar este bloco (até o fim do <script>). -->
+<div id="aviso-takeflow" role="dialog" aria-modal="true" aria-labelledby="aviso-takeflow-titulo" style="position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;padding:24px;background:radial-gradient(1200px 600px at 20% 0%,#FBE3D6 0%,transparent 60%),radial-gradient(900px 500px at 100% 100%,#E4E9FF 0%,transparent 60%),#F6F4F1;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#17151A;">
+  <div style="width:100%;max-width:520px;background:rgba(255,255,255,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(23,21,26,.08);border-radius:28px;padding:40px 32px;box-shadow:0 24px 80px rgba(23,21,26,.12);text-align:center;">
+    <p style="margin:0 0 10px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#C2410C;">Atualizamos a plataforma</p>
+    <h1 id="aviso-takeflow-titulo" style="margin:0 0 14px;font-size:32px;line-height:1.1;font-weight:800;letter-spacing:-.02em;">A Central do Editor agora é o <span style="color:#F59E0B;">Takeflow</span></h1>
+    <p style="margin:0 0 26px;font-size:17px;line-height:1.55;color:#4A4550;">A Central foi refeita do zero: mais rápida, com chat, projetos da equipe e funciona bem no celular. Esta versão antiga não é mais usada.</p>
+    <a href="https://central-conteudo-production.up.railway.app" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;background:#17151A;color:#fff;font-size:17px;font-weight:700;text-decoration:none;">Abrir o Takeflow &rarr;</a>
+    <p style="margin:18px 0 0;font-size:14px;line-height:1.5;color:#6B6570;">Primeira vez? Crie sua conta lá com o seu e-mail da AUVP.<br>Salve o novo endereço nos favoritos.</p>
+  </div>
+</div>
+<script>
+  // Some com a v21 por trás do aviso (nada de rolar nem clicar na tela antiga).
+  document.documentElement.style.overflow = "hidden";
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") e.stopImmediatePropagation(); }, true);
+</script>
 <header><div class="hin">
   <div class="brand" onclick="go('inicio')" style="cursor:pointer">Central de Conteúdo <span class="ver">Beta</span></div>
   <div class="tabs" id="tabs">
